@@ -100,15 +100,6 @@ set_property -dict {PACKAGE_PIN A8  IOSTANDARD LVCMOS33} [ get_ports "sw[15]" ]
 #set_property -dict {PACKAGE_PIN E14 IOSTANDARD LVCMOS33}  [ get_ports "pmoda[6]" ]
 #set_property -dict {PACKAGE_PIN E15 IOSTANDARD LVCMOS33}  [ get_ports "pmoda[7]" ]
 
-set_property -dict {PACKAGE_PIN F14 IOSTANDARD LVCMOS33}  [ get_ports "cs" ]
-set_property -dict {PACKAGE_PIN F15 IOSTANDARD LVCMOS33}  [ get_ports "dclk" ]
-set_property -dict {PACKAGE_PIN H13 IOSTANDARD LVCMOS33}  [ get_ports "copi[0]" ]
-set_property -dict {PACKAGE_PIN H14 IOSTANDARD LVCMOS33}  [ get_ports "copi[1]" ]
-set_property -dict {PACKAGE_PIN J13 IOSTANDARD LVCMOS33}  [ get_ports "copi[2]" ]
-set_property -dict {PACKAGE_PIN J14 IOSTANDARD LVCMOS33}  [ get_ports "copi[3]" ]
-set_property -dict {PACKAGE_PIN E14 IOSTANDARD LVCMOS33}  [ get_ports "copi[4]" ]
-set_property -dict {PACKAGE_PIN E15 IOSTANDARD LVCMOS33}  [ get_ports "copi[5]" ]
-
 set_property -dict {PACKAGE_PIN F14 IOSTANDARD LVCMOS33}  [ get_ports "camera_d[1]" ]
 set_property -dict {PACKAGE_PIN F15 IOSTANDARD LVCMOS33}  [ get_ports "camera_d[3]" ]
 set_property -dict {PACKAGE_PIN H13 IOSTANDARD LVCMOS33}  [ get_ports "camera_d[5]" ]
@@ -123,12 +114,12 @@ set_property -dict {PACKAGE_PIN E15 IOSTANDARD LVCMOS33}  [ get_ports "camera_d[
 ##fixed K14 and J15 which were a copy-paste and wrong.
 set_property -dict {PACKAGE_PIN H18 IOSTANDARD LVCMOS33}  [ get_ports "cs" ]
 set_property -dict {PACKAGE_PIN G18 IOSTANDARD LVCMOS33}  [ get_ports "dclk" ]
-set_property -dict {PACKAGE_PIN K14 IOSTANDARD LVCMOS33}  [ get_ports "copi[0]" ]
-set_property -dict {PACKAGE_PIN J15 IOSTANDARD LVCMOS33}  [ get_ports "copi[1]" ]
-set_property -dict {PACKAGE_PIN H16 IOSTANDARD LVCMOS33}  [ get_ports "copi[2]" ]
-set_property -dict {PACKAGE_PIN H17 IOSTANDARD LVCMOS33}  [ get_ports "copi[3]" ]
-set_property -dict {PACKAGE_PIN K16 IOSTANDARD LVCMOS33}  [ get_ports "copi[4]" ]
-set_property -dict {PACKAGE_PIN J16 IOSTANDARD LVCMOS33}  [ get_ports "copi[5]" ]
+set_property -dict {PACKAGE_PIN K14 IOSTANDARD LVCMOS33}  [ get_ports "cipo[0]" ]
+set_property -dict {PACKAGE_PIN J15 IOSTANDARD LVCMOS33}  [ get_ports "cipo[1]" ]
+set_property -dict {PACKAGE_PIN H16 IOSTANDARD LVCMOS33}  [ get_ports "cipo[2]" ]
+set_property -dict {PACKAGE_PIN H17 IOSTANDARD LVCMOS33}  [ get_ports "cipo[3]" ]
+set_property -dict {PACKAGE_PIN K16 IOSTANDARD LVCMOS33}  [ get_ports "cipo[4]" ]
+set_property -dict {PACKAGE_PIN J16 IOSTANDARD LVCMOS33}  [ get_ports "cipo[5]" ]
 
 # PMOD AB Signals
 set_property -dict {PACKAGE_PIN D11 IOSTANDARD LVCMOS33 DRIVE 24} [get_ports "cam_xclk" ]
@@ -139,14 +130,14 @@ set_property -dict {PACKAGE_PIN C11 IOSTANDARD LVCMOS33} [get_ports "cam_vsync" 
 set_property -dict {PACKAGE_PIN G16 IOSTANDARD LVCMOS33 PULLTYPE PULLUP} [get_ports "i2c_scl" ]
 
 #HDMI Signals
-# set_property -dict { PACKAGE_PIN V17   IOSTANDARD TMDS_33  } [get_ports {hdmi_clk_n}]
-# set_property -dict { PACKAGE_PIN U16   IOSTANDARD TMDS_33  } [get_ports {hdmi_clk_p}]
-# set_property -dict { PACKAGE_PIN U18   IOSTANDARD TMDS_33  } [get_ports {hdmi_tx_n[0]}]
-# set_property -dict { PACKAGE_PIN R17   IOSTANDARD TMDS_33  } [get_ports {hdmi_tx_n[1]}]
-# set_property -dict { PACKAGE_PIN T14   IOSTANDARD TMDS_33  } [get_ports {hdmi_tx_n[2]}]
-# set_property -dict { PACKAGE_PIN U17   IOSTANDARD TMDS_33  } [get_ports {hdmi_tx_p[0]}]
-# set_property -dict { PACKAGE_PIN R16   IOSTANDARD TMDS_33  } [get_ports {hdmi_tx_p[1]}]
-# set_property -dict { PACKAGE_PIN R14   IOSTANDARD TMDS_33  } [get_ports {hdmi_tx_p[2]}]
+set_property -dict { PACKAGE_PIN V17   IOSTANDARD TMDS_33  } [get_ports {hdmi_clk_n}]
+set_property -dict { PACKAGE_PIN U16   IOSTANDARD TMDS_33  } [get_ports {hdmi_clk_p}]
+set_property -dict { PACKAGE_PIN U18   IOSTANDARD TMDS_33  } [get_ports {hdmi_tx_n[0]}]
+set_property -dict { PACKAGE_PIN R17   IOSTANDARD TMDS_33  } [get_ports {hdmi_tx_n[1]}]
+set_property -dict { PACKAGE_PIN T14   IOSTANDARD TMDS_33  } [get_ports {hdmi_tx_n[2]}]
+set_property -dict { PACKAGE_PIN U17   IOSTANDARD TMDS_33  } [get_ports {hdmi_tx_p[0]}]
+set_property -dict { PACKAGE_PIN R16   IOSTANDARD TMDS_33  } [get_ports {hdmi_tx_p[1]}]
+set_property -dict { PACKAGE_PIN R14   IOSTANDARD TMDS_33  } [get_ports {hdmi_tx_p[2]}]
 
 
 # PWM audio out signals

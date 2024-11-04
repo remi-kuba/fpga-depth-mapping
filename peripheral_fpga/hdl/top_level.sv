@@ -5,11 +5,6 @@ module top_level(
   input wire [15:0] sw, //all 16 input slide switches
   input wire [3:0] btn, //all four momentary button switches
 
-  // HDMI
-  output logic [2:0] hdmi_tx_p, //hdmi output signals (positives) (blue, green, red)
-  output logic [2:0] hdmi_tx_n, //hdmi output signals (negatives) (blue, green, red)
-  output logic hdmi_clk_p, hdmi_clk_n //differential hdmi clock
-
   // SPI 
   output logic dclk, // data clock output of SPI controller
   output logic [5:0] copi, // six parallel data outputs of SPI controller
