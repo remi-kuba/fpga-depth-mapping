@@ -7,7 +7,7 @@ module top_level(
 
   // SPI 
   output logic dclk, // data clock output of SPI controller
-  output logic [5:0] copi, // six parallel data outputs of SPI controller
+  output logic [5:0] cipo, // six parallel data outputs of SPI controller
   output logic cs, // chip select line for the SPI bus
 
   // Camera
@@ -216,7 +216,7 @@ module top_level(
     .data_in(pixels_to_send), // LINES arrays of length DATA_WIDTH bits
     .trigger_in(packet_ready),
 
-    .chip_data_out(copi), // 6 bits (1 bit from each of the 6 pixels)
+    .chip_data_out(cipo), // 6 bits (1 bit from each of the 6 pixels)
     .chip_clk_out(dclk),
     .chip_sel_out(cs)
   )

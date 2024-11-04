@@ -114,12 +114,12 @@ set_property -dict {PACKAGE_PIN E15 IOSTANDARD LVCMOS33}  [ get_ports "camera_d[
 ##fixed K14 and J15 which were a copy-paste and wrong.
 set_property -dict {PACKAGE_PIN H18 IOSTANDARD LVCMOS33}  [ get_ports "cs" ]
 set_property -dict {PACKAGE_PIN G18 IOSTANDARD LVCMOS33}  [ get_ports "dclk" ]
-set_property -dict {PACKAGE_PIN K14 IOSTANDARD LVCMOS33}  [ get_ports "copi[0]" ]
-set_property -dict {PACKAGE_PIN J15 IOSTANDARD LVCMOS33}  [ get_ports "copi[1]" ]
-set_property -dict {PACKAGE_PIN H16 IOSTANDARD LVCMOS33}  [ get_ports "copi[2]" ]
-set_property -dict {PACKAGE_PIN H17 IOSTANDARD LVCMOS33}  [ get_ports "copi[3]" ]
-set_property -dict {PACKAGE_PIN K16 IOSTANDARD LVCMOS33}  [ get_ports "copi[4]" ]
-set_property -dict {PACKAGE_PIN J16 IOSTANDARD LVCMOS33}  [ get_ports "copi[5]" ]
+set_property -dict {PACKAGE_PIN K14 IOSTANDARD LVCMOS33}  [ get_ports "cipo[0]" ]
+set_property -dict {PACKAGE_PIN J15 IOSTANDARD LVCMOS33}  [ get_ports "cipo[1]" ]
+set_property -dict {PACKAGE_PIN H16 IOSTANDARD LVCMOS33}  [ get_ports "cipo[2]" ]
+set_property -dict {PACKAGE_PIN H17 IOSTANDARD LVCMOS33}  [ get_ports "cipo[3]" ]
+set_property -dict {PACKAGE_PIN K16 IOSTANDARD LVCMOS33}  [ get_ports "cipo[4]" ]
+set_property -dict {PACKAGE_PIN J16 IOSTANDARD LVCMOS33}  [ get_ports "cipo[5]" ]
 
 # PMOD AB Signals
 set_property -dict {PACKAGE_PIN D11 IOSTANDARD LVCMOS33 DRIVE 24} [get_ports "cam_xclk" ]
