@@ -150,7 +150,7 @@ module top_level(
 
   
   /*
-    CDC (clk_pixe 74.25 Mhz -> clk_100mhz 100 MHz)
+    CDC (clk_pixel 74.25 Mhz -> clk_100mhz 100 MHz)
   */
   logic
    empty2;
