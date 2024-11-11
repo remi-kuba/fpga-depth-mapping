@@ -1,0 +1,54 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2024.1 (lin64) Build 5076996 Wed May 22 18:36:09 MDT 2024
+| Date         : Mon Nov 11 14:25:47 2024
+| Host         : eecs-digital-11 running 64-bit Ubuntu 24.04.1 LTS
+| Command      : report_utilization -file obj/post_synth_util.rpt -hierarchical -hierarchical_depth 4
+| Design       : top_level
+| Device       : xc7s50csga324-1
+| Speed File   : -1
+| Design State : Synthesized
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Utilization Design Information
+
+Table of Contents
+-----------------
+1. Utilization by Hierarchy
+
+1. Utilization by Hierarchy
+---------------------------
+
++----------------------------------+------------------------------------------------+------------+------------+---------+------+-----+--------+--------+------------+
+|             Instance             |                     Module                     | Total LUTs | Logic LUTs | LUTRAMs | SRLs | FFs | RAMB36 | RAMB18 | DSP Blocks |
++----------------------------------+------------------------------------------------+------------+------------+---------+------+-----+--------+--------+------------+
+| top_level                        |                                          (top) |        323 |        323 |       0 |    0 | 625 |      6 |      0 |          0 |
+|   (top_level)                    |                                          (top) |          0 |          0 |       0 |    0 |  28 |      0 |      0 |          0 |
+|   blur                           |                                    blur_filter |        208 |        208 |       0 |    0 | 365 |      4 |      0 |          0 |
+|     m_lbuff                      |                                    line_buffer |         65 |         65 |       0 |    0 | 120 |      4 |      0 |          0 |
+|       (m_lbuff)                  |                                    line_buffer |         61 |         61 |       0 |    0 | 120 |      0 |      0 |          0 |
+|       genblk1[0].line_buffer_ram |   xilinx_true_dual_port_read_first_1_clock_ram |          1 |          1 |       0 |    0 |   0 |      1 |      0 |          0 |
+|       genblk1[1].line_buffer_ram | xilinx_true_dual_port_read_first_1_clock_ram_0 |          1 |          1 |       0 |    0 |   0 |      1 |      0 |          0 |
+|       genblk1[2].line_buffer_ram | xilinx_true_dual_port_read_first_1_clock_ram_1 |          1 |          1 |       0 |    0 |   0 |      1 |      0 |          0 |
+|       genblk1[3].line_buffer_ram | xilinx_true_dual_port_read_first_1_clock_ram_2 |          1 |          1 |       0 |    0 |   0 |      1 |      0 |          0 |
+|     mblur                        |                                  gaussian_blur |        143 |        143 |       0 |    0 | 245 |      0 |      0 |          0 |
+|   cdc_fifo                       |                                           fifo |         39 |         39 |       0 |    0 |  82 |      1 |      0 |          0 |
+|     (cdc_fifo)                   |                                           fifo |          0 |          0 |       0 |    0 |   0 |      0 |      0 |          0 |
+|     U0                           |                        fifo_generator_v13_2_10 |         39 |         39 |       0 |    0 |  82 |      1 |      0 |          0 |
+|       (U0)                       |                        fifo_generator_v13_2_10 |          0 |          0 |       0 |    0 |   0 |      0 |      0 |          0 |
+|       inst_fifo_gen              |                  fifo_generator_v13_2_10_synth |         39 |         39 |       0 |    0 |  82 |      1 |      0 |          0 |
+|         gconvfifo.rf             |                             fifo_generator_top |         39 |         39 |       0 |    0 |  82 |      1 |      0 |          0 |
+|   cdc_fifo_2                     |                                       fifo_HD9 |         39 |         39 |       0 |    0 |  82 |      1 |      0 |          0 |
+|     (cdc_fifo_2)                 |                                       fifo_HD9 |          0 |          0 |       0 |    0 |   0 |      0 |      0 |          0 |
+|     U0                           |                   fifo_generator_v13_2_10_HD10 |         39 |         39 |       0 |    0 |  82 |      1 |      0 |          0 |
+|       (U0)                       |                   fifo_generator_v13_2_10_HD10 |          0 |          0 |       0 |    0 |   0 |      0 |      0 |          0 |
+|       inst_fifo_gen              |             fifo_generator_v13_2_10_synth_HD11 |         39 |         39 |       0 |    0 |  82 |      1 |      0 |          0 |
+|         gconvfifo.rf             |                        fifo_generator_top_HD12 |         39 |         39 |       0 |    0 |  82 |      1 |      0 |          0 |
+|   packet_ready_counter           |                                    evt_counter |          7 |          7 |       0 |    0 |   4 |      0 |      0 |          0 |
+|   pr_mod                         |                              pixel_reconstruct |         22 |         22 |       0 |    0 |  49 |      0 |      0 |          0 |
+|   spi_send                       |                                   spi_send_con |          8 |          8 |       0 |    0 |  15 |      0 |      0 |          0 |
+|   wizard_hdmi                    |                                cw_hdmi_clk_wiz |          0 |          0 |       0 |    0 |   0 |      0 |      0 |          0 |
+|   wizard_migcam                  |                                cw_fast_clk_wiz |          0 |          0 |       0 |    0 |   0 |      0 |      0 |          0 |
++----------------------------------+------------------------------------------------+------------+------------+---------+------+-----+--------+--------+------------+
+
+

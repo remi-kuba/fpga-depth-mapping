@@ -24,17 +24,11 @@ module spi_send_con
  logic [DATA_WIDTH_SIZE-1:0] bits_sent_counter;
 
  always_ff @(posedge clk_in) begin
-    if (data_valid_out == 1'b1) begin
-        data_valid_out <= 1'b0;
-    end
-
     if (rst_in) begin
         // module should put 0's on all of its controllable outputs except for chip_sel_out
-        data_valid_out <= 1'b0;
         chip_data_out <= 0;
         chip_sel_out <= 1'b1;
         chip_clk_out <= 1'b0;
-        data_out <= 0;
     end else if (trigger_in) begin 
         chip_sel_out <= 1'b0; // Begin 
 

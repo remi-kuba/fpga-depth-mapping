@@ -33,15 +33,15 @@ module gaussian_blur (
 
 
     always_comb begin
-        coeffs_i[0][0] = rst_in ? 8'sd0 : 8'sd1;
-        coeffs_i[0][1] = rst_in ? 8'sd0 : 8'sd2;
-        coeffs_i[0][2] = rst_in ? 8'sd0 : 8'sd1;
-        coeffs_i[1][0] = rst_in ? 8'sd0 : 8'sd2;
-        coeffs_i[1][1] = rst_in ? 8'sd0 : 8'sd4;
-        coeffs_i[1][2] = rst_in ? 8'sd0 : 8'sd2;
-        coeffs_i[2][0] = rst_in ? 8'sd0 : 8'sd1;
-        coeffs_i[2][1] = rst_in ? 8'sd0 : 8'sd2;
-        coeffs_i[2][2] = rst_in ? 8'sd0 : 8'sd1;
+        coeffs[0][0] = rst_in ? 8'sd0 : 8'sd1;
+        coeffs[0][1] = rst_in ? 8'sd0 : 8'sd2;
+        coeffs[0][2] = rst_in ? 8'sd0 : 8'sd1;
+        coeffs[1][0] = rst_in ? 8'sd0 : 8'sd2;
+        coeffs[1][1] = rst_in ? 8'sd0 : 8'sd4;
+        coeffs[1][2] = rst_in ? 8'sd0 : 8'sd2;
+        coeffs[2][0] = rst_in ? 8'sd0 : 8'sd1;
+        coeffs[2][1] = rst_in ? 8'sd0 : 8'sd2;
+        coeffs[2][2] = rst_in ? 8'sd0 : 8'sd1;
         shift = rst_in ? 8'sd0 : 8'sd4;
     end
 

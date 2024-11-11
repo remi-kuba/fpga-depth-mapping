@@ -1,7 +1,7 @@
 `default_nettype none
 module evt_counter 
   #(
-    parameter MAX_COUNT
+    parameter MAX_COUNT = 6
   )
   ( input wire          clk_in,
     input wire          rst_in,
@@ -9,7 +9,7 @@ module evt_counter
     // output logic[$clog2(MAX_COUNT)-1:0]  count_out,
     output logic        hit_max
   );
-  logic[$clog2(MAX_COUNT)-1:0]  count_out
+  logic[$clog2(MAX_COUNT)-1:0]  count_out;
   
   always_ff @(posedge clk_in) begin
     if (rst_in) begin

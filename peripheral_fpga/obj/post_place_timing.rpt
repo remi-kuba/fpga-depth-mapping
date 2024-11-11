@@ -1,0 +1,85 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2024.1 (lin64) Build 5076996 Wed May 22 18:36:09 MDT 2024
+| Date         : Mon Nov 11 14:25:54 2024
+| Host         : eecs-digital-11 running 64-bit Ubuntu 24.04.1 LTS
+| Command      : report_timing -file obj/post_place_timing.rpt
+| Design       : top_level
+| Device       : 7s50-csga324
+| Speed File   : -1  PRODUCTION 1.23 2018-06-13
+| Design State : Physopt postPlace
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Timing Report
+
+Slack (VIOLATED) :        -4.529ns  (required time - arrival time)
+  Source:                 cdc_fifo_2/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.mem/gbm.gbmg.gbmga.ngecc.bmg/inst_blk_mem_gen/gnbram.gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/prim_noinit.ram/DEVICE_7SERIES.NO_BMM_INFO.SDP.WIDE_PRIM36_NO_ECC.ram/CLKARDCLK
+                            (rising edge-triggered cell RAMB36E1 clocked by clk_pixel_cw_hdmi  {rise@0.000ns fall@6.734ns period=13.468ns})
+  Destination:            pixels_to_send_reg[0][15]/CE
+                            (rising edge-triggered cell FDRE clocked by clk_100_cw_fast  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             clk_100_cw_fast
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            0.034ns  (clk_100_cw_fast rise@2330.000ns - clk_pixel_cw_hdmi rise@2329.966ns)
+  Data Path Delay:        3.730ns  (logic 2.578ns (69.115%)  route 1.152ns (30.885%))
+  Logic Levels:           1  (LUT3=1)
+  Clock Path Skew:        -0.157ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    -2.106ns = ( 2327.894 - 2330.000 ) 
+    Source Clock Delay      (SCD):    -2.463ns = ( 2327.503 - 2329.966 ) 
+    Clock Pessimism Removal (CPR):    -0.514ns
+  Clock Uncertainty:      0.506ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Discrete Jitter          (DJ):    0.329ns
+    Phase Error              (PE):    0.338ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_pixel_cw_hdmi rise edge)
+                                                   2329.966  2329.966 r  
+    N15                                               0.000  2329.966 r  clk_100mhz (IN)
+                         net (fo=0)                   0.000  2329.966    wizard_migcam/clk_100mhz
+    N15                  IBUF (Prop_ibuf_I_O)         1.440  2331.407 r  wizard_migcam/clkin1_ibufg/O
+                         net (fo=1, estimated)        1.253  2332.660    wizard_migcam/clk_in1_cw_fast
+    PLLE2_ADV_X0Y0       PLLE2_ADV (Prop_plle2_adv_CLKIN1_CLKOUT0)
+                                                     -8.525  2324.135 r  wizard_migcam/plle2_adv_inst/CLKOUT0
+                         net (fo=1, estimated)        1.660  2325.795    wizard_migcam/clk_100_cw_fast
+    BUFGCTRL_X0Y3        BUFG (Prop_bufg_I_O)         0.096  2325.891 r  wizard_migcam/clkout1_buf/O
+                         net (fo=26, estimated)       1.634  2327.525    wizard_hdmi/clk_100
+    MMCME2_ADV_X1Y0      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT0)
+                                                     -3.393  2324.132 r  wizard_hdmi/mmcm_adv_inst/CLKOUT0
+                         net (fo=1, estimated)        1.661  2325.792    wizard_hdmi/clk_pixel_cw_hdmi
+    BUFGCTRL_X0Y1        BUFG (Prop_bufg_I_O)         0.096  2325.888 r  wizard_hdmi/clkout1_buf/O
+                         net (fo=501, estimated)      1.614  2327.503    cdc_fifo_2/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.mem/gbm.gbmg.gbmga.ngecc.bmg/inst_blk_mem_gen/gnbram.gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/prim_noinit.ram/rd_clk
+    RAMB36_X0Y9          RAMB36E1                                     r  cdc_fifo_2/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.mem/gbm.gbmg.gbmga.ngecc.bmg/inst_blk_mem_gen/gnbram.gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/prim_noinit.ram/DEVICE_7SERIES.NO_BMM_INFO.SDP.WIDE_PRIM36_NO_ECC.ram/CLKARDCLK
+  -------------------------------------------------------------------    -------------------
+    RAMB36_X0Y9          RAMB36E1 (Prop_ramb36e1_CLKARDCLK_DOBDO[10])
+                                                      2.454  2329.957 f  cdc_fifo_2/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.mem/gbm.gbmg.gbmga.ngecc.bmg/inst_blk_mem_gen/gnbram.gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[0].ram.r/prim_noinit.ram/DEVICE_7SERIES.NO_BMM_INFO.SDP.WIDE_PRIM36_NO_ECC.ram/DOBDO[10]
+                         net (fo=2, estimated)        0.929  2330.886    packet_ready_counter/dout[1]
+    SLICE_X10Y47         LUT3 (Prop_lut3_I0_O)        0.124  2331.010 r  packet_ready_counter/pixels_to_send[0][15]_i_1_replica/O
+                         net (fo=6, estimated)        0.223  2331.233    should_pack_repN_alias
+    SLICE_X10Y47         FDRE                                         r  pixels_to_send_reg[0][15]/CE
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_100_cw_fast rise edge)
+                                                   2330.000  2330.000 r  
+    N15                                               0.000  2330.000 r  clk_100mhz (IN)
+                         net (fo=0)                   0.000  2330.000    wizard_migcam/clk_100mhz
+    N15                  IBUF (Prop_ibuf_I_O)         1.370  2331.370 r  wizard_migcam/clkin1_ibufg/O
+                         net (fo=1, estimated)        1.190  2332.561    wizard_migcam/clk_in1_cw_fast
+    PLLE2_ADV_X0Y0       PLLE2_ADV (Prop_plle2_adv_CLKIN1_CLKOUT0)
+                                                     -7.790  2324.771 r  wizard_migcam/plle2_adv_inst/CLKOUT0
+                         net (fo=1, estimated)        1.577  2326.347    wizard_migcam/clk_100_cw_fast
+    BUFGCTRL_X0Y3        BUFG (Prop_bufg_I_O)         0.091  2326.438 r  wizard_migcam/clkout1_buf/O
+                         net (fo=26, estimated)       1.455  2327.894    clk_100_passthrough
+    SLICE_X10Y47         FDRE                                         r  pixels_to_send_reg[0][15]/C
+                         clock pessimism             -0.514  2327.379    
+                         clock uncertainty           -0.506  2326.874    
+    SLICE_X10Y47         FDRE (Setup_fdre_C_CE)      -0.169  2326.705    pixels_to_send_reg[0][15]
+  -------------------------------------------------------------------
+                         required time                       2326.704    
+                         arrival time                       -2331.233    
+  -------------------------------------------------------------------
+                         slack                                 -4.529    
+
+
+
+

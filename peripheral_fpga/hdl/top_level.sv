@@ -1,3 +1,4 @@
+`timescale 1ns / 1ps
 `default_nettype none // prevents system from inferring an undeclared logic (good practice)
  
 module top_level(
@@ -17,7 +18,7 @@ module top_level(
   input wire          cam_vsync, // camera vsync wire
   input wire          cam_pclk, // camera pixel clock
   inout wire          i2c_scl, // i2c inout clock
-  inout wire          i2c_sda, // i2c inout data
+  inout wire          i2c_sda // i2c inout data
   );
 
   /*
@@ -85,9 +86,9 @@ module top_level(
   logic [15:0] camera_pixel;
   logic        camera_valid;
 
-  pixel_reconstruct
+  pixel_reconstruct pr_mod
   (.clk_in(clk_camera),
-   .rst_in(sys_rst_camera),
+   .rst_in(sys_rst),
    .camera_pclk_in(cam_pclk_buf[0]),
    .camera_hs_in(cam_hsync_buf[0]),
    .camera_vs_in(cam_vsync_buf[0]),
@@ -137,7 +138,7 @@ module top_level(
   blur_filter #(.HRES(1280),.VRES(720))
     blur(
     .clk_in(clk_pixel), 
-    .rst_in(sys_rst_pixel),
+    .rst_in(sys_rst),
     .data_valid_in(cdc_valid),
     .pixel_data_in(cdc_pixel), // 16 bits
     .hcount_in(cdc_hcount), // 11 bits
@@ -190,7 +191,7 @@ module top_level(
     SPI CONVERSION (clk_100mhz, 100 MHz)
   */
   logic [5:0][15:0] pixels_to_send;
-  always_ff @(posedge clk_100mhz) begin
+  always_ff @(posedge clk_100_passthrough) begin
     if (should_pack) begin
       pixels_to_send <= {pixels_to_send[5:0], cdc_pixel2};
     end
@@ -200,18 +201,18 @@ module top_level(
   evt_counter #(
     .MAX_COUNT(6)
   ) packet_ready_counter (
-    .clk_in(clk_100mhz),
+    .clk_in(clk_100_passthrough),
     .rst_in(sys_rst),
     .evt_in(should_pack),
-    .hit_max(packet_ready),
+    .hit_max(packet_ready)
   );
 
   spi_send_con # (
     .DATA_WIDTH(16), // each line should send the 16 bit pixel
     .LINES(6), // six parallel lines
-    .DATA_CLK_PERIOD(6), // 16.6 MHz SPI Clock
+    .DATA_CLK_PERIOD(6) // 16.6 MHz SPI Clock
   ) spi_send (
-    .clk_in(clk_100mhz),
+    .clk_in(clk_100_passthrough),
     .rst_in(sys_rst),
     .data_in(pixels_to_send), // LINES arrays of length DATA_WIDTH bits
     .trigger_in(packet_ready),
@@ -219,7 +220,8 @@ module top_level(
     .chip_data_out(cipo), // 6 bits (1 bit from each of the 6 pixels)
     .chip_clk_out(dclk),
     .chip_sel_out(cs)
-  )
+  );
  
 endmodule // top_level
- 
+
+`default_nettype wire
