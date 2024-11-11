@@ -62,7 +62,7 @@ module spi_send_con
             if (chip_clk_out == 1'b1) begin // falling edge (1 -> 0)
                 if (bits_sent_counter == DATA_WIDTH) begin // Sending is done
                     chip_sel_out <= 1'b1;
-                end else begin
+                end else begin 
                     // Next bits of cipo sending
                     for (int line = 0; line < LINES; line++) begin
                         chip_data_out[line] <= cipo_data[line][DATA_WIDTH - 1];
