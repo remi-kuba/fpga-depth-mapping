@@ -3,7 +3,7 @@
  
 module top_level(
   input wire clk_100mhz, //100 MHz onboard clock
-  input wire [15:0] sw, //all 16 input slide switches
+  // input wire [15:0] sw, //all 16 input slide switches
   input wire [3:0] btn, //all four momentary button switches
 
   // SPI 
@@ -149,6 +149,34 @@ module top_level(
     .vcount_out(blur_vcount) // 10 bits
   );
 
+
+  /*
+    RGB -> Luminance (clk_pixel, 74.25MHz)
+  */
+
+  // blur_pixel is 565 pixel
+  logic [4:0] r_in;
+  logic [5:0] g_in;
+  logic [4:0] b_in;
+
+  always_comb begin
+    r_in = blur_pixel[15:11];
+    g_in = blur_pixel[10:5];
+    b_in = blur_pixel[4:0];
+  end
+
+
+  logic [9:0] y_full; // full 10 bits of luminance (only need 8)
+  rgb_to_ycrcb rgbtoycrcb_m(
+    .clk_in(clk_pixel),
+    .r_in(r_in),
+    .g_in(g_in),
+    .b_in(b_in),
+    .y_out(y_full),
+    .cr_out(),
+    .cb_out()
+  );
+
   
   /*
     CDC (clk_pixel 74.25 Mhz -> clk_100mhz 100 MHz)
@@ -156,19 +184,20 @@ module top_level(
   logic
    empty2;
   logic cdc_valid2;
-  logic [15:0] cdc_pixel2;
+  // logic [15:0] cdc_pixel2;
+  logic [9:0] cdc_y2;
   logic [10:0] cdc_hcount2;
   logic [9:0] cdc_vcount2;
 
   fifo cdc_fifo_2
     (.wr_clk(clk_pixel),
      .full(),
-     .din({blur_hcount, blur_vcount, blur_pixel}),
+     .din({blur_hcount, blur_vcount, y_full}),
      .wr_en(blur_valid),
 
      .rd_clk(clk_pixel),
      .empty(empty2),
-     .dout({cdc_hcount2, cdc_vcount2, cdc_pixel2}),
+     .dout({cdc_hcount2, cdc_vcount2, cdc_y2}),
      .rd_en(1) //always read
     );
 
@@ -189,32 +218,63 @@ module top_level(
 
   /*
     SPI CONVERSION (clk_100mhz, 100 MHz)
+    Want to send 4 pixels at a time through 6 lines
+    Other two lines: hcount, vcount
+    Length of each package: 10 bits (hcount is bottleneck of 10 bits)
   */
-  logic [5:0][15:0] pixels_to_send;
+
+  // logic [15:0] pixels_to_send [5:0];
+  logic [9:0] pixels_to_send [3:0];
+  logic [9:0] send_hcount;
+  logic [9:0] send_vcount;
   always_ff @(posedge clk_100_passthrough) begin
     if (should_pack) begin
-      pixels_to_send <= {pixels_to_send[5:0], cdc_pixel2};
+      for (int line = 1; line < 4; line++) begin
+        pixels_to_send[line] <= pixels_to_send[line-1];
+      end
+      // pixels_to_send[0] <= cdc_pixel2;
+      pixels_to_send[0] <= cdc_y2;
+
+      // store the hcount vcount of the first pixel in the package
+      send_hcount <= (count_out == 2'b0)? cdc_hcount2[10:1] : send_hcount;
+      send_vcount <= (count_out == 2'b0)? {1'b0, cdc_vcount2[9:1]} : send_vcount;
     end
   end
 
   logic packet_ready;
+  logic[1:0]  count_out;
+
   evt_counter #(
-    .MAX_COUNT(6)
+    .MAX_COUNT(4)
   ) packet_ready_counter (
     .clk_in(clk_100_passthrough),
     .rst_in(sys_rst),
     .evt_in(should_pack),
+    .count_out(count_out),
     .hit_max(packet_ready)
   );
 
+
+  logic [9:0] send_package [5:0];
+  always_comb begin
+    send_package[0] = pixels_to_send[0];
+    send_package[1] = pixels_to_send[1];
+    send_package[2] = pixels_to_send[2];
+    send_package[3] = pixels_to_send[3];
+    send_package[4] = send_hcount;
+    send_package[5] = send_vcount;
+  end
+
+
   spi_send_con # (
-    .DATA_WIDTH(16), // each line should send the 16 bit pixel
+    // .DATA_WIDTH(16), // each line should send the 16 bit pixel
+    .DATA_WIDTH(10), // each line should send the 10 bit luminance or hcount/vcount
     .LINES(6), // six parallel lines
     .DATA_CLK_PERIOD(6) // 16.6 MHz SPI Clock
   ) spi_send (
     .clk_in(clk_100_passthrough),
     .rst_in(sys_rst),
-    .data_in(pixels_to_send), // LINES arrays of length DATA_WIDTH bits
+    .data_in(send_package), // LINES arrays of length DATA_WIDTH bits
     .trigger_in(packet_ready),
 
     .chip_data_out(cipo), // 6 bits (1 bit from each of the 6 pixels)
