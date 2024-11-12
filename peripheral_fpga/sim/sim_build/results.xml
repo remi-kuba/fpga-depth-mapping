@@ -1,0 +1,7 @@
+<testsuites name="results">
+  <testsuite name="all" package="all">
+    <property name="random_seed" value="1731377617" />
+    <testcase name="test_spi_send_con" classname="test_spi_con" file="/Users/remi/Desktop/fpga-depth-mapping/peripheral_fpga/sim/test_spi_con.py" lineno="38" time="0.0043871402740478516" sim_time_ns="1185.001" ratio_time="270107.8438293571" />
+    <testcase name="test_spi_send_con_2" classname="test_spi_con" file="/Users/remi/Desktop/fpga-depth-mapping/peripheral_fpga/sim/test_spi_con.py" lineno="71" time="0.002948284149169922" sim_time_ns="1185.001" ratio_time="401929.03398867865" />
+  </testsuite>
+</testsuites>

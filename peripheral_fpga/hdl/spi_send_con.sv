@@ -1,4 +1,3 @@
-`timescale 1ns / 1ps
 `default_nettype none
 
 module spi_send_con
@@ -11,7 +10,7 @@ module spi_send_con
  )
  (input wire   clk_in, //system clock (100 MHz)
   input wire   rst_in, //reset in signal
-  input wire   [LINES-1:0][DATA_WIDTH-1:0] data_in, //data to send
+  input wire   [DATA_WIDTH-1:0] data_in [LINES-1:0], //data to send
   input wire   trigger_in, //start a transaction
 
   output logic [LINES-1:0] chip_data_out, // CIPO (this is the peripheral FPGA)
@@ -20,7 +19,7 @@ module spi_send_con
  );
 
  logic [DUTY_CYCLE_SIZE-1:0] clk_count;
- logic [LINES-1:0][DATA_WIDTH-2:0] cipo_data;
+ logic [DATA_WIDTH-2:0] cipo_data [LINES-1:0];
  logic [DATA_WIDTH_SIZE-1:0] bits_sent_counter;
 
  always_ff @(posedge clk_in) begin
@@ -29,6 +28,8 @@ module spi_send_con
         chip_data_out <= 0;
         chip_sel_out <= 1'b1;
         chip_clk_out <= 1'b0;
+        clk_count <= 0;
+        bits_sent_counter <= 0;
     end else if (trigger_in) begin 
         chip_sel_out <= 1'b0; // Begin 
 
@@ -59,7 +60,7 @@ module spi_send_con
                 end else begin 
                     // Next bits of cipo sending
                     for (int line = 0; line < LINES; line++) begin
-                        chip_data_out[line] <= cipo_data[line][DATA_WIDTH - 1];
+                        chip_data_out[line] <= cipo_data[line][DATA_WIDTH-2]; // take topmost bit
                         cipo_data[line] <= cipo_data[line] << 1;
                     end
                 end
