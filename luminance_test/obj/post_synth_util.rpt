@@ -1,0 +1,62 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2024.1 (lin64) Build 5076996 Wed May 22 18:36:09 MDT 2024
+| Date         : Wed Nov 13 15:32:32 2024
+| Host         : eecs-digital-09 running 64-bit Ubuntu 24.04.1 LTS
+| Command      : report_utilization -file obj/post_synth_util.rpt -hierarchical -hierarchical_depth 4
+| Design       : top_level
+| Device       : xc7s50csga324-1
+| Speed File   : -1
+| Design State : Synthesized
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Utilization Design Information
+
+Table of Contents
+-----------------
+1. Utilization by Hierarchy
+
+1. Utilization by Hierarchy
+---------------------------
+
++----------------------------------------------+---------------------------------------------------+------------+------------+---------+------+-----+--------+--------+------------+
+|                   Instance                   |                       Module                      | Total LUTs | Logic LUTs | LUTRAMs | SRLs | FFs | RAMB36 | RAMB18 | DSP Blocks |
++----------------------------------------------+---------------------------------------------------+------------+------------+---------+------+-----+--------+--------+------------+
+| top_level                                    |                                             (top) |       1011 |        959 |       0 |   52 | 767 |     40 |     10 |          8 |
+|   (top_level)                                |                                             (top) |         51 |          0 |       0 |   51 | 169 |      0 |      0 |          1 |
+|   blue_ser                                   |                                   tmds_serializer |          0 |          0 |       0 |    0 |   0 |      0 |      0 |          0 |
+|   com_m                                      |                                    center_of_mass |        172 |        172 |       0 |    0 | 275 |      0 |      0 |          0 |
+|     (com_m)                                  |                                    center_of_mass |         23 |         23 |       0 |    0 | 109 |      0 |      0 |          0 |
+|     x_calc                                   |                                           divider |         71 |         71 |       0 |    0 |  84 |      0 |      0 |          0 |
+|     y_calc                                   |                                         divider_4 |         78 |         78 |       0 |    0 |  82 |      0 |      0 |          0 |
+|   crw                                        |                                  camera_registers |        106 |        106 |       0 |    0 | 104 |      0 |      0 |          0 |
+|     (crw)                                    |                                  camera_registers |          8 |          8 |       0 |    0 |  42 |      0 |      0 |          0 |
+|     aia                                      |                                    addr_increment |          8 |          8 |       0 |    0 |   9 |      0 |      0 |          0 |
+|     sccb_c                                   |                                        i2c_master |         90 |         90 |       0 |    0 |  53 |      0 |      0 |          0 |
+|   frame_buffer                               |                                     blk_mem_gen_0 |        122 |        122 |       0 |    0 |  20 |     24 |      8 |          0 |
+|     (frame_buffer)                           |                                     blk_mem_gen_0 |          0 |          0 |       0 |    0 |   0 |      0 |      0 |          0 |
+|     U0                                       |                   blk_mem_gen_0blk_mem_gen_v8_4_8 |        122 |        122 |       0 |    0 |  20 |     24 |      8 |          0 |
+|       (U0)                                   |                   blk_mem_gen_0blk_mem_gen_v8_4_8 |          0 |          0 |       0 |    0 |   0 |      0 |      0 |          0 |
+|       inst_blk_mem_gen                       |             blk_mem_gen_0blk_mem_gen_v8_4_8_synth |        122 |        122 |       0 |    0 |  20 |     24 |      8 |          0 |
+|         gnbram.gnativebmg.native_blk_mem_gen |                      blk_mem_gen_0blk_mem_gen_top |        122 |        122 |       0 |    0 |  20 |     24 |      8 |          0 |
+|   green_ser                                  |                                 tmds_serializer_0 |          0 |          0 |       0 |    0 |   0 |      0 |      0 |          0 |
+|   mcs                                        |                                    channel_select |         16 |         16 |       0 |    0 |   0 |      0 |      0 |          0 |
+|   mssc                                       |                                         lab05_ssc |         35 |         35 |       0 |    0 |  25 |      0 |      0 |          0 |
+|   mt                                         |                                         threshold |        260 |        260 |       0 |    0 |   1 |      0 |      0 |          0 |
+|   popcat                                     |                                      image_sprite |         13 |         12 |       0 |    1 |  25 |     16 |      1 |          0 |
+|     (popcat)                                 |                                      image_sprite |          6 |          5 |       0 |    1 |  25 |      0 |      0 |          0 |
+|     image_brom                               |                 xilinx_single_port_ram_read_first |          7 |          7 |       0 |    0 |   0 |     16 |      0 |          0 |
+|     palette_brom                             | xilinx_single_port_ram_read_first__parameterized0 |          0 |          0 |       0 |    0 |   0 |      0 |      1 |          0 |
+|   red_ser                                    |                                 tmds_serializer_1 |          1 |          1 |       0 |    0 |   1 |      0 |      0 |          0 |
+|   registers                                  | xilinx_single_port_ram_read_first__parameterized1 |          6 |          6 |       0 |    0 |   0 |      0 |      1 |          0 |
+|   rgbtoycrcb_m                               |                                      rgb_to_ycrcb |         50 |         50 |       0 |    0 |  48 |      0 |      0 |          7 |
+|   tester                                     |                             luminance_reconstruct |         29 |         29 |       0 |    0 |  32 |      0 |      0 |          0 |
+|   tmds_blue                                  |                                      tmds_encoder |          2 |          2 |       0 |    0 |  14 |      0 |      0 |          0 |
+|   tmds_green                                 |                                    tmds_encoder_2 |          2 |          2 |       0 |    0 |  14 |      0 |      0 |          0 |
+|   tmds_red                                   |                                    tmds_encoder_3 |          9 |          9 |       0 |    0 |  14 |      0 |      0 |          0 |
+|   vsg                                        |                                     video_sig_gen |        140 |        140 |       0 |    0 |  25 |      0 |      0 |          0 |
+|   wizard_hdmi                                |                                   cw_hdmi_clk_wiz |          0 |          0 |       0 |    0 |   0 |      0 |      0 |          0 |
+|   wizard_migcam                              |                                   cw_fast_clk_wiz |          0 |          0 |       0 |    0 |   0 |      0 |      0 |          0 |
++----------------------------------------------+---------------------------------------------------+------------+------------+---------+------+-----+--------+--------+------------+
+
+
