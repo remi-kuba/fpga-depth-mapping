@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 `default_nettype none
 
-module pixel_reconstruct
+module luminance_reconstruct
 	#(
 	 parameter HCOUNT_WIDTH = 11,
 	 parameter VCOUNT_WIDTH = 10
@@ -34,7 +34,6 @@ module pixel_reconstruct
 	 // should NOT update on every cycle of clk_in, only
 	 // when samples are valid.
 	 logic 													 last_sampled_hs;
-	 logic last_sampled_vs;
 	 logic [7:0] 										 last_sampled_data;
 
 	 // flag indicating whether the last byte has been transmitted or not.
@@ -52,33 +51,22 @@ module pixel_reconstruct
 				vsync_out <= 1'b0;
 				half_pixel_ready <= 1'b0;
 				last_sampled_hs <= 1'b0;
-				last_sampled_vs <= 1'b0;
 				last_sampled_data <= 8'b0;
-			end else begin
-				if(camera_sample_valid) begin
-					if (half_pixel_ready) begin
-						pixel_valid_out <= (camera_hs_in && camera_vs_in);
-						pixel_data_out <= {last_sampled_data, camera_data_in};
-						pixel_hcount_out <= (camera_hs_in && camera_vs_in)? pixel_hcount_out + 1 : -1;
-					end else begin
-						pixel_valid_out <= 1'b0;
-						pixel_hcount_out <= (camera_hs_in && camera_vs_in)? pixel_hcount_out : -1;
-					end
-					last_sampled_data <= camera_data_in;
-					pixel_vcount_out <= (~camera_vs_in)? 0 :
-										(~camera_hs_in && last_sampled_hs)? pixel_vcount_out + 1 :
-																			pixel_vcount_out;
+            end else if (camera_sample_valid) begin
+                pixel_valid_out <= (camera_hs_in && camera_vs_in);
+                hsync_out <= camera_hs_in;
+                vsync_out <= camera_vs_in;
 
-					last_sampled_hs <= camera_hs_in;
-					last_sampled_vs <= camera_vs_in;
-					// alternate only when in active drawing area
-					half_pixel_ready <= (camera_hs_in && camera_vs_in)? ~half_pixel_ready : 1'b0; 
-					hsync_out <= camera_hs_in;
-					vsync_out <= camera_vs_in;
-				end else begin
-					pixel_valid_out <= 1'b0;
-				end
-			end
+                pixel_data_out <= camera_data_in;
+                pixel_hcount_out <= (camera_hs_in && camera_vs_in)? pixel_hcount_out + 1 : -1;
+                pixel_vcount_out <= (!camera_vs_in)? 0 : 
+                                    (!camera_hs_in && last_sampled_hs)? pixel_vcount_out + 1 :
+                                                                        pixel_vcount_out;
+                
+                last_sampled_hs <= camera_hs_in;
+            end else begin
+                pixel_valid_out <= 1'b0;
+            end
 	 end
 	 
 endmodule
