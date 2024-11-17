@@ -16,7 +16,7 @@ module stacker
   // input axis: 16 bit pixels
   input wire           pixel_tvalid,
   output logic         pixel_tready,
-  input wire [15:0]    pixel_tdata,
+  input wire [7:0]    pixel_tdata,
   input wire           pixel_tlast,
   // output axis: 128 bit mig-phrases
   output logic         chunk_tvalid,
@@ -45,12 +45,12 @@ module stacker
       chunk_tvalid <= 1'b0;
     end else begin
       if (accept_in) begin
-        data_recent  <= { pixel_tdata[15:0], data_recent[127:16] };
+        data_recent  <= { pixel_tdata[7:0], data_recent[127:8] };
         tlast_recent <= { pixel_tlast, tlast_recent[7:1] };
         count        <= count + 1;
 
         if (count == 7) begin
-          chunk_tdata  <= { pixel_tdata[15:0], data_recent[127:16] };
+          chunk_tdata  <= { pixel_tdata[7:0], data_recent[127:8] };
           chunk_tlast <= (tlast_recent > 0);
           chunk_tvalid <= 1'b1;
         end

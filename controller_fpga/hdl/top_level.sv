@@ -128,6 +128,89 @@ module top_level(
   assign cdc_valid = ~empty; //watch when empty. Ready immediately if something there
 
 
+/* SECTION FOR ALL DRAM (6 FIFOs -- 3 pairs for camera 1 data, camera 2 data, and SAD module input/output)*/
+//CAM1 AXIS:
+  logic [127:0] cam1_axis_tdata;
+  logic         cam1_axis_tlast;
+  logic         cam1_axis_tready;
+  logic         cam1_axis_tvalid;
+
+//CAM1 FIFO OUT:
+  logic [127:0] cam1_ui_axis_tdata;
+  logic         cam1_ui_axis_tlast;
+  logic         cam1_ui_axis_tready;
+  logic         cam1_ui_axis_tvalid;
+  logic         cam1_ui_axis_prog_empty;
+
+//CAM2 AXIS:
+  logic [127:0] cam2_axis_tdata;
+  logic         cam2_axis_tlast;
+  logic         cam2_axis_tready;
+  logic         cam2_axis_tvalid;
+
+//CAM2 FIFO OUT:
+  logic [127:0] cam2_ui_axis_tdata;
+  logic         cam2_ui_axis_tlast;
+  logic         cam2_ui_axis_tready;
+  logic         cam2_ui_axis_tvalid;
+  logic         cam2_ui_axis_prog_empty;
+
+//MIG IP (required):
+  // these are the signals that the MIG IP needs for us to define!
+  // MIG UI --> generic outputs
+  logic [26:0]  app_addr;
+  logic [2:0]   app_cmd;
+  logic         app_en;
+  // MIG UI --> write outputs
+  logic [127:0] app_wdf_data;
+  logic         app_wdf_end;
+  logic         app_wdf_wren;
+  logic [15:0]  app_wdf_mask;
+  // MIG UI --> read inputs
+  logic [127:0] app_rd_data;
+  logic         app_rd_data_end;
+  logic         app_rd_data_valid;
+  // MIG UI --> generic inputs
+  logic         app_rdy;
+  logic         app_wdf_rdy;
+  // MIG UI --> misc
+  logic         app_sr_req; 
+  logic         app_ref_req;
+  logic         app_zq_req; 
+  logic         app_sr_active;
+  logic         app_ref_ack;
+  logic         app_zq_ack;
+  logic         init_calib_complete;
+
+//READ CAM 1:
+  logic [127:0] read1_ui_axis_tdata;
+  logic         read1_ui_axis_tlast;
+  logic         read1_ui_axis_tready;
+  logic         read1_ui_axis_tvalid;
+  logic         read1_ui_axis_prog_full;
+
+//READ CAM 1 AXIS:
+  logic [127:0] read1_axis_tdata;
+  logic         read1_axis_tlast;
+  logic         read1_axis_tready;
+  logic         read1_axis_tvalid;
+  logic         read1_axis_prog_empty;
+
+//READ CAM 2:
+  logic [127:0] read2_ui_axis_tdata;
+  logic         read2_ui_axis_tlast;
+  logic         read2_ui_axis_tready;
+  logic         read2_ui_axis_tvalid;
+  logic         read2_ui_axis_prog_full;
+
+//READ CAM 2 AXIS:
+  logic [127:0] read2_axis_tdata;
+  logic         read2_axis_tlast;
+  logic         read2_axis_tready;
+  logic         read2_axis_tvalid;
+  logic         read2_axis_prog_empty;
+
+
 
   /*
     LINE BUFFER (clk_pixel, 74.25 MHz) + 

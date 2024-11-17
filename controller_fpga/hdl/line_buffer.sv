@@ -6,19 +6,19 @@ module line_buffer (
 
             input wire [10:0] hcount_in, //current hcount being read
             input wire [9:0] vcount_in, //current vcount being read
-            input wire [15:0] pixel_data_in, //incoming pixel
+            input wire [7:0] pixel_data_in, //incoming pixel
             input wire data_valid_in, //incoming  valid data signal
 
-            output logic [KERNEL_SIZE-1:0][15:0] line_buffer_out, //output pixels of data
+            output logic [KERNEL_SIZE-1:0][7:0] line_buffer_out, //output pixels of data
             output logic [10:0] hcount_out, //current hcount being read
             output logic [9:0] vcount_out, //current vcount being read
             output logic data_valid_out //valid data out signal
   );
-  parameter HRES = 1280;
-  parameter VRES = 720;
+  parameter HRES = 640;
+  parameter VRES = 380;
   localparam KERNEL_SIZE = 3;
 
-  logic [KERNEL_SIZE:0][15:0] read_data; // read bram every cycle
+  logic [KERNEL_SIZE:0][7:0] read_data; // read bram every cycle
   logic [1:0][10:0] hcount_pl;
   logic [1:0][9:0] vcount_pl;
   logic [1:0] data_valid_pl;

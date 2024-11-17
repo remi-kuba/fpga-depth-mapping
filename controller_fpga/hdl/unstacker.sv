@@ -13,7 +13,7 @@ module unstacker
    // output axis: 16 bit words
    output logic        pixel_tvalid,
    input wire 	       pixel_tready,
-   output logic [15:0] pixel_tdata,
+   output logic [7:0] pixel_tdata,
    output logic        pixel_tlast
    );
 
@@ -25,7 +25,7 @@ module unstacker
   assign accept_out = pixel_tvalid && pixel_tready;
 
   logic [127:0] shift_phrase;
-  assign pixel_tdata = shift_phrase[15:0];
+  assign pixel_tdata = shift_phrase[7:0];
 
   logic tlast_hold;
   assign pixel_tlast = offset == 7 ? tlast_hold : 1'b0;
@@ -56,7 +56,7 @@ module unstacker
           end
           
         end else begin
-          shift_phrase <= {16'b0, shift_phrase[127:16]};
+          shift_phrase <= {8'b0, shift_phrase[127:8]};
         end
         
       end else if (accept_in) begin
