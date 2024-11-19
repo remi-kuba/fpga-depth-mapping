@@ -31,6 +31,9 @@ module top_level(
   // btn[0] controls system reset
   logic sys_rst;
   assign sys_rst = btn[0];
+  // this port also is specifically set to high drive by the XDC file.
+  // Camera clock only runs when holding btn[1] down (protect cameras)
+  assign cam_xclk = btn[1] ? clk_xc : 1'b0;;
 
   /*
     CLOCKS
@@ -59,8 +62,18 @@ module top_level(
   // this port also is specifically set to high drive by the XDC file.
   assign cam_xclk = clk_xc;
   
+  // video signal generator signals
+  logic          hsync_hdmi;
+  logic          vsync_hdmi;
+  logic [10:0]  hcount_hdmi;
+  logic [9:0]    vcount_hdmi;
+  logic          active_draw_hdmi;
+  logic          new_frame_hdmi;
+  logic [5:0]    frame_count_hdmi;
+  logic          nf_hdmi;
+  // rgb output values
+  logic [7:0]          red,green,blue;
 
-  
 
   /*
     CAMERA 
@@ -92,7 +105,7 @@ module top_level(
 
   pixel_reconstruct
   (.clk_in(clk_camera),
-   .rst_in(sys_rst_camera),
+   .rst_in(sys_rst),
    .camera_pclk_in(cam_pclk_buf[0]),
    .camera_hs_in(cam_hsync_buf[0]),
    .camera_vs_in(cam_vsync_buf[0]),
@@ -101,6 +114,78 @@ module top_level(
    .pixel_hcount_out(camera_hcount),
    .pixel_vcount_out(camera_vcount),
    .pixel_data_out(camera_pixel));
+
+
+  //two-port BRAM used to hold output image from DRAM.
+  //we're going to down-sample by a factor of 2 in both dimensions
+  //so we have 640 by 360.  
+  //even if we could line it up once, the clocks of both systems will drift over time
+  //so to avoid this sync issue, we use a conflict-resolution device...the frame buffer
+  //instead we use a frame buffer as a go-between. The DRAM --> FIFO sends pixels in at
+  //its own rate, and we pull them out for display at the 720p rate/requirement
+  //this avoids the whole sync issue. 
+  localparam FB_DEPTH = 640*360;
+  localparam FB_SIZE = $clog2(FB_DEPTH);
+  logic [FB_SIZE-1:0] addra; //used to specify address to write to in frame buffer
+
+  //Only for directly using camera data
+  logic valid_camera_mem; //used to enable writing pixel data to frame buffer
+  logic [15:0] camera_mem; //used to pass pixel data into frame buffer
+
+  always_ff @(posedge clk_camera)begin
+    // down sample  data from the camera by a factor of 2 in both
+    //the x and y dimensions! TO DO
+    if (sys_rst_camera) begin
+      addra <= 0;
+      camera_mem <= 0;  
+      valid_camera_mem <= 0;
+    end else begin
+      addra <= camera_hcount[10:2] + (camera_vcount[9:2])*320; //x/4 + (y/4)*w
+      camera_mem <= camera_pixel;
+      if (camera_hcount[0] == 0 && camera_vcount[0] == 0 && camera_valid) begin //if both hcount and vcount are divisible by 2
+        valid_camera_mem <= 1;
+      end else begin
+        valid_camera_mem <= 0;
+      end
+    end
+  end
+
+  //frame buffer from IP
+  blk_mem_gen_0 frame_buffer (
+    .addra(addra), //pixels are stored using this math
+    .clka(clk_camera),
+    .wea(valid_camera_mem),
+    .dina(camera_mem),
+    .ena(1'b1),
+    .douta(), //never read from this side
+    .addrb(addrb),//transformed lookup pixel
+    .dinb(16'b0),
+    .clkb(clk_pixel),
+    .web(1'b0),
+    .enb(1'b1),
+    .doutb(frame_buff_raw)
+  );
+  logic [15:0] frame_buff_raw; //data out of frame buffer (565)
+  logic [FB_SIZE-1:0] addrb; //used to lookup address in memory for reading from buffer
+  logic good_addrb; //used to indicate within valid frame for scaling
+
+
+  // Scale pixel coordinates from HDMI to the frame buffer to grab the right pixel
+  //scaling logic -- 2X
+  always_ff @(posedge clk_pixel)begin
+    //2X scaling from frame buffer
+    addrb <= (hcount_hdmi>>1) + 320*(vcount_hdmi>>1); //Shift to divide by 2
+    good_addrb <=(hcount_hdmi<640)&&(vcount_hdmi<360);
+  end
+
+  //split fame_buff into 3 8 bit Y luminance channels
+  //remapped frame_buffer outputs with 8 bits for r, g, b
+  logic [7:0] fb_red, fb_green, fb_blue;
+  always_ff @(posedge clk_pixel)begin
+    fb_red <= good_addrb ? frame_buff_raw[7:0] : 8'b0;
+    fb_green <= good_addrb ? frame_buff_raw[7:0] : 8'b0;
+    fb_blue <= good_addrb ? frame_buff_raw[7:0] : 8'b0;
+  end
 
 
   /*
@@ -308,6 +393,73 @@ module top_level(
     .chip_clk_out(dclk),
     .chip_sel_out(cs)
   )
+
+
+
+
+  // HDMI video signal generator
+   video_sig_gen vsg
+     (
+      .pixel_clk_in(clk_pixel),
+      .rst_in(sys_rst_pixel),
+      .hcount_out(hcount_hdmi),
+      .vcount_out(vcount_hdmi),
+      .vs_out(vsync_hdmi),
+      .hs_out(hsync_hdmi),
+      .nf_out(nf_hdmi),
+      .ad_out(active_draw_hdmi),
+      .fc_out(frame_count_hdmi)
+      );
+
+
+   tmds_encoder tmds_red(
+       .clk_in(clk_pixel),
+       .rst_in(sys_rst_pixel),
+       .data_in(red),
+       .control_in(2'b0),
+       .ve_in(active_draw_hdmi),
+       .tmds_out(tmds_10b[2]));
+
+   tmds_encoder tmds_green(
+         .clk_in(clk_pixel),
+         .rst_in(sys_rst_pixel),
+         .data_in(green),
+         .control_in(2'b0),
+         .ve_in(active_draw_hdmi),
+         .tmds_out(tmds_10b[1]));
+
+   tmds_encoder tmds_blue(
+        .clk_in(clk_pixel),
+        .rst_in(sys_rst_pixel),
+        .data_in(blue),
+        .control_in({vsync_hdmi,hsync_hdmi}),
+        .ve_in(active_draw_hdmi),
+        .tmds_out(tmds_10b[0]));
+
+   tmds_serializer red_ser(
+         .clk_pixel_in(clk_pixel),
+         .clk_5x_in(clk_5x),
+         .rst_in(sys_rst_pixel),
+         .tmds_in(tmds_10b[2]),
+         .tmds_out(tmds_signal[2]));
+   tmds_serializer green_ser(
+         .clk_pixel_in(clk_pixel),
+         .clk_5x_in(clk_5x),
+         .rst_in(sys_rst_pixel),
+         .tmds_in(tmds_10b[1]),
+         .tmds_out(tmds_signal[1]));
+   tmds_serializer blue_ser(
+         .clk_pixel_in(clk_pixel),
+         .clk_5x_in(clk_5x),
+         .rst_in(sys_rst_pixel),
+         .tmds_in(tmds_10b[0]),
+         .tmds_out(tmds_signal[0]));
+
+   OBUFDS OBUFDS_blue (.I(tmds_signal[0]), .O(hdmi_tx_p[0]), .OB(hdmi_tx_n[0]));
+   OBUFDS OBUFDS_green(.I(tmds_signal[1]), .O(hdmi_tx_p[1]), .OB(hdmi_tx_n[1]));
+   OBUFDS OBUFDS_red  (.I(tmds_signal[2]), .O(hdmi_tx_p[2]), .OB(hdmi_tx_n[2]));
+   OBUFDS OBUFDS_clock(.I(clk_pixel), .O(hdmi_clk_p), .OB(hdmi_clk_n));
+
  
 endmodule // top_level
  
