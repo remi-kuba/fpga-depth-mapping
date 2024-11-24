@@ -100,7 +100,7 @@ module top_level(
 
   logic [10:0] camera_hcount;
   logic [9:0]  camera_vcount;
-  logic [15:0] camera_pixel;
+  logic [15:0] camera_pixel; //NOW 8-bit?
   logic        camera_valid;
 
   pixel_reconstruct
@@ -130,17 +130,17 @@ module top_level(
 
   //Only for directly using camera data
   logic valid_camera_mem; //used to enable writing pixel data to frame buffer
-  logic [15:0] camera_mem; //used to pass pixel data into frame buffer
+  logic [15:0] camera_mem; //used to pass pixel data into frame buffer -- 8bit now?
 
   always_ff @(posedge clk_camera)begin
     // down sample  data from the camera by a factor of 2 in both
-    //the x and y dimensions! TO DO
+    //the x and y dimensions!
     if (sys_rst_camera) begin
       addra <= 0;
       camera_mem <= 0;  
       valid_camera_mem <= 0;
     end else begin
-      addra <= camera_hcount[10:2] + (camera_vcount[9:2])*320; //x/4 + (y/4)*w
+      addra <= camera_hcount[10:1] + (camera_vcount[9:1])*320; //x/2 + (y/2)*w
       camera_mem <= camera_pixel;
       if (camera_hcount[0] == 0 && camera_vcount[0] == 0 && camera_valid) begin //if both hcount and vcount are divisible by 2
         valid_camera_mem <= 1;
@@ -165,7 +165,7 @@ module top_level(
     .enb(1'b1),
     .doutb(frame_buff_raw)
   );
-  logic [15:0] frame_buff_raw; //data out of frame buffer (565)
+  logic [7:0] frame_buff_raw; //data out of frame buffer (8-bit Y-val)
   logic [FB_SIZE-1:0] addrb; //used to lookup address in memory for reading from buffer
   logic good_addrb; //used to indicate within valid frame for scaling
 
@@ -194,7 +194,7 @@ module top_level(
   logic
    empty;
   logic cdc_valid;
-  logic [15:0] cdc_pixel;
+  logic [15:0] cdc_pixel; //now 8-bit?
   logic [10:0] cdc_hcount;
   logic [9:0] cdc_vcount;
 
@@ -214,6 +214,7 @@ module top_level(
 
 
 /* SECTION FOR ALL DRAM (6 FIFOs -- 3 pairs for camera 1 data, camera 2 data, and SAD module input/output)*/
+//TODO (UNFINISHED)
 //CAM1 AXIS:
   logic [127:0] cam1_axis_tdata;
   logic         cam1_axis_tlast;
@@ -304,7 +305,7 @@ module top_level(
 
   logic [10:0] blur_hcount;  //hcount from blur module
   logic [9:0] blur_vcount; //vcount from blur module
-  logic [15:0] blur_pixel; //pixel data from blur module
+  logic [15:0] blur_pixel; //pixel data from blur module //NOW 8-bit?
   logic blur_valid; //valid signals for blur module
   //full resolution filter
   blur_filter #(.HRES(1280),.VRES(720))
@@ -312,11 +313,11 @@ module top_level(
     .clk_in(clk_pixel), 
     .rst_in(sys_rst_pixel),
     .data_valid_in(cdc_valid),
-    .pixel_data_in(cdc_pixel), // 16 bits
+    .pixel_data_in(cdc_pixel), // 16 bits -- now 8?
     .hcount_in(cdc_hcount), // 11 bits
     .vcount_in(cdc_vcount), // 10 bits
     .data_valid_out(blur_valid), 
-    .pixel_data_out(blur_pixel), // 16 bits
+    .pixel_data_out(blur_pixel), // 16 bits -- now 8?
     .hcount_out(blur_hcount), // 11 bits
     .vcount_out(blur_vcount) // 10 bits
   );
