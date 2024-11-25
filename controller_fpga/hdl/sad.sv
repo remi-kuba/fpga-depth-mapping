@@ -31,8 +31,6 @@ module sad (
     logic [$clog2(OFFSET)-1:0] best_offset;
     logic [$clog2(OFFSET*KERNEL_SIZE)-1:0] block_offset;
     logic [11:0] smallest_diff; // This should be unsigned
-    logic [OFFSET-1:0][10:0] hcount_pl;
-    logic [OFFSET-1:0][9:0] vcount_pl;
 
     // FOR TESTING PUPROSES
     logic [$clog2(BLOCK_SIZE)+7:0] recent_diff; // 7 for 255 color
@@ -46,8 +44,6 @@ module sad (
             curr_offset <= OFFSET;
             best_offset <= OFFSET;
             smallest_diff <= ~0; 
-            hcount_pl <= 0;
-            vcount_pl <= 0;
             block_offset <= 0;
             recent_diff <= 0;
             
@@ -61,51 +57,45 @@ module sad (
             curr_offset <= (curr_offset - 1 >= 0)? curr_offset - 1 : OFFSET;
             data_valid_out <= (curr_offset == 0);
             block_offset <= block_offset - KERNEL_SIZE;
-
-            for (int i = 1; i < OFFSET; i = i + 1) begin
-                hcount_pl[i] <= hcount_pl[i - 1];
-                vcount_pl[i] <= vcount_pl[i - 1];
-            end
-
     
-            if ((
-                (left_cache[0] - right_cache[block_offset])[7:0] + 
-                (left_cache[1] - right_cache[block_offset+1])[7:0] + 
-                (left_cache[2] - right_cache[block_offset+2])[7:0] + 
-                (left_cache[3] - right_cache[block_offset+3])[7:0] + 
-                (left_cache[4] - right_cache[block_offset+4])[7:0] + 
-                (left_cache[5] - right_cache[block_offset+5])[7:0] + 
-                (left_cache[6] - right_cache[block_offset+6])[7:0] + 
-                (left_cache[7] - right_cache[block_offset+7])[7:0] + 
-                (left_cache[8] - right_cache[block_offset+8])[7:0] 
+            if (((left_cache[0] - right_cache[block_offset]) + 
+                (left_cache[1] - right_cache[block_offset+1]) + 
+                (left_cache[2] - right_cache[block_offset+2]) + 
+                (left_cache[3] - right_cache[block_offset+3]) + 
+                (left_cache[4] - right_cache[block_offset+4]) + 
+                (left_cache[5] - right_cache[block_offset+5]) + 
+                (left_cache[6] - right_cache[block_offset+6]) + 
+                (left_cache[7] - right_cache[block_offset+7]) + 
+                (left_cache[8] - right_cache[block_offset+8]) 
                 ) < smallest_diff) begin
                 smallest_diff <= (
-                    (left_cache[0] - right_cache[block_offset])[7:0] + 
-                    (left_cache[1] - right_cache[block_offset+1])[7:0] + 
-                    (left_cache[2] - right_cache[block_offset+2])[7:0] + 
-                    (left_cache[3] - right_cache[block_offset+3])[7:0] + 
-                    (left_cache[4] - right_cache[block_offset+4])[7:0] + 
-                    (left_cache[5] - right_cache[block_offset+5])[7:0] + 
-                    (left_cache[6] - right_cache[block_offset+6])[7:0] + 
-                    (left_cache[7] - right_cache[block_offset+7])[7:0] + 
-                    (left_cache[8] - right_cache[block_offset+8])[7:0] );
+                    (left_cache[0] - right_cache[block_offset]) + 
+                    (left_cache[1] - right_cache[block_offset+1]) + 
+                    (left_cache[2] - right_cache[block_offset+2]) + 
+                    (left_cache[3] - right_cache[block_offset+3]) + 
+                    (left_cache[4] - right_cache[block_offset+4]) + 
+                    (left_cache[5] - right_cache[block_offset+5]) + 
+                    (left_cache[6] - right_cache[block_offset+6]) + 
+                    (left_cache[7] - right_cache[block_offset+7]) + 
+                    (left_cache[8] - right_cache[block_offset+8]) );
                 best_offset <= curr_offset;
             end
             recent_diff <= (
-                (left_cache[0] - right_cache[block_offset])[7:0] + 
-                (left_cache[1] - right_cache[block_offset+1])[7:0] + 
-                (left_cache[2] - right_cache[block_offset+2])[7:0] + 
-                (left_cache[3] - right_cache[block_offset+3])[7:0] + 
-                (left_cache[4] - right_cache[block_offset+4])[7:0] + 
-                (left_cache[5] - right_cache[block_offset+5])[7:0] + 
-                (left_cache[6] - right_cache[block_offset+6])[7:0] + 
-                (left_cache[7] - right_cache[block_offset+7])[7:0] + 
-                (left_cache[8] - right_cache[block_offset+8])[7:0] );
+                (left_cache[0] - right_cache[block_offset]) + 
+                (left_cache[1] - right_cache[block_offset+1]) + 
+                (left_cache[2] - right_cache[block_offset+2]) + 
+                (left_cache[3] - right_cache[block_offset+3]) + 
+                (left_cache[4] - right_cache[block_offset+4]) + 
+                (left_cache[5] - right_cache[block_offset+5]) + 
+                (left_cache[6] - right_cache[block_offset+6]) + 
+                (left_cache[7] - right_cache[block_offset+7]) + 
+                (left_cache[8] - right_cache[block_offset+8]) );
 
         end else if (data_valid_in) begin
-            hcount_pl[0] <= hcount_in;
-            vcount_pl[0] <= vcount_in;
+            hcount_out <= hcount_in;
+            vcount_out <= vcount_in;
             busy_out <= 1'b1;
+            data_valid_out <= 1'b0;
 
             for (int i = 0; i < LEFT_CACHE_SIZE-3; i++) begin
                 left_cache[i+3] <= left_cache[i];
@@ -120,29 +110,29 @@ module sad (
             right_cache[1] <= {1'b0, right_data_in[1]};
             right_cache[0] <= {1'b0, right_data_in[2]};
 
-            smallest_diff <= (  (left_cache[5] - right_cache[38])[7:0] +
-                                (left_cache[4] - right_cache[37])[7:0] + 
-                                (left_cache[3] - right_cache[36])[7:0] +
-                                (left_cache[2] - right_cache[35])[7:0] +
-                                (left_cache[1] - right_cache[34])[7:0] + 
-                                (left_cache[0] - right_cache[33])[7:0] +
-                                ({1'b0, left_data_in[0]} - right_cache[32])[7:0] +
-                                ({1'b0, left_data_in[1]} - right_cache[31])[7:0] +
-                                ({1'b0, left_data_in[2]} - right_cache[30])[7:0]);
-            recent_diff <= (    (left_cache[5] - right_cache[38])[7:0] +
-                                (left_cache[4] - right_cache[37])[7:0] + 
-                                (left_cache[3] - right_cache[36])[7:0] +
-                                (left_cache[2] - right_cache[35])[7:0] +
-                                (left_cache[1] - right_cache[34])[7:0] + 
-                                (left_cache[0] - right_cache[33])[7:0] +
-                                ({1'b0, left_data_in[0]} - right_cache[32])[7:0] +
-                                ({1'b0, left_data_in[1]} - right_cache[31])[7:0] +
-                                ({1'b0, left_data_in[2]} - right_cache[30])[7:0]);
+            smallest_diff <= (  (left_cache[5] - right_cache[38]) +
+                                (left_cache[4] - right_cache[37]) + 
+                                (left_cache[3] - right_cache[36]) +
+                                (left_cache[2] - right_cache[35]) +
+                                (left_cache[1] - right_cache[34]) + 
+                                (left_cache[0] - right_cache[33]) +
+                                ({1'b0, left_data_in[0]} - right_cache[32]) +
+                                ({1'b0, left_data_in[1]} - right_cache[31]) +
+                                ({1'b0, left_data_in[2]} - right_cache[30]));
+            recent_diff <= (    (left_cache[5] - right_cache[38]) +
+                                (left_cache[4] - right_cache[37]) + 
+                                (left_cache[3] - right_cache[36]) +
+                                (left_cache[2] - right_cache[35]) +
+                                (left_cache[1] - right_cache[34]) + 
+                                (left_cache[0] - right_cache[33]) +
+                                ({1'b0, left_data_in[0]} - right_cache[32]) +
+                                ({1'b0, left_data_in[1]} - right_cache[31]) +
+                                ({1'b0, left_data_in[2]} - right_cache[30]));
             
             best_offset <= OFFSET;
             curr_offset <= curr_offset - 1;
             block_offset <= OFFSET_BLOCK_SIZE;
-        end
+        end else data_valid_out <= 1'b0;
     end
 
 endmodule
