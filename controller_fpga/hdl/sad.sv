@@ -5,7 +5,8 @@
 module sad (
     input wire clk_in,
     input wire rst_in,
-    input wire [KERNEL_SIZE-1:0][7:0] data_in,
+    input wire [KERNEL_SIZE-1:0][7:0] data_cam1,
+    input wire [KERNEL_SIZE-1:0][7:0] data_cam2,
     input wire [10:0] hcount_in,
     input wire [9:0] vcount_in,
     input wire data_valid_in,

@@ -113,7 +113,7 @@ module top_level(
    .pixel_valid_out(camera_valid),
    .pixel_hcount_out(camera_hcount),
    .pixel_vcount_out(camera_vcount),
-   .pixel_data_out(camera_pixel));
+   .pixel_data_out(camera_pixel)); // the camera pixel from CAM1
 
 
   //two-port BRAM used to hold output image from DRAM.
@@ -215,34 +215,72 @@ module top_level(
 
 /* SECTION FOR ALL DRAM (6 FIFOs -- 3 pairs for camera 1 data, camera 2 data, and SAD module input/output)*/
 //TODO (UNFINISHED)
-//CAM1 AXIS:
-  logic [127:0] cam1_axis_tdata;
-  logic         cam1_axis_tlast;
-  logic         cam1_axis_tready;
-  logic         cam1_axis_tvalid;
-
-//CAM1 FIFO OUT:
-  logic [127:0] cam1_ui_axis_tdata;
-  logic         cam1_ui_axis_tlast;
-  logic         cam1_ui_axis_tready;
-  logic         cam1_ui_axis_tvalid;
-  logic         cam1_ui_axis_prog_empty;
+//CAM1 AXIS:  //potentially hold all data types?
+  logic [127:0] write_axis_tdata;
+  logic         write_axis_tlast;
+  logic         write_axis_tready;
+  logic         write_axis_tvalid;
 
 //CAM2 AXIS:
-  logic [127:0] cam2_axis_tdata;
-  logic         cam2_axis_tlast;
-  logic         cam2_axis_tready;
-  logic         cam2_axis_tvalid;
+//   logic [127:0] cam2_axis_tdata;
+//   logic         cam2_axis_tlast;
+//   logic         cam2_axis_tready;
+//   logic         cam2_axis_tvalid;
 
-//CAM2 FIFO OUT:
-  logic [127:0] cam2_ui_axis_tdata;
-  logic         cam2_ui_axis_tlast;
-  logic         cam2_ui_axis_tready;
-  logic         cam2_ui_axis_tvalid;
-  logic         cam2_ui_axis_prog_empty;
+// //SAD_OUT AXIS:
+//   logic [127:0] cam2_axis_tdata;
+//   logic         cam2_axis_tlast;
+//   logic         cam2_axis_tready;
+//   logic         cam2_axis_tvalid;
 
-//MIG IP (required):
-  // these are the signals that the MIG IP needs for us to define!
+  // takes our 8-bit values and deserialize/stack them into 128-bit messages to write to DRAM
+  // the data pipeline is designed such that we can fairly safe to assume its always ready.
+  logic [7:0] pixel = camera_pixel; //TODO: UPDATE to have 3 possible inputs tdata based on state
+  //potentially add different tlast
+  stacker stacker_inst(
+    .clk_in(clk_camera),
+    .rst_in(sys_rst_camera),
+    .pixel_tvalid(camera_valid),
+    .pixel_tready(),
+    .pixel_tdata(camera_pixel),
+    .pixel_tlast(camera_hcount == 1279 && camera_vcount == 719), // change me
+    .chunk_tvalid(write_axis_tvalid),
+    .chunk_tready(write_axis_tready),
+    .chunk_tdata(write_axis_tdata),
+    .chunk_tlast(write_axis_tlast));
+
+
+//FIFO IN:
+  logic [127:0] write_ui_axis_tdata;
+  logic         write_ui_axis_tlast;
+  logic         write_ui_axis_tready;
+  logic         write_ui_axis_tvalid;
+  logic         write_ui_axis_prog_empty;
+
+  // FIFO data queue of 128-bit messages, crosses clock domains to the 81.25MHz
+  // UI clock of the memory interface
+  ddr_fifo_wrap write_data_fifo(
+    .sender_rst(sys_rst_camera),
+    .sender_clk(clk_camera),
+    .sender_axis_tvalid(write_axis_tvalid),
+    .sender_axis_tready(write_axis_tready),
+    .sender_axis_tdata(write_axis_tdata),
+    .sender_axis_tlast(write_axis_tlast),
+    .receiver_clk(clk_ui),
+    .receiver_axis_tvalid(write_ui_axis_tvalid),
+    .receiver_axis_tready(write_ui_axis_tready),
+    .receiver_axis_tdata(write_ui_axis_tdata),
+    .receiver_axis_tlast(write_ui_axis_tlast),
+    .receiver_axis_prog_empty(write_ui_axis_prog_empty));
+
+  logic [127:0] read_ui_axis_tdata;
+  logic         read_ui_axis_tlast;
+  logic         read_ui_axis_tready;
+  logic         read_ui_axis_tvalid;
+  logic         read_ui_axis_prog_full;
+
+
+  // The signals the MIG IP needs us to define!
   // MIG UI --> generic outputs
   logic [26:0]  app_addr;
   logic [2:0]   app_cmd;
@@ -267,34 +305,134 @@ module top_level(
   logic         app_ref_ack;
   logic         app_zq_ack;
   logic         init_calib_complete;
+  
+  // this traffic generator handles reads and writes issued to the MIG IP,
+  // which in turn handles the bus to the DDR chip.
+  traffic_generator readwrite_looper(
+    // Outputs
+    .app_addr         (app_addr[26:0]),
+    .app_cmd          (app_cmd[2:0]),
+    .app_en           (app_en),
+    .app_wdf_data     (app_wdf_data[127:0]),
+    .app_wdf_end      (app_wdf_end),
+    .app_wdf_wren     (app_wdf_wren),
+    .app_wdf_mask     (app_wdf_mask[15:0]),
+    .app_sr_req       (app_sr_req),
+    .app_ref_req      (app_ref_req),
+    .app_zq_req       (app_zq_req),
+    .write_axis_ready (write_ui_axis_tready),
+    .read_axis_data   (read_ui_axis_tdata),
+    .read_axis_tlast  (read_ui_axis_tlast),
+    .read_axis_valid  (read_ui_axis_tvalid),
+    // Inputs
+    .clk_in           (clk_ui),
+    .rst_in           (sys_rst_ui),
+    .app_rd_data      (app_rd_data[127:0]),
+    .app_rd_data_end  (app_rd_data_end),
+    .app_rd_data_valid(app_rd_data_valid),
+    .app_rdy          (app_rdy),
+    .app_wdf_rdy      (app_wdf_rdy),
+    .app_sr_active    (app_sr_active),
+    .app_ref_ack      (app_ref_ack),
+    .app_zq_ack       (app_zq_ack),
+    .init_calib_complete(init_calib_complete),
+    .write_axis_data  (write_ui_axis_tdata),
+    .write_axis_tlast (write_ui_axis_tlast),
+    .write_axis_valid (write_ui_axis_tvalid),
+    .write_axis_smallpile(write_ui_axis_prog_empty),
+    .read_axis_af     (read_ui_axis_prog_full),
+    .read_axis_ready  (read_ui_axis_tready) 
+  );
 
-//READ CAM 1:
-  logic [127:0] read1_ui_axis_tdata;
-  logic         read1_ui_axis_tlast;
-  logic         read1_ui_axis_tready;
-  logic         read1_ui_axis_tvalid;
-  logic         read1_ui_axis_prog_full;
+  // the MIG IP!
+  ddr3_mig ddr3_mig_inst 
+    (
+    .ddr3_dq(ddr3_dq),
+    .ddr3_dqs_n(ddr3_dqs_n),
+    .ddr3_dqs_p(ddr3_dqs_p),
+    .ddr3_addr(ddr3_addr),
+    .ddr3_ba(ddr3_ba),
+    .ddr3_ras_n(ddr3_ras_n),
+    .ddr3_cas_n(ddr3_cas_n),
+    .ddr3_we_n(ddr3_we_n),
+    .ddr3_reset_n(ddr3_reset_n),
+    .ddr3_ck_p(ddr3_ck_p),
+    .ddr3_ck_n(ddr3_ck_n),
+    .ddr3_cke(ddr3_cke),
+    .ddr3_dm(ddr3_dm),
+    .ddr3_odt(ddr3_odt),
+    .sys_clk_i(clk_migref),
+    .app_addr(app_addr),
+    .app_cmd(app_cmd),
+    .app_en(app_en),
+    .app_wdf_data(app_wdf_data),
+    .app_wdf_end(app_wdf_end),
+    .app_wdf_wren(app_wdf_wren),
+    .app_rd_data(app_rd_data),
+    .app_rd_data_end(app_rd_data_end),
+    .app_rd_data_valid(app_rd_data_valid),
+    .app_rdy(app_rdy),
+    .app_wdf_rdy(app_wdf_rdy), 
+    .app_sr_req(app_sr_req),
+    .app_ref_req(app_ref_req),
+    .app_zq_req(app_zq_req),
+    .app_sr_active(app_sr_active),
+    .app_ref_ack(app_ref_ack),
+    .app_zq_ack(app_zq_ack),
+    .ui_clk(clk_ui), 
+    .ui_clk_sync_rst(sys_rst_ui),
+    .app_wdf_mask(app_wdf_mask),
+    .init_calib_complete(init_calib_complete),
+    // .device_temp(device_temp),
+    .sys_rst(!sys_rst_migref) // active low
+  );
 
-//READ CAM 1 AXIS:
-  logic [127:0] read1_axis_tdata;
-  logic         read1_axis_tlast;
-  logic         read1_axis_tready;
-  logic         read1_axis_tvalid;
-  logic         read1_axis_prog_empty;
 
-//READ CAM 2:
-  logic [127:0] read2_ui_axis_tdata;
-  logic         read2_ui_axis_tlast;
-  logic         read2_ui_axis_tready;
-  logic         read2_ui_axis_tvalid;
-  logic         read2_ui_axis_prog_full;
+  logic [127:0] read_axis_tdata;
+  logic         read_axis_tlast;
+  logic         read_axis_tready;
+  logic         read_axis_tvalid;
+  logic         read_axis_prog_empty;
+  
+  ddr_fifo_wrap pdfifo(
+    .sender_rst(sys_rst_ui),
+    .sender_clk(clk_ui),
+    .sender_axis_tvalid(read_ui_axis_tvalid),
+    .sender_axis_tready(read_ui_axis_tready),
+    .sender_axis_tdata(read_ui_axis_tdata),
+    .sender_axis_tlast(read_ui_axis_tlast),
+    .sender_axis_prog_full(read_ui_axis_prog_full),
+    .receiver_clk(clk_pixel),
+    .receiver_axis_tvalid(read_axis_tvalid),
+    .receiver_axis_tready(read_axis_tready),
+    .receiver_axis_tdata(read_axis_tdata),
+    .receiver_axis_tlast(read_axis_tlast),
+    .receiver_axis_prog_empty(read_axis_prog_empty));
 
-//READ CAM 2 AXIS:
-  logic [127:0] read2_axis_tdata;
-  logic         read2_axis_tlast;
-  logic         read2_axis_tready;
-  logic         read2_axis_tvalid;
-  logic         read2_axis_prog_empty;
+  //Display out
+  logic frame_buff_tvalid;
+  logic frame_buff_tready;
+  logic [15:0] frame_buff_tdata;
+  logic        frame_buff_tlast;
+
+  //TODO:UPDATE OUTPUT TO CHOOSE BETWEEN SADin1, SADin2, or framebuffout
+  unstacker unstacker_inst(
+    .clk_in(clk_pixel),
+    .rst_in(sys_rst_pixel),
+    .chunk_tvalid(read_axis_tvalid),
+    .chunk_tready(read_axis_tready),
+    .chunk_tdata(read_axis_tdata),
+    .chunk_tlast(read_axis_tlast),
+    .pixel_tvalid(frame_buff_tvalid),
+    .pixel_tready(frame_buff_tready),
+    .pixel_tdata(frame_buff_tdata),
+    .pixel_tlast(frame_buff_tlast));
+
+  // TODO: assign frame_buff_tready
+  // I did this in 1 (kind of long) line. an always_comb block could also work.
+  assign frame_buff_tready = active_draw_hdmi && (~frame_buff_tlast || (hcount_hdmi == 1279 && vcount_hdmi == 719)); // change me!!
+  
+  assign frame_buff_dram = frame_buff_tvalid ? frame_buff_tdata : 16'h2277;
 
 
 

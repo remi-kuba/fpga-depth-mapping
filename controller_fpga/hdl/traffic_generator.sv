@@ -74,6 +74,13 @@ module traffic_generator
   assign app_wdf_mask = 16'b0;
 
   // state machine used to alternate between read & write requests
+  /*
+  1. write cam1 data
+  2. write cam2 data
+  3. read cam1 data
+  4. read cam1 data
+  
+  */
   typedef enum {
     RST,
 		WAIT_INIT,
