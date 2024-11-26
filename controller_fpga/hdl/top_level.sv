@@ -165,7 +165,7 @@ module top_level(
     .enb(1'b1),
     .doutb(frame_buff_raw)
   );
-  logic [7:0] frame_buff_raw; //data out of frame buffer (8-bit Y-val)
+  logic [15:0] frame_buff_raw; //data out of frame buffer (8-bit Y-val)
   logic [FB_SIZE-1:0] addrb; //used to lookup address in memory for reading from buffer
   logic good_addrb; //used to indicate within valid frame for scaling
 
@@ -501,7 +501,7 @@ module top_level(
   /*
     SPI CONVERSION (clk_100mhz, 100 MHz)
   */
-  logic [5:0][15:0] pixels_to_send;
+  logic [5:0][7:0] pixels_to_send;
   always_ff @(posedge clk_100mhz) begin
     if (should_pack) begin
       pixels_to_send <= {pixels_to_send[5:0], cdc_pixel2};
@@ -519,8 +519,8 @@ module top_level(
   );
 
   spi_send_con # (
-    .DATA_WIDTH(16), // each line should send the 16 bit pixel
-    .LINES(6), // six parallel lines
+    .DATA_WIDTH(8), // each line should send the 16 bit pixel
+    .LINES(4), // six parallel lines
     .DATA_CLK_PERIOD(6), // 16.6 MHz SPI Clock
   ) spi_send (
     .clk_in(clk_100mhz),
@@ -532,6 +532,7 @@ module top_level(
     .chip_clk_out(dclk),
     .chip_sel_out(cs)
   )
+  
 
 
 

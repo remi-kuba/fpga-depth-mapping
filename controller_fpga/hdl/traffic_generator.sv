@@ -45,7 +45,7 @@ module traffic_generator
    input wire           app_zq_ack,
    input wire           init_calib_complete,
   
-   // Write AXIS FIFO input -- CAM1
+   // Write AXIS FIFO input
    input wire [127:0]   write_axis_data,
    input wire           write_axis_tlast,
    input wire           write_axis_valid,
@@ -57,11 +57,6 @@ module traffic_generator
    output logic         read_axis_valid,
    input wire           read_axis_af, // almost full signal
    input wire           read_axis_ready
-  
-   // // zoom mode inputs: uncomment in part 2
-   // input wire           zoom_view_en,
-   // input wire [11:0]    zoom_view_x,
-   // input wire [10:0]    zoom_view_y
    );
 
   // signals needed for app_cmd, specified by documentation
@@ -78,14 +73,20 @@ module traffic_generator
   1. write cam1 data
   2. write cam2 data
   3. read cam1 data
-  4. read cam1 data
+  4. read cam2 data
+  4. write from SAD (or direct to DRAM?)
+  4. read DRAM output to HDMI
   
   */
   typedef enum {
     RST,
 		WAIT_INIT,
+		WR_CAM1,
+		RD_CAM1,
+		WR_CAM2,
+		RD_CAM2,
+		WR_SAD,
 		RD_HDMI,
-		WR_CAM
 	} tg_state;
   tg_state state;
   
@@ -95,7 +96,7 @@ module traffic_generator
   // indicates it's the write AXIS' turn.
   logic   wdf_ready;
   assign wdf_ready = app_rdy && app_wdf_rdy;
-  assign write_axis_ready = wdf_ready && (state == WR_CAM);
+  assign write_axis_ready = wdf_ready && (state == WR_CAM1 || state == WR_CAM2 || state == WR_SAD);
 
   // Feed the read output from the MIG (app_rd_data and app_rd_data_valid)
   // * the MIG does not handle back-pressure--there's no hook-up for a ready signal here!
@@ -109,7 +110,7 @@ module traffic_generator
   
   logic read_request_valid; // defined further below, based on state machine + address info
   logic read_request_ready;
-  assign read_request_ready = app_rdy && state == RD_HDMI;
+  assign read_request_ready = app_rdy && (state == RD_HDMI ||state == RD_CAM1 || state == RD_CAM2);
   
 
   logic write_count_in;
@@ -117,20 +118,19 @@ module traffic_generator
   logic read_count_in;
   logic write_rst_in;
   logic request_rst_in;
-  logic read_rst_in;
 
   assign write_count_in = write_axis_ready && write_axis_valid; //handshake
   assign request_count_in = read_request_ready && read_request_valid; //handshake
   assign read_count_in = read_axis_ready && read_axis_valid; //handshake
   assign write_rst_in = (write_count_in && write_axis_tlast) || rst_in; //handshake and tlast
 
-  evt_counter #(.MAX_COUNT(115200)) write_counter
+  evt_counter #(.MAX_COUNT(15200)) write_counter
     ( .clk_in(clk_in), .rst_in(write_rst_in),
       .evt_in(write_count_in),.count_out(write_address) );
-  evt_counter #(.MAX_COUNT(115200)) request_counter
+  evt_counter #(.MAX_COUNT(15200)) request_counter
     ( .clk_in(clk_in), .rst_in(rst_in),
       .evt_in(request_count_in),.count_out(read_request_address) );
-  evt_counter #(.MAX_COUNT(115200)) read_counter
+  evt_counter #(.MAX_COUNT(15200)) read_counter
     ( .clk_in(clk_in), .rst_in(rst_in),
       .evt_in(read_count_in),.count_out(read_response_address) );
 
@@ -140,44 +140,24 @@ module traffic_generator
   logic [26:0] read_request_address;
   logic [26:0] read_response_address;
 
-
-
-  // // used in part 2: two modes for data output. Uncomment in part 2.
-  // logic [26:0] read_request_address_default;
-  // logic [26:0] read_response_address_default;
-  // logic read_response_tlast_default;
-  
-  // logic [26:0] read_request_address_zoomed;
-  // logic [26:0] read_response_address_zoomed;
-  // logic read_response_tlast_zoomed;
-
-  // you likely want to use an evt_counter that wraps at the right point, and increments
-  // on the event of a valid/ready handshake on the proper signals!
-
   // for defining the write requests: your event should be a handshake on the write AXIStream,
   //     and the address should **reset** if a valid write axis transaction carries a TLAST !
   // for defining the read RESPONSES: your event should be a handshake on the read AXIStream
   // for defining the read REQUESTS: your event should be a "handshake" on the read requests
   
-  localparam MAX_ADDR = 115200; // change me!!
+  localparam MAX_ADDR = 15200; // change me!!
   
   // TODO: TLAST generation for the read output!
   // assign a tlast value based on the address your response is up to!
 
   assign read_axis_tlast = read_response_address == MAX_ADDR; // change me!!
-  
-  // Uncomment in Part 2: have two separate modules for each mode!
-  // assign read_request_address = zoom_view_en ? read_request_address_zoomed : read_request_address_default;
-  // assign read_response_address = zoom_view_en ? read_response_address_zoomed : read_response_address_default;
-  // assign read_axis_tlast = zoom_view_en ? read_response_tlast_zoomed : read_response_tlast_default;
-
-  
+    
 
   // parameter to control how many sequential reads we'll send in a burst.
-  localparam MAX_CMD_QUEUE = 8;
+  localparam MAX_CMD_QUEUE = 16; //16 total seq req
   logic [26:0] addr_diff;
   assign addr_diff = read_request_address - read_response_address;
-  assign read_request_valid = (addr_diff < MAX_CMD_QUEUE) && ~read_axis_af && state == RD_HDMI;
+  assign read_request_valid = (addr_diff < MAX_CMD_QUEUE) && ~read_axis_af && (state == RD_HDMI || state == RD_CAM1 || state == RD_CAM2);
 
   // switch between read/write logic:
   // * if the write fifo is empty, switch to read mode
@@ -197,13 +177,25 @@ module traffic_generator
 	        state <= WAIT_INIT;
 	      end
 	      WAIT_INIT: begin
-	        state <= init_calib_complete ? RD_HDMI : WAIT_INIT;
+	        state <= init_calib_complete ? RD_CAM1 : WAIT_INIT;
+	      end
+	      RD_CAM1: begin
+	        state <= go_to_wr ? WR_CAM1 : RD_CAM1;
+	      end
+	      WR_CAM1: begin
+	        state <= go_to_rd ? RD_CAM2 : WR_CAM1; 
+	      end
+	      RD_CAM2: begin
+	        state <= go_to_wr  ? WR_CAM2 : RD_CAM2;
+	      end
+	      WR_CAM2: begin
+	        state <= go_to_rd ? RD_HDMI : WR_CAM2;
 	      end
 	      RD_HDMI: begin
-	        state <= go_to_wr ? WR_CAM : RD_HDMI;
+	        state <= go_to_wr ? WR_SAD : RD_HDMI;
 	      end
-	      WR_CAM: begin
-	        state <= go_to_rd ? RD_HDMI : WR_CAM; 
+	      WR_SAD: begin
+	        state <= go_to_rd ? RD_CAM1 : WR_SAD;
 	      end
 	    endcase // case (state)
     end
@@ -220,9 +212,9 @@ module traffic_generator
 	      app_wdf_end = 0;
 	      app_wdf_wren = 0;
 	    end
-	    WR_CAM: begin
+	    WR_CAM1, WR_CAM2, WR_SAD: begin
         // App address shifted right! !! your write_address should address a 128-bit message.
-	      app_addr     = write_address << 3;
+	      app_addr     = write_address << 3; //TODO: change to <<4 for sixteen diff messages?
 	      app_cmd      = CMD_WRITE;
         // set command enable signals whenever the axi-stream has data valid and the MIG is ready
 	      app_en       = write_axis_valid && wdf_ready;
@@ -230,9 +222,9 @@ module traffic_generator
 	      app_wdf_data = write_axis_data;
 	      app_wdf_end  = write_axis_valid && wdf_ready;
 	    end
-	    RD_HDMI: begin
+	    RD_CAM1, RD_CAM2, RD_HDMI: begin
         // App address shifted right! !! your read_request_address should address a 128-bit message.
-	      app_addr = read_request_address << 3;
+	      app_addr = read_request_address << 3; //TODO: change to <<4 for 16 diff messae
 	      app_cmd = CMD_READ;
 	      // app_en = 1'b1;
 	      app_en = read_request_valid;
