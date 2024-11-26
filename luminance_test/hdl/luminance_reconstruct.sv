@@ -16,9 +16,7 @@ module luminance_reconstruct
 	 output logic 									 pixel_valid_out,
 	 output logic [HCOUNT_WIDTH-1:0] pixel_hcount_out,
 	 output logic [VCOUNT_WIDTH-1:0] pixel_vcount_out,
-	 output logic [7:0] 						 pixel_data_out,
-	 output logic hsync_out,
-	 output logic vsync_out
+	 output logic [7:0] 						 pixel_data_out
 	 );
 
 	 
@@ -36,9 +34,6 @@ module luminance_reconstruct
 	 logic 													 last_sampled_hs;
 	 logic [7:0] 										 last_sampled_data;
 
-	 // flag indicating whether the last byte has been transmitted or not.
-	 logic 													 half_pixel_ready;
-
 	 always_ff@(posedge clk_in) begin
 			pclk_prev <=  camera_pclk_in; // update the clock value	
 
@@ -47,15 +42,10 @@ module luminance_reconstruct
 				pixel_hcount_out <= -1;
 				pixel_vcount_out <= 0;
 				pixel_data_out <= 16'b0;
-				hsync_out <= 1'b0;
-				vsync_out <= 1'b0;
-				half_pixel_ready <= 1'b0;
 				last_sampled_hs <= 1'b0;
 				last_sampled_data <= 8'b0;
             end else if (camera_sample_valid) begin
                 pixel_valid_out <= (camera_hs_in && camera_vs_in);
-                hsync_out <= camera_hs_in;
-                vsync_out <= camera_vs_in;
 
                 pixel_data_out <= camera_data_in;
                 pixel_hcount_out <= (camera_hs_in && camera_vs_in)? pixel_hcount_out + 1 : -1;
