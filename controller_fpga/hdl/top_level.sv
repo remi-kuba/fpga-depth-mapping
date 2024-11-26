@@ -74,7 +74,6 @@ module top_level(
   // rgb output values
   logic [7:0]          red,green,blue;
 
-
   /*
     CAMERA 
   */
@@ -92,8 +91,6 @@ module top_level(
      cam_vsync_buf <= {cam_vsync, cam_vsync_buf[1]};
   end
 
-
-
   /*
     PIXEL RECONSTRUCT (clk_camera, 200 MHz)
   */
@@ -103,7 +100,8 @@ module top_level(
   logic [15:0] camera_pixel; //NOW 8-bit?
   logic        camera_valid;
 
-  pixel_reconstruct
+//TODO: ADD LUMINANCE RECONSTRUCT instead
+  pixel_reconstruct pixel_reconstruct_inst
   (.clk_in(clk_camera),
    .rst_in(sys_rst),
    .camera_pclk_in(cam_pclk_buf[0]),
@@ -165,7 +163,7 @@ module top_level(
     .enb(1'b1),
     .doutb(frame_buff_raw)
   );
-  logic [15:0] frame_buff_raw; //data out of frame buffer (8-bit Y-val)
+  logic [15:0] frame_buff_raw; //data out of frame buffer (16-bit)
   logic [FB_SIZE-1:0] addrb; //used to lookup address in memory for reading from buffer
   logic good_addrb; //used to indicate within valid frame for scaling
 
@@ -215,8 +213,8 @@ module top_level(
 
 /* SECTION FOR ALL DRAM (6 FIFOs -- 3 pairs for camera 1 data, camera 2 data, and SAD module input/output)*/
 //TODO (UNFINISHED)
-//CAM1 AXIS:  //potentially hold all data types?
-  logic [127:0] write_axis_tdata;
+//CAM1 AXIS:  //potentially hold all data to write?
+  logic [127:0] write_axis_tdata; //output data of stacker
   logic         write_axis_tlast;
   logic         write_axis_tready;
   logic         write_axis_tvalid;
@@ -235,14 +233,14 @@ module top_level(
 
   // takes our 8-bit values and deserialize/stack them into 128-bit messages to write to DRAM
   // the data pipeline is designed such that we can fairly safe to assume its always ready.
-  logic [7:0] pixel = camera_pixel; //TODO: UPDATE to have 3 possible inputs tdata based on state
+  logic [7:0] pixel = (state == 1) ? camera_pixel : 8'b0; //TODO: UPDATE to have 3 possible inputs tdata based on state
   //potentially add different tlast
   stacker stacker_inst(
     .clk_in(clk_camera),
     .rst_in(sys_rst_camera),
     .pixel_tvalid(camera_valid),
     .pixel_tready(),
-    .pixel_tdata(camera_pixel),
+    .pixel_tdata(pixel),
     .pixel_tlast(camera_hcount == 1279 && camera_vcount == 719), // change me
     .chunk_tvalid(write_axis_tvalid),
     .chunk_tready(write_axis_tready),
@@ -342,6 +340,7 @@ module top_level(
     .write_axis_smallpile(write_ui_axis_prog_empty),
     .read_axis_af     (read_ui_axis_prog_full),
     .read_axis_ready  (read_ui_axis_tready) 
+    .state            (tg_state)
   );
 
   // the MIG IP!
@@ -383,7 +382,6 @@ module top_level(
     .ui_clk_sync_rst(sys_rst_ui),
     .app_wdf_mask(app_wdf_mask),
     .init_calib_complete(init_calib_complete),
-    // .device_temp(device_temp),
     .sys_rst(!sys_rst_migref) // active low
   );
 
@@ -425,8 +423,11 @@ module top_level(
     .chunk_tlast(read_axis_tlast),
     .pixel_tvalid(frame_buff_tvalid),
     .pixel_tready(frame_buff_tready),
-    .pixel_tdata(frame_buff_tdata),
+    .pixel_tdata(output),
     .pixel_tlast(frame_buff_tlast));
+
+//TODO: UPDATE TO HAVE 3 outputs
+logic [7:0] output = (state == 3) ? frame_buff_tdata : 8'b0;
 
   // TODO: assign frame_buff_tready
   // I did this in 1 (kind of long) line. an always_comb block could also work.
