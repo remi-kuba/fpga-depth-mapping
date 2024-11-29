@@ -4,8 +4,8 @@
 /*
  * stacker
  * 
- * AXI-Stream (approximately) module that takes in serialized 16-bit messages
- * and stacks them together into 128-bit messages. Least-significant bytes
+ * AXI-Stream (approximately) module that takes in serialized 8-bit messages
+ * and stacks them together into 16 x 128-bit messages. Least-significant bytes
  * received first.
  */
 
@@ -13,7 +13,7 @@ module stacker
   (
   input wire           clk_in,
   input wire           rst_in,
-  // input axis: 16 bit pixels
+  // input axis: 8 bit pixels
   input wire           pixel_tvalid,
   output logic         pixel_tready,
   input wire [7:0]    pixel_tdata,
@@ -26,13 +26,13 @@ module stacker
 );
 
   logic [127:0] data_recent;
-  logic [2:0]   count;
-  logic [7:0]   tlast_recent;
+  logic [3:0]   count; //4'b - now stacks 16 pixels
+  logic [15:0]   tlast_recent;
 
   logic         accept_in;
   assign accept_in = pixel_tvalid && pixel_tready;
 
-  assign pixel_tready = (count == 7) ? chunk_tready : 1'b1;
+  assign pixel_tready = (count == 15) ? chunk_tready : 1'b1;
 
   logic accept_out;
   assign accept_out = chunk_tready && chunk_tvalid;
@@ -46,10 +46,10 @@ module stacker
     end else begin
       if (accept_in) begin
         data_recent  <= { pixel_tdata[7:0], data_recent[127:8] };
-        tlast_recent <= { pixel_tlast, tlast_recent[7:1] };
+        tlast_recent <= { pixel_tlast, tlast_recent[15:1] };
         count        <= count + 1;
 
-        if (count == 7) begin
+        if (count == 15) begin
           chunk_tdata  <= { pixel_tdata[7:0], data_recent[127:8] };
           chunk_tlast <= (tlast_recent > 0);
           chunk_tvalid <= 1'b1;

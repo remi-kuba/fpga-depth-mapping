@@ -10,14 +10,14 @@ module unstacker
    output logic        chunk_tready,
    input wire [127:0]  chunk_tdata,
    input wire 	       chunk_tlast,
-   // output axis: 16 bit words
+   // output axis: 8 bit words
    output logic        pixel_tvalid,
    input wire 	       pixel_tready,
    output logic [7:0] pixel_tdata,
    output logic        pixel_tlast
    );
 
-  logic [2:0] offset;
+  logic [3:0] offset;
   logic       accept_in;
   logic       accept_out;
 
@@ -25,14 +25,14 @@ module unstacker
   assign accept_out = pixel_tvalid && pixel_tready;
 
   logic [127:0] shift_phrase;
-  assign pixel_tdata = shift_phrase[7:0];
+  assign pixel_tdata = shift_phrase[15:0];
 
   logic tlast_hold;
-  assign pixel_tlast = offset == 7 ? tlast_hold : 1'b0;
+  assign pixel_tlast = offset == 15 ? tlast_hold : 1'b0;
 
   logic need_phrase;
 
-  assign chunk_tready = need_phrase || (offset == 7 && accept_out);
+  assign chunk_tready = need_phrase || (offset == 15 && accept_out);
   assign pixel_tvalid = !need_phrase;
   
   always_ff @(posedge clk_in) begin
