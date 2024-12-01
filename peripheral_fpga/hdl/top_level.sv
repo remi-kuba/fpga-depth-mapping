@@ -35,10 +35,11 @@ module top_level(
     CAMERA CLOCKS AND SYNCHRONIZERS
     synchronizers to prevent metastability
   */
-  logic       clk_camera;
+  logic       clk_camera, clk_100_passthrough;
   cw_fast_clk_wiz wizard_migcam (
     .clk_in1(clk_100mhz),
     .clk_camera(clk_camera),
+    .clk_100(clk_100_passthrough),
     .reset(0));
 
   logic [7:0] camera_d_buf [1:0];
@@ -93,9 +94,9 @@ module top_level(
   evt_counter #(
     .MAX_COUNT(4)
   ) packet_ready_counter (
-    .clk_in(clk_100_passthrough),
+    .clk_in(clk_camera),
     .rst_in(sys_rst),
-    .evt_in(should_pack),
+    .evt_in(camera_valid),
     .count_out(count_out),
     .hit_max_out(packet_ready));
 

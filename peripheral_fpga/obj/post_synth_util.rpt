@@ -1,0 +1,38 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2024.1 (lin64) Build 5076996 Wed May 22 18:36:09 MDT 2024
+| Date         : Sat Nov 30 20:07:04 2024
+| Host         : eecs-digital-34 running 64-bit Ubuntu 24.04.1 LTS
+| Command      : report_utilization -file obj/post_synth_util.rpt -hierarchical -hierarchical_depth 4
+| Design       : top_level
+| Device       : xc7s50csga324-1
+| Speed File   : -1
+| Design State : Synthesized
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Utilization Design Information
+
+Table of Contents
+-----------------
+1. Utilization by Hierarchy
+
+1. Utilization by Hierarchy
+---------------------------
+
++------------------------+-----------------------------------+------------+------------+---------+------+-----+--------+--------+------------+
+|        Instance        |               Module              | Total LUTs | Logic LUTs | LUTRAMs | SRLs | FFs | RAMB36 | RAMB18 | DSP Blocks |
++------------------------+-----------------------------------+------------+------------+---------+------+-----+--------+--------+------------+
+| top_level              |                             (top) |        185 |        185 |       0 |    0 | 234 |      0 |      1 |          0 |
+|   (top_level)          |                             (top) |          0 |          0 |       0 |    0 |  56 |      0 |      0 |          0 |
+|   crw                  |                  camera_registers |        125 |        125 |       0 |    0 | 104 |      0 |      0 |          0 |
+|     (crw)              |                  camera_registers |          8 |          8 |       0 |    0 |  42 |      0 |      0 |          0 |
+|     aia                |                    addr_increment |          8 |          8 |       0 |    0 |   9 |      0 |      0 |          0 |
+|     sccb_c             |                        i2c_master |        109 |        109 |       0 |    0 |  53 |      0 |      0 |          0 |
+|   lr                   |             luminance_reconstruct |         23 |         23 |       0 |    0 |  30 |      0 |      0 |          0 |
+|   packet_ready_counter |                       evt_counter |         18 |         18 |       0 |    0 |   3 |      0 |      0 |          0 |
+|   registers            | xilinx_single_port_ram_read_first |          7 |          7 |       0 |    0 |   0 |      0 |      1 |          0 |
+|   spi_send             |                      spi_send_con |         12 |         12 |       0 |    0 |  41 |      0 |      0 |          0 |
+|   wizard_migcam        |                   cw_fast_clk_wiz |          0 |          0 |       0 |    0 |   0 |      0 |      0 |          0 |
++------------------------+-----------------------------------+------------+------------+---------+------+-----+--------+--------+------------+
+
+
