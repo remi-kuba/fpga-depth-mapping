@@ -190,13 +190,13 @@ module traffic_generator
   assign read_count_in = read_axis_ready && read_axis_valid; //handshake
   assign write_rst_in = (write_count_in && write_axis_tlast) || rst_in; //handshake and tlast
 
-  evt_counter #(.MAX_COUNT(15200)) write_counter
+  evt_counter #(.MAX_COUNT(MAX_ADDR)) write_counter
     ( .clk_in(clk_in), .rst_in(write_rst_in),
       .evt_in(write_count_in),.count_out(write_address) );
-  evt_counter #(.MAX_COUNT(15200)) request_counter
+  evt_counter #(.MAX_COUNT(MAX_ADDR)) request_counter
     ( .clk_in(clk_in), .rst_in(rst_in),
       .evt_in(request_count_in),.count_out(read_request_address) );
-  evt_counter #(.MAX_COUNT(15200)) read_counter
+  evt_counter #(.MAX_COUNT(MAX_ADDR)) read_counter
     ( .clk_in(clk_in), .rst_in(rst_in),
       .evt_in(read_count_in),.count_out(read_response_address) );
 
@@ -211,7 +211,7 @@ module traffic_generator
   // for defining the read RESPONSES: your event should be a handshake on the read AXIStream
   // for defining the read REQUESTS: your event should be a "handshake" on the read requests
   
-  localparam MAX_ADDR = 15200; // change me!!
+  localparam MAX_ADDR = 14400; // change me!!
   
   // TODO: TLAST generation for the read output!
   // assign a tlast value based on the address your response is up to!

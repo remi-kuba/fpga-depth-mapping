@@ -241,20 +241,23 @@ module top_level(
     .pixel_tvalid(camera_valid),
     .pixel_tready(),
     .pixel_tdata(pixel),
-    .pixel_tlast(camera_hcount == 1279 && camera_vcount == 719), // change me
+    .pixel_tlast(camera_hcount == 639 && camera_vcount == 359), // change me
     .chunk_tvalid(wr_cam1_axis_tvalid),
     .chunk_tready(wr_cam1_axis_tready),
     .chunk_tdata(wr_cam1_axis_tdata),
     .chunk_tlast(wr_cam1_axis_tlast));
 
 //TODO: GET DATA/PIXELS FROM SPI
+//FOR NOW JUST TAKING A COPY FROM THE CAMERA
   stacker cam2_stacker(
     .clk_in(clk_camera),
     .rst_in(sys_rst_camera),
     .pixel_tvalid(camera_valid),
     .pixel_tready(),
-    .pixel_tdata(), //reconstructed pixel
-    .pixel_tlast(), // final pixel
+//////
+    .pixel_tdata(pixel), //reconstructed pixel
+    .pixel_tlast(camera_hcount == 639 && camera_vcount == 359), // final pixel
+//////
     .chunk_tvalid(wr_cam2_axis_tvalid),
     .chunk_tready(wr_cam2_axis_tready),
     .chunk_tdata(wr_cam2_axis_tdata),
