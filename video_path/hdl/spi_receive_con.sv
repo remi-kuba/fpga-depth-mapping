@@ -11,7 +11,7 @@ module spi_receive_con
     )
     (input wire   clk_in, //system clock (100 MHz)
      input wire   rst_in, //reset in signal
-     output logic [DATA_WIDTH-1:0] data_out [LINES-1:0], // data received
+     output logic [LINES-1:0][DATA_WIDTH-1:0] data_out, // data received
      output logic data_valid_out, //high when output data is present.
 
      input wire   [LINES-1:0] chip_data_in, // CIPO (data being received from peripheral SPI)
