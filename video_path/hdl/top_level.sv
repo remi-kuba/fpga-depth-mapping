@@ -50,8 +50,8 @@ module top_level
 );
 
   // shut up those RGBs
-  assign rgb0 = 0;
-  assign rgb1 = 0;
+  // assign rgb0 = 0;
+  // assign rgb1 = 0;
 
   // Clock and Reset Signals: updated for a couple new clocks!
   logic          sys_rst_camera;
@@ -113,7 +113,9 @@ module top_level
   // ** Handling input from the camera **
   logic received_data_valid;
   logic received_package;
-  spi_receive_con #(
+  logic [7:0] received_pixel;
+  logic received_pixel_valid;
+  spi_receive_con_2 #(
     .DATA_WIDTH(8),
     .LINES(4),
     .DATA_CLK_PERIOD(12)
@@ -123,9 +125,43 @@ module top_level
     .chip_data_in(cipo),
     .chip_clk_in(dclk),
     .chip_sel_in(cs),
-    .data_out(received_package),
-    .data_valid_out(received_data_valid)
+    .data_out(received_pixel),
+    .data_valid_out(received_pixel_valid));
+
+
+  always_ff @(posedge clk_camera) begin
+    if (sys_rst_camera) begin
+      rgb0 <= 3'b001;
+    end else if (cams_valid) begin
+      rgb0 <= 3'b100;
+    end 
+
+    if (sys_rst_camera) begin
+      rgb1 <= 3'b001;
+    end else if (frame_hsyncs) begin
+      rgb1 <= 3'b100;
+    end
+  end
+
+  evt_counter_2 #(
+    .MAX_COUNT(1000)
+  ) frame_ct (
+    .clk_in(clk_camera),
+    .rst_in(sys_rst_camera),
+    .evt_in(spi_hsync),
+    .hit_max_out(frame_hsyncs)
   );
+  logic frame_hsyncs;
+
+  evt_counter_2 #(
+    .MAX_COUNT(200_000)
+  ) pixel_valid_ct(
+    .clk_in(clk_camera),
+    .rst_in(sys_rst_camera),
+    .evt_in(received_pixel_valid),
+    .hit_max_out(cams_valid)
+  );
+  logic cams_valid;
 
   // Two ways to store a frame buffer: subsampled BRAM, and full-quality DRAM.
   
@@ -150,11 +186,13 @@ module top_level
     .rst_in(sys_rst_camera),
     // .pixel_tvalid(stacked_pixel_valid),
     // .pixel_tvalid(camera_valid),
-    .pixel_tvalid(received_data_valid),
+    // .pixel_tvalid(received_data_valid),
+    .pixel_tvalid(received_pixel_valid),
     .pixel_tready(),
     // .pixel_tdata(stacked_pixel),
     // .pixel_tdata(camera_pixel),
-    .pixel_tdata(received_package),
+    // .pixel_tdata(received_package),
+    .pixel_tdata(received_pixel),
     // TODO: define the tlast value! you can do it in one line, based on camera hcount/vcount values
     .pixel_tlast(spi_hsync), // change me
     .chunk_tvalid(camera_axis_tvalid),
@@ -253,10 +291,6 @@ module top_level
     .write_axis_smallpile(camera_ui_axis_prog_empty),
     .read_axis_af     (display_ui_axis_prog_full),
     .read_axis_ready  (display_ui_axis_tready) //,
-    // Uncomment for part 2!
-    // .zoom_view_en ( zoom_view ),
-    // .zoom_view_x ( center_x_ui ),
-    // .zoom_view_y( center_y_ui )
   );
 
   // the MIG IP!
@@ -344,9 +378,11 @@ module top_level
   // I did this in 1 (kind of long) line. an always_comb block could also work.
   always_comb begin
     if (frame_buff_tlast) begin
-      frame_buff_tready = active_draw_hdmi && (hcount_hdmi == 639) && (vcount_hdmi == 359);
+      // frame_buff_tready = active_draw_hdmi && (hcount_hdmi == 639) && (vcount_hdmi == 359);
+      frame_buff_tready = active_draw_hdmi && (hcount_hdmi == 159) && (vcount_hdmi == 89);
     end else begin
-      frame_buff_tready = active_draw_hdmi && (hcount_hdmi < 640) && (vcount_hdmi < 360);
+      // frame_buff_tready = active_draw_hdmi && (hcount_hdmi < 640) && (vcount_hdmi < 360);
+      frame_buff_tready = active_draw_hdmi && (hcount_hdmi < 160) && (vcount_hdmi < 90);
     end
   end
   // TODO in part 2: update this tready to also only be high for odd hcount values (every other drawn pixel gets a new value)
@@ -372,7 +408,8 @@ module top_level
 
   logic img_addr;
   always_comb begin
-    img_addr = (hcount_hdmi < 640) && (vcount_hdmi < 360) && active_draw_hdmi;
+    // img_addr = (hcount_hdmi < 640) && (vcount_hdmi < 360) && active_draw_hdmi;
+    img_addr = (hcount_hdmi < 160) && (vcount_hdmi < 90) && active_draw_hdmi;
     red = (img_addr)? frame_buff_raw[7:0] : 8'hA3;
     green = (img_addr)? frame_buff_raw[7:0] : 8'hF4;
     blue = (img_addr)? frame_buff_raw[7:0] : 8'hBF;

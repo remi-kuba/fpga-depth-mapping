@@ -1,0 +1,49 @@
+#! /opt/homebrew/Cellar/icarus-verilog/12.0/bin/vvp
+:ivl_version "12.0 (stable)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision + 0;
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/12.0/lib/ivl/system.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/12.0/lib/ivl/vhdl_sys.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/12.0/lib/ivl/vhdl_textio.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/12.0/lib/ivl/v2005_math.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/12.0/lib/ivl/va_math.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/12.0/lib/ivl/v2009.vpi";
+S_0x139e06e30 .scope package, "$unit" "$unit" 2 1;
+ .timescale 0 0;
+S_0x139e06fa0 .scope module, "blur_filter" "blur_filter" 3 3;
+ .timescale 0 0;
+    .port_info 0 /INPUT 1 "clk_in";
+    .port_info 1 /INPUT 1 "rst_in";
+    .port_info 2 /INPUT 1 "data_valid_in";
+    .port_info 3 /INPUT 16 "pixel_data_in";
+    .port_info 4 /INPUT 11 "hcount_in";
+    .port_info 5 /INPUT 10 "vcount_in";
+    .port_info 6 /OUTPUT 1 "data_valid_out";
+    .port_info 7 /OUTPUT 16 "pixel_data_out";
+    .port_info 8 /OUTPUT 11 "hcount_out";
+    .port_info 9 /OUTPUT 10 "vcount_out";
+P_0x139e07110 .param/l "HRES" 0 3 17, +C4<00000000000000000000010100000000>;
+P_0x139e07150 .param/l "KERNEL_SIZE" 1 3 20, +C4<00000000000000000000000000000011>;
+P_0x139e07190 .param/l "VRES" 0 3 18, +C4<00000000000000000000001011010000>;
+o0x120008010 .functor BUFZ 1, C4<z>; HiZ drive
+v0x139e07490_0 .net "clk_in", 0 0, o0x120008010;  0 drivers
+o0x120008040 .functor BUFZ 1, C4<z>; HiZ drive
+v0x139e174c0_0 .net "data_valid_in", 0 0, o0x120008040;  0 drivers
+v0x139e17560_0 .var "data_valid_out", 0 0;
+o0x1200080a0 .functor BUFZ 11, C4<zzzzzzzzzzz>; HiZ drive
+v0x139e175f0_0 .net "hcount_in", 10 0, o0x1200080a0;  0 drivers
+v0x139e176a0_0 .var "hcount_out", 10 0;
+o0x120008100 .functor BUFZ 16, C4<zzzzzzzzzzzzzzzz>; HiZ drive
+v0x139e17790_0 .net "pixel_data_in", 15 0, o0x120008100;  0 drivers
+v0x139e17840_0 .var "pixel_data_out", 15 0;
+o0x120008160 .functor BUFZ 1, C4<z>; HiZ drive
+v0x139e178f0_0 .net "rst_in", 0 0, o0x120008160;  0 drivers
+o0x120008190 .functor BUFZ 10, C4<zzzzzzzzzz>; HiZ drive
+v0x139e17990_0 .net "vcount_in", 9 0, o0x120008190;  0 drivers
+v0x139e17aa0_0 .var "vcount_out", 9 0;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "-";
+    "hdl/blur_filter.sv";

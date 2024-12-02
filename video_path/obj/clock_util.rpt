@@ -1,8 +1,8 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2024.1 (lin64) Build 5076996 Wed May 22 18:36:09 MDT 2024
-| Date         : Sat Nov 30 18:39:21 2024
-| Host         : eecs-digital-07 running 64-bit Ubuntu 24.04.1 LTS
+| Date         : Mon Dec  2 01:49:44 2024
+| Host         : eecs-digital-34 running 64-bit Ubuntu 24.04.1 LTS
 | Command      : report_clock_utilization -file obj/clock_util.rpt
 | Design       : top_level
 | Device       : 7s50-csga324
@@ -59,8 +59,8 @@ Table of Contents
 | Global Id | Source Id | Driver Type/Pin | Constraint | Site          | Clock Region | Load Clock Region | Clock Loads | Non-Clock Loads | Clock Period | Clock              | Driver Pin                                                           | Net                                                         |
 +-----------+-----------+-----------------+------------+---------------+--------------+-------------------+-------------+-----------------+--------------+--------------------+----------------------------------------------------------------------+-------------------------------------------------------------+
 | g0        | src0      | BUFG/O          | None       | BUFGCTRL_X0Y0 | n/a          |                 4 |        4115 |               0 |       12.308 | clk_pll_i          | ddr3_mig_inst/u_ddr3_mig_mig/u_ddr3_infrastructure/u_bufg_clkdiv0/O  | ddr3_mig_inst/u_ddr3_mig_mig/u_ddr3_infrastructure/CLK      |
-| g1        | src1      | BUFG/O          | None       | BUFGCTRL_X0Y1 | n/a          |                 2 |         277 |               1 |       13.468 | clk_pixel_cw_hdmi  | wizard_hdmi/clkout1_buf/O                                            | wizard_hdmi/clk_pixel                                       |
-| g2        | src2      | BUFG/O          | None       | BUFGCTRL_X0Y5 | n/a          |                 2 |         214 |               0 |        5.000 | clk_camera_cw_fast | wizard_migcam/clkout3_buf/O                                          | wizard_migcam/clk_camera                                    |
+| g1        | src1      | BUFG/O          | None       | BUFGCTRL_X0Y5 | n/a          |                 3 |         508 |               0 |        5.000 | clk_camera_cw_fast | wizard_migcam/clkout3_buf/O                                          | wizard_migcam/clk_camera                                    |
+| g2        | src2      | BUFG/O          | None       | BUFGCTRL_X0Y1 | n/a          |                 2 |         277 |               1 |       13.468 | clk_pixel_cw_hdmi  | wizard_hdmi/clkout1_buf/O                                            | wizard_hdmi/clk_pixel                                       |
 | g3        | src3      | BUFG/O          | None       | BUFGCTRL_X0Y2 | n/a          |                 3 |          63 |               0 |        5.000 | clk_mig_cw_fast    | wizard_migcam/clkout2_buf/O                                          | wizard_migcam/clk_mig                                       |
 | g4        | src4      | BUFG/O          | None       | BUFGCTRL_X0Y3 | n/a          |                 1 |           6 |               0 |        2.694 | clk_tmds_cw_hdmi   | wizard_hdmi/clkout2_buf/O                                            | wizard_hdmi/clk_tmds                                        |
 | g5        | src5      | BUFH/O          | None       | BUFHCE_X1Y0   | X1Y0         |                 1 |           1 |               0 |       12.308 | pll_clk3_out       | ddr3_mig_inst/u_ddr3_mig_mig/u_ddr3_infrastructure/u_bufh_pll_clk3/O | ddr3_mig_inst/u_ddr3_mig_mig/u_ddr3_infrastructure/pll_clk3 |
@@ -80,8 +80,8 @@ Table of Contents
 | Source Id | Global Id | Driver Type/Pin     | Constraint      | Site            | Clock Region | Clock Loads | Non-Clock Loads | Source Clock Period | Source Clock       | Driver Pin                                                                  | Net                                                             |
 +-----------+-----------+---------------------+-----------------+-----------------+--------------+-------------+-----------------+---------------------+--------------------+-----------------------------------------------------------------------------+-----------------------------------------------------------------+
 | src0      | g0        | MMCME2_ADV/CLKFBOUT | MMCME2_ADV_X1Y0 | MMCME2_ADV_X1Y0 | X1Y0         |           1 |               0 |              12.308 | clk_pll_i          | ddr3_mig_inst/u_ddr3_mig_mig/u_ddr3_infrastructure/gen_mmcm.mmcm_i/CLKFBOUT | ddr3_mig_inst/u_ddr3_mig_mig/u_ddr3_infrastructure/clk_pll_i    |
-| src1      | g1        | MMCME2_ADV/CLKOUT0  | None            | MMCME2_ADV_X0Y0 | X0Y0         |           1 |               0 |              13.468 | clk_pixel_cw_hdmi  | wizard_hdmi/mmcm_adv_inst/CLKOUT0                                           | wizard_hdmi/clk_pixel_cw_hdmi                                   |
-| src2      | g2        | PLLE2_ADV/CLKOUT2   | None            | PLLE2_ADV_X0Y0  | X0Y0         |           1 |               0 |               5.000 | clk_camera_cw_fast | wizard_migcam/plle2_adv_inst/CLKOUT2                                        | wizard_migcam/clk_camera_cw_fast                                |
+| src1      | g1        | PLLE2_ADV/CLKOUT2   | None            | PLLE2_ADV_X0Y0  | X0Y0         |           1 |               0 |               5.000 | clk_camera_cw_fast | wizard_migcam/plle2_adv_inst/CLKOUT2                                        | wizard_migcam/clk_camera_cw_fast                                |
+| src2      | g2        | MMCME2_ADV/CLKOUT0  | None            | MMCME2_ADV_X0Y0 | X0Y0         |           1 |               0 |              13.468 | clk_pixel_cw_hdmi  | wizard_hdmi/mmcm_adv_inst/CLKOUT0                                           | wizard_hdmi/clk_pixel_cw_hdmi                                   |
 | src3      | g3        | PLLE2_ADV/CLKOUT1   | None            | PLLE2_ADV_X0Y0  | X0Y0         |           1 |               0 |               5.000 | clk_mig_cw_fast    | wizard_migcam/plle2_adv_inst/CLKOUT1                                        | wizard_migcam/clk_mig_cw_fast                                   |
 | src4      | g4        | MMCME2_ADV/CLKOUT1  | None            | MMCME2_ADV_X0Y0 | X0Y0         |           1 |               0 |               2.694 | clk_tmds_cw_hdmi   | wizard_hdmi/mmcm_adv_inst/CLKOUT1                                           | wizard_hdmi/clk_tmds_cw_hdmi                                    |
 | src5      | g5        | PLLE2_ADV/CLKOUT3   | PLLE2_ADV_X1Y0  | PLLE2_ADV_X1Y0  | X1Y0         |           1 |               0 |              12.308 | pll_clk3_out       | ddr3_mig_inst/u_ddr3_mig_mig/u_ddr3_infrastructure/plle2_i/CLKOUT3          | ddr3_mig_inst/u_ddr3_mig_mig/u_ddr3_infrastructure/pll_clk3_out |
@@ -118,10 +118,10 @@ Table of Contents
 +-------------------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+
 | Clock Region Name | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail |
 +-------------------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+
-| X0Y0              |    6 |    12 |    0 |     4 |    0 |     2 |    0 |     4 |    1 |     1 |    1 |     1 |    0 |     0 |    0 |     0 |    0 |    50 |    6 |    50 |  973 |  1200 |  276 |   400 |    0 |    20 |    0 |    10 |    0 |    20 |
-| X1Y0              |    5 |    12 |    0 |     4 |    0 |     2 |    0 |     4 |    1 |     1 |    1 |     1 |    0 |     0 |    0 |     0 |    0 |    50 |    4 |    50 | 3042 |  1500 |  834 |   450 |    0 |    40 |    4 |    20 |    0 |    20 |
-| X0Y1              |    3 |    12 |    0 |     4 |    0 |     2 |    0 |     4 |    0 |     1 |    0 |     1 |    0 |     0 |    0 |     0 |    0 |    50 |    0 |    50 |  324 |  1200 |   98 |   400 |    0 |    20 |    0 |    10 |    0 |    20 |
-| X1Y1              |    2 |    12 |    0 |     4 |    0 |     2 |    0 |     4 |    0 |     1 |    0 |     1 |    0 |     0 |    0 |     0 |    0 |    50 |    0 |    50 |  154 |  1500 |   24 |   450 |    0 |    40 |    0 |    20 |    0 |    20 |
+| X0Y0              |    6 |    12 |    0 |     4 |    0 |     2 |    0 |     4 |    1 |     1 |    1 |     1 |    0 |     0 |    0 |     0 |    0 |    50 |    6 |    50 |  579 |  1200 |  177 |   400 |    0 |    20 |    0 |    10 |    0 |    20 |
+| X1Y0              |    5 |    12 |    0 |     4 |    0 |     2 |    0 |     4 |    1 |     1 |    1 |     1 |    0 |     0 |    0 |     0 |    0 |    50 |    4 |    50 | 3664 |  1500 | 1021 |   450 |    0 |    40 |    4 |    20 |    0 |    20 |
+| X0Y1              |    3 |    12 |    0 |     4 |    0 |     2 |    0 |     4 |    0 |     1 |    0 |     1 |    0 |     0 |    0 |     0 |    0 |    50 |    0 |    50 |  378 |  1200 |  109 |   400 |    0 |    20 |    0 |    10 |    0 |    20 |
+| X1Y1              |    3 |    12 |    0 |     4 |    0 |     2 |    0 |     4 |    0 |     1 |    0 |     1 |    0 |     0 |    0 |     0 |    0 |    50 |    0 |    50 |  166 |  1500 |   37 |   450 |    0 |    40 |    0 |    20 |    0 |    20 |
 | X0Y2              |    1 |    12 |    0 |     4 |    0 |     2 |    0 |     4 |    0 |     1 |    0 |     1 |    0 |     0 |    0 |     0 |    0 |    50 |    0 |    50 |    0 |  1800 |    0 |   400 |    0 |    20 |    0 |    10 |    0 |    20 |
 | X1Y2              |    0 |    12 |    0 |     0 |    0 |     0 |    0 |     0 |    0 |     0 |    0 |     0 |    0 |     4 |    0 |     1 |    0 |     0 |    0 |     0 |    0 |   950 |    0 |   300 |    0 |    10 |    0 |     5 |    0 |    20 |
 +-------------------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+
@@ -159,18 +159,41 @@ All Modules
 |    | X0   | X1    | HORIZONTAL PROG DELAY |
 +----+------+-------+-----------------------+
 | Y2 |    0 |     0 |                     - |
-| Y1 |  171 |   139 |                     0 |
-| Y0 |  902 |  2792 |                     0 |
+| Y1 |  212 |    94 |                     0 |
+| Y0 |  508 |  3190 |                     0 |
 +----+------+-------+-----------------------+
 
 
 8. Device Cell Placement Summary for Global Clock g1
 ----------------------------------------------------
 
++-----------+-----------------+-------------------+--------------------+-------------+---------------+-------------+----------+----------------+----------+--------------------------+
+| Global Id | Driver Type/Pin | Driver Region (D) | Clock              | Period (ns) | Waveform (ns) | Slice Loads | IO Loads | Clocking Loads | GT Loads | Net                      |
++-----------+-----------------+-------------------+--------------------+-------------+---------------+-------------+----------+----------------+----------+--------------------------+
+| g1        | BUFG/O          | n/a               | clk_camera_cw_fast |       5.000 | {0.000 2.500} |         508 |        0 |              0 |        0 | wizard_migcam/clk_camera |
++-----------+-----------------+-------------------+--------------------+-------------+---------------+-------------+----------+----------------+----------+--------------------------+
+* Slice Loads column represents load cell count of all cell types other than IO, GT and clock resources
+** IO Loads column represents load cell count of IO types
+*** Clocking Loads column represents load cell count that are clock resources (global clock buffer, MMCM, PLL, etc)
+**** GT Loads column represents load cell count of GT types
+
+
++----+------+------+-----------------------+
+|    | X0   | X1   | HORIZONTAL PROG DELAY |
++----+------+------+-----------------------+
+| Y2 |    0 |    0 |                     - |
+| Y1 |  122 |   57 |                     0 |
+| Y0 |    0 |  329 |                     0 |
++----+------+------+-----------------------+
+
+
+9. Device Cell Placement Summary for Global Clock g2
+----------------------------------------------------
+
 +-----------+-----------------+-------------------+-------------------+-------------+---------------+-------------+----------+----------------+----------+-----------------------+
 | Global Id | Driver Type/Pin | Driver Region (D) | Clock             | Period (ns) | Waveform (ns) | Slice Loads | IO Loads | Clocking Loads | GT Loads | Net                   |
 +-----------+-----------------+-------------------+-------------------+-------------+---------------+-------------+----------+----------------+----------+-----------------------+
-| g1        | BUFG/O          | n/a               | clk_pixel_cw_hdmi |      13.468 | {0.000 6.734} |         271 |        7 |              0 |        0 | wizard_hdmi/clk_pixel |
+| g2        | BUFG/O          | n/a               | clk_pixel_cw_hdmi |      13.468 | {0.000 6.734} |         271 |        7 |              0 |        0 | wizard_hdmi/clk_pixel |
 +-----------+-----------------+-------------------+-------------------+-------------+---------------+-------------+----------+----------------+----------+-----------------------+
 * Slice Loads column represents load cell count of all cell types other than IO, GT and clock resources
 ** IO Loads column represents load cell count of IO types
@@ -183,31 +206,8 @@ All Modules
 +----+-----+------+-----------------------+
 | Y2 |   0 |    0 |                     - |
 | Y1 |   0 |    0 |                     - |
-| Y0 |  82 |  196 |                     0 |
+| Y0 |  80 |  198 |                     0 |
 +----+-----+------+-----------------------+
-
-
-9. Device Cell Placement Summary for Global Clock g2
-----------------------------------------------------
-
-+-----------+-----------------+-------------------+--------------------+-------------+---------------+-------------+----------+----------------+----------+--------------------------+
-| Global Id | Driver Type/Pin | Driver Region (D) | Clock              | Period (ns) | Waveform (ns) | Slice Loads | IO Loads | Clocking Loads | GT Loads | Net                      |
-+-----------+-----------------+-------------------+--------------------+-------------+---------------+-------------+----------+----------------+----------+--------------------------+
-| g2        | BUFG/O          | n/a               | clk_camera_cw_fast |       5.000 | {0.000 2.500} |         214 |        0 |              0 |        0 | wizard_migcam/clk_camera |
-+-----------+-----------------+-------------------+--------------------+-------------+---------------+-------------+----------+----------------+----------+--------------------------+
-* Slice Loads column represents load cell count of all cell types other than IO, GT and clock resources
-** IO Loads column represents load cell count of IO types
-*** Clocking Loads column represents load cell count that are clock resources (global clock buffer, MMCM, PLL, etc)
-**** GT Loads column represents load cell count of GT types
-
-
-+----+------+------+-----------------------+
-|    | X0   | X1   | HORIZONTAL PROG DELAY |
-+----+------+------+-----------------------+
-| Y2 |    0 |    0 |                     - |
-| Y1 |  109 |    0 |                     0 |
-| Y0 |    0 |  105 |                     0 |
-+----+------+------+-----------------------+
 
 
 10. Device Cell Placement Summary for Global Clock g3
@@ -377,8 +377,8 @@ All Modules
 +-----------+-------+-----------------+------------+-------------+-----------------+-----+-------------+------+-----+----+------+-----+---------+--------------------------------------------------------+
 | Global Id | Track | Driver Type/Pin | Constraint | Clock Loads | Non-Clock Loads | FF  | Memory LUTs | RAMB | DSP | GT | MMCM | PLL | Hard IP | Net                                                    |
 +-----------+-------+-----------------+------------+-------------+-----------------+-----+-------------+------+-----+----+------+-----+---------+--------------------------------------------------------+
-| g0        | n/a   | BUFG/O          | None       |         902 |               0 | 898 |           4 |    0 |   0 |  0 |    0 |   0 |       0 | ddr3_mig_inst/u_ddr3_mig_mig/u_ddr3_infrastructure/CLK |
-| g1        | n/a   | BUFG/O          | None       |          81 |               1 |  75 |           0 |    0 |   0 |  0 |    0 |   0 |       0 | wizard_hdmi/clk_pixel                                  |
+| g0        | n/a   | BUFG/O          | None       |         508 |               0 | 506 |           2 |    0 |   0 |  0 |    0 |   0 |       0 | ddr3_mig_inst/u_ddr3_mig_mig/u_ddr3_infrastructure/CLK |
+| g2        | n/a   | BUFG/O          | None       |          79 |               1 |  73 |           0 |    0 |   0 |  0 |    0 |   0 |       0 | wizard_hdmi/clk_pixel                                  |
 | g4        | n/a   | BUFG/O          | None       |           6 |               0 |   0 |           0 |    0 |   0 |  0 |    0 |   0 |       0 | wizard_hdmi/clk_tmds                                   |
 | g6        | n/a   | BUFG/O          | None       |           1 |               0 |   0 |           0 |    0 |   0 |  0 |    1 |   0 |       0 | wizard_hdmi/clkfbout_buf_cw_hdmi                       |
 | g7        | n/a   | BUFG/O          | None       |           1 |               0 |   0 |           0 |    0 |   0 |  0 |    1 |   0 |       0 | wizard_migcam/clk_100                                  |
@@ -395,9 +395,9 @@ All Modules
 +-----------+-------+-----------------+------------+-------------+-----------------+------+-------------+------+-----+----+------+-----+---------+-------------------------------------------------------------+
 | Global Id | Track | Driver Type/Pin | Constraint | Clock Loads | Non-Clock Loads | FF   | Memory LUTs | RAMB | DSP | GT | MMCM | PLL | Hard IP | Net                                                         |
 +-----------+-------+-----------------+------------+-------------+-----------------+------+-------------+------+-----+----+------+-----+---------+-------------------------------------------------------------+
-| g0        | n/a   | BUFG/O          | None       |        2792 |               0 | 2745 |          13 |    4 |   0 |  0 |    1 |   0 |       0 | ddr3_mig_inst/u_ddr3_mig_mig/u_ddr3_infrastructure/CLK      |
-| g1        | n/a   | BUFG/O          | None       |         196 |               0 |  194 |           0 |    2 |   0 |  0 |    0 |   0 |       0 | wizard_hdmi/clk_pixel                                       |
-| g2        | n/a   | BUFG/O          | None       |         105 |               0 |  103 |           0 |    2 |   0 |  0 |    0 |   0 |       0 | wizard_migcam/clk_camera                                    |
+| g0        | n/a   | BUFG/O          | None       |        3190 |               0 | 3141 |          15 |    4 |   0 |  0 |    1 |   0 |       0 | ddr3_mig_inst/u_ddr3_mig_mig/u_ddr3_infrastructure/CLK      |
+| g1        | n/a   | BUFG/O          | None       |         329 |               0 |  327 |           0 |    2 |   0 |  0 |    0 |   0 |       0 | wizard_migcam/clk_camera                                    |
+| g2        | n/a   | BUFG/O          | None       |         198 |               0 |  196 |           0 |    2 |   0 |  0 |    0 |   0 |       0 | wizard_hdmi/clk_pixel                                       |
 | g3        | n/a   | BUFG/O          | None       |           2 |               0 |    0 |           0 |    0 |   0 |  0 |    0 |   1 |       0 | wizard_migcam/clk_mig                                       |
 | g5        | n/a   | BUFH/O          | None       |           1 |               0 |    0 |           0 |    0 |   0 |  0 |    1 |   0 |       0 | ddr3_mig_inst/u_ddr3_mig_mig/u_ddr3_infrastructure/pll_clk3 |
 +-----------+-------+-----------------+------------+-------------+-----------------+------+-------------+------+-----+----+------+-----+---------+-------------------------------------------------------------+
@@ -412,8 +412,8 @@ All Modules
 +-----------+-------+-----------------+------------+-------------+-----------------+-----+-------------+------+-----+----+------+-----+---------+--------------------------------------------------------+
 | Global Id | Track | Driver Type/Pin | Constraint | Clock Loads | Non-Clock Loads | FF  | Memory LUTs | RAMB | DSP | GT | MMCM | PLL | Hard IP | Net                                                    |
 +-----------+-------+-----------------+------------+-------------+-----------------+-----+-------------+------+-----+----+------+-----+---------+--------------------------------------------------------+
-| g0        | n/a   | BUFG/O          | None       |         171 |               0 | 171 |           0 |    0 |   0 |  0 |    0 |   0 |       0 | ddr3_mig_inst/u_ddr3_mig_mig/u_ddr3_infrastructure/CLK |
-| g2        | n/a   | BUFG/O          | None       |         109 |               0 | 108 |           0 |    0 |   0 |  0 |    0 |   0 |       0 | wizard_migcam/clk_camera                               |
+| g0        | n/a   | BUFG/O          | None       |         212 |               0 | 212 |           0 |    0 |   0 |  0 |    0 |   0 |       0 | ddr3_mig_inst/u_ddr3_mig_mig/u_ddr3_infrastructure/CLK |
+| g1        | n/a   | BUFG/O          | None       |         122 |               0 | 121 |           0 |    0 |   0 |  0 |    0 |   0 |       0 | wizard_migcam/clk_camera                               |
 | g3        | n/a   | BUFG/O          | None       |          46 |               0 |  45 |           0 |    0 |   0 |  0 |    0 |   0 |       0 | wizard_migcam/clk_mig                                  |
 +-----------+-------+-----------------+------------+-------------+-----------------+-----+-------------+------+-----+----+------+-----+---------+--------------------------------------------------------+
 * Clock Loads column represents cell count of net connects that connect to a clock pin. Internal cell leaf pins are not considered
@@ -424,12 +424,13 @@ All Modules
 20. Clock Region Cell Placement per Global Clock: Region X1Y1
 -------------------------------------------------------------
 
-+-----------+-------+-----------------+------------+-------------+-----------------+-----+-------------+------+-----+----+------+-----+---------+--------------------------------------------------------+
-| Global Id | Track | Driver Type/Pin | Constraint | Clock Loads | Non-Clock Loads | FF  | Memory LUTs | RAMB | DSP | GT | MMCM | PLL | Hard IP | Net                                                    |
-+-----------+-------+-----------------+------------+-------------+-----------------+-----+-------------+------+-----+----+------+-----+---------+--------------------------------------------------------+
-| g0        | n/a   | BUFG/O          | None       |         139 |               0 | 139 |           0 |    0 |   0 |  0 |    0 |   0 |       0 | ddr3_mig_inst/u_ddr3_mig_mig/u_ddr3_infrastructure/CLK |
-| g3        | n/a   | BUFG/O          | None       |          15 |               0 |  15 |           0 |    0 |   0 |  0 |    0 |   0 |       0 | wizard_migcam/clk_mig                                  |
-+-----------+-------+-----------------+------------+-------------+-----------------+-----+-------------+------+-----+----+------+-----+---------+--------------------------------------------------------+
++-----------+-------+-----------------+------------+-------------+-----------------+----+-------------+------+-----+----+------+-----+---------+--------------------------------------------------------+
+| Global Id | Track | Driver Type/Pin | Constraint | Clock Loads | Non-Clock Loads | FF | Memory LUTs | RAMB | DSP | GT | MMCM | PLL | Hard IP | Net                                                    |
++-----------+-------+-----------------+------------+-------------+-----------------+----+-------------+------+-----+----+------+-----+---------+--------------------------------------------------------+
+| g0        | n/a   | BUFG/O          | None       |          94 |               0 | 94 |           0 |    0 |   0 |  0 |    0 |   0 |       0 | ddr3_mig_inst/u_ddr3_mig_mig/u_ddr3_infrastructure/CLK |
+| g1        | n/a   | BUFG/O          | None       |          57 |               0 | 57 |           0 |    0 |   0 |  0 |    0 |   0 |       0 | wizard_migcam/clk_camera                               |
+| g3        | n/a   | BUFG/O          | None       |          15 |               0 | 15 |           0 |    0 |   0 |  0 |    0 |   0 |       0 | wizard_migcam/clk_mig                                  |
++-----------+-------+-----------------+------------+-------------+-----------------+----+-------------+------+-----+----+------+-----+---------+--------------------------------------------------------+
 * Clock Loads column represents cell count of net connects that connect to a clock pin. Internal cell leaf pins are not considered
 ** Non-Clock Loads column represents cell count of non-clock pin loads
 *** Columns FF, LUTRAM, RAMB through 'Hard IP' represents load cell counts
@@ -481,7 +482,7 @@ resize_pblock [get_pblocks {CLKAG_wizard_migcam/clk_mig}] -add {CLOCKREGION_X0Y1
 #startgroup
 create_pblock {CLKAG_wizard_migcam/clk_camera}
 add_cells_to_pblock [get_pblocks  {CLKAG_wizard_migcam/clk_camera}] [get_cells -filter { PRIMITIVE_GROUP != I/O && IS_PRIMITIVE==1 && PRIMITIVE_LEVEL !=INTERNAL } -of_object [get_pins -filter {DIRECTION==IN} -of_objects [get_nets -hierarchical -filter {PARENT=="wizard_migcam/clk_camera"}]]]
-resize_pblock [get_pblocks {CLKAG_wizard_migcam/clk_camera}] -add {CLOCKREGION_X0Y1:CLOCKREGION_X0Y1 CLOCKREGION_X1Y0:CLOCKREGION_X1Y0}
+resize_pblock [get_pblocks {CLKAG_wizard_migcam/clk_camera}] -add {CLOCKREGION_X0Y1:CLOCKREGION_X0Y1 CLOCKREGION_X1Y0:CLOCKREGION_X1Y0 CLOCKREGION_X1Y1:CLOCKREGION_X1Y1}
 #endgroup
 
 # Clock net "wizard_hdmi/clk_tmds" driven by instance "wizard_hdmi/clkout2_buf" located at site "BUFGCTRL_X0Y3"

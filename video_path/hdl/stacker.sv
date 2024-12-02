@@ -16,8 +16,8 @@ module stacker
   // input axis: 16 bit pixels
   input wire           pixel_tvalid,
   output logic         pixel_tready,
-  input wire [31:0]    pixel_tdata,
-  // input wire [7:0]    pixel_tdata,
+  // input wire [31:0]    pixel_tdata,
+  input wire [7:0]    pixel_tdata,
   // input wire [15:0]    pixel_tdata,
   input wire           pixel_tlast,
   // output axis: 128 bit mig-phrases
@@ -28,18 +28,18 @@ module stacker
 );
 
   logic [127:0] data_recent;
-  logic [1:0] count;
-  // logic [3:0]   count;
+  // logic [1:0] count;
+  logic [3:0]   count;
   // logic [2:0] count;
-  logic [3:0] tlast_recent;
-  // logic [15:0]   tlast_recent;
+  // logic [3:0] tlast_recent;
+  logic [15:0]   tlast_recent;
   // logic [7:0] tlast_recent;
 
   logic         accept_in;
   assign accept_in = pixel_tvalid && pixel_tready;
 
-  assign pixel_tready = (count == 3) ? chunk_tready : 1'b1;
-  // assign pixel_tready = (count == 15) ? chunk_tready : 1'b1;
+  // assign pixel_tready = (count == 3) ? chunk_tready : 1'b1;
+  assign pixel_tready = (count == 15) ? chunk_tready : 1'b1;
   // assign pixel_tready = (count == 7) ? chunk_tready : 1'b1;
 
   logic accept_out;
@@ -53,19 +53,19 @@ module stacker
       chunk_tvalid <= 1'b0;
     end else begin
       if (accept_in) begin
-        data_recent <= {pixel_tdata[31:0], data_recent[127:32]};
-        // data_recent  <= { pixel_tdata[7:0], data_recent[127:8] };
+        // data_recent <= {pixel_tdata[31:0], data_recent[127:32]};
+        data_recent  <= { pixel_tdata[7:0], data_recent[127:8] };
         // data_recent  <= { pixel_tdata[15:0], data_recent[127:16] };
-        tlast_recent <= { pixel_tlast, tlast_recent[3:1] };
-        // tlast_recent <= { pixel_tlast, tlast_recent[15:1] };
+        // tlast_recent <= { pixel_tlast, tlast_recent[3:1] };
+        tlast_recent <= { pixel_tlast, tlast_recent[15:1] };
         // tlast_recent <= { pixel_tlast, tlast_recent[7:1] };
         count        <= count + 1;
 
-        if (count == 3) begin
-        // if (count == 15) begin
+        // if (count == 3) begin
+        if (count == 15) begin
         // if (count == 7) begin
-          chunk_tdata <= {pixel_tdata[31:0], data_recent[127:32]};
-          // chunk_tdata  <= { pixel_tdata[7:0], data_recent[127:8] };
+          // chunk_tdata <= {pixel_tdata[31:0], data_recent[127:32]};
+          chunk_tdata  <= { pixel_tdata[7:0], data_recent[127:8] };
           // chunk_tdata  <= { pixel_tdata[15:0], data_recent[127:16] };
           chunk_tlast <= (tlast_recent > 0);
           chunk_tvalid <= 1'b1;
