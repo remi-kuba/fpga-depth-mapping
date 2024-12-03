@@ -1,8 +1,8 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2024.1 (lin64) Build 5076996 Wed May 22 18:36:09 MDT 2024
-| Date         : Mon Dec  2 01:50:08 2024
-| Host         : eecs-digital-34 running 64-bit Ubuntu 24.04.1 LTS
+| Date         : Tue Dec  3 01:51:49 2024
+| Host         : eecs-digital-03 running 64-bit Ubuntu 24.04 LTS
 | Command      : report_drc -file obj/post_imp_drc.rpt
 | Design       : top_level
 | Device       : xc7s50csga324-1
@@ -24,21 +24,15 @@ Table of Contents
       Design limits: <entire design considered>
            Ruledeck: default
              Max violations: <unlimited>
-             Violations found: 2
-+-----------+----------+------------------------------------------------+------------+
-| Rule      | Severity | Description                                    | Violations |
-+-----------+----------+------------------------------------------------+------------+
-| PLIO-3    | Warning  | Placement Constraints Check for IO constraints | 1          |
-| REQP-1709 | Warning  | Clock output buffering                         | 1          |
-+-----------+----------+------------------------------------------------+------------+
+             Violations found: 1
++-----------+----------+------------------------+------------+
+| Rule      | Severity | Description            | Violations |
++-----------+----------+------------------------+------------+
+| REQP-1709 | Warning  | Clock output buffering | 1          |
++-----------+----------+------------------------+------------+
 
 2. REPORT DETAILS
 -----------------
-PLIO-3#1 Warning
-Placement Constraints Check for IO constraints  
-Partially locked IO Bus is found. Following components of the IO Bus cipo[4:0] are not locked:  cipo[4]
-Related violations: <none>
-
 REQP-1709#1 Warning
 Clock output buffering  
 PLLE2_ADV connectivity violation. The signal ddr3_mig_inst/u_ddr3_mig_mig/u_ddr3_infrastructure/pll_clk3_out on the ddr3_mig_inst/u_ddr3_mig_mig/u_ddr3_infrastructure/plle2_i/CLKOUT3 pin of ddr3_mig_inst/u_ddr3_mig_mig/u_ddr3_infrastructure/plle2_i does not drive the same kind of BUFFER load as the other CLKOUT pins. Routing from the different buffer types will not be phase aligned.

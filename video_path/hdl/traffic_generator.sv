@@ -110,7 +110,9 @@ module traffic_generator
   logic [26:0] write_address;
   logic [26:0] read_request_address;
   logic [26:0] read_response_address;
-  localparam NUM_ADDRESSES = 14_400;
+  // NUM_ADDRESSES = HEIGHT * WIDTH * BITS_PER_PIXEL / 128
+  localparam NUM_ADDRESSES = 900;
+
 
   evt_counter#(
     .MAX_COUNT(NUM_ADDRESSES)
@@ -154,7 +156,7 @@ module traffic_generator
   // for defining the read RESPONSES: your event should be a handshake on the read AXIStream
   // for defining the read REQUESTS: your event should be a "handshake" on the read requests
   
-  localparam MAX_ADDR = 0; // change me!!
+  localparam MAX_ADDR = 900; // change me!!
   
   // TODO: TLAST generation for the read output!
   // assign a tlast value based on the address your response is up to!

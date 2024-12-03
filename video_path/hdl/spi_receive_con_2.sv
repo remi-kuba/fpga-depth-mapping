@@ -3,11 +3,12 @@
 
 module spi_receive_con_2 # (
      parameter DATA_WIDTH = 8,
-     parameter LINES = 4,
-     parameter DATA_CLK_PERIOD = 6
+     parameter LINES = 4
     )
     (input wire   clk_in, //system clock (100 MHz)
      input wire   rst_in, //reset in signal
+     input wire   final_pixel_in,
+     output logic final_pixel_out,
      output logic [DATA_WIDTH-1:0] data_out, // data received
      output logic data_valid_out, //high when output data is present.
 
@@ -16,12 +17,8 @@ module spi_receive_con_2 # (
      input wire chip_sel_in // (CS)
     );
 
-    localparam DUTY_CYCLE = DATA_CLK_PERIOD / 2;
-    localparam DUTY_CYCLE_SIZE = $clog2(DUTY_CYCLE);
-    localparam DATA_WIDTH_SIZE = $clog2(DATA_WIDTH + 1);
-
-    logic [DUTY_CYCLE_SIZE-1:0] clk_count;
     logic half_pixel_ready;
+    logic final_pixel_ready;
     logic prev_chip_clk;
 
     always_ff @(posedge clk_in) begin
@@ -30,17 +27,27 @@ module spi_receive_con_2 # (
             data_valid_out <= 1'b0;
             prev_chip_clk <= 1'b0;
             half_pixel_ready <= 1'b0;
+            final_pixel_out <= 1'b0;
+            final_pixel_ready <= 1'b0;
         end else if (!chip_sel_in) begin // CS must be low to receive data
             prev_chip_clk <= chip_clk_in;
             if (~prev_chip_clk && chip_clk_in) begin// rising edge of DCLK (0 -> 1)
                 // read data coming from cipo
                 data_out <= {data_out[3:0], chip_data_in};
                 half_pixel_ready <= ~half_pixel_ready;
+                final_pixel_ready <= final_pixel_in;
+                final_pixel_out <= final_pixel_ready;
                 data_valid_out <= half_pixel_ready;
             end else begin
                 data_valid_out <= 1'b0;
+                // final_pixel_ready <= 1'b0;
+                final_pixel_out <= 1'b0;
             end
-        end else data_valid_out <= 1'b0;
+        end else begin
+            data_valid_out <= 1'b0;
+            final_pixel_ready <= 1'b0;
+            final_pixel_out <= 1'b0;
+        end
     end
 
 endmodule

@@ -47,9 +47,9 @@ module stacker
   
   always_ff @(posedge clk_in) begin
     if(rst_in) begin
-      data_recent  <= 127'b0;
+      data_recent  <= 128'b0;
       count        <= 0;
-      tlast_recent <= 8'b0;
+      tlast_recent <= 16'b0;
       chunk_tvalid <= 1'b0;
     end else begin
       if (accept_in) begin

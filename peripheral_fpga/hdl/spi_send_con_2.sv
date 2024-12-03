@@ -12,8 +12,11 @@ module spi_send_con_2
   input wire   rst_in, //reset in signal
   input wire   [DATA_WIDTH-1:0] data_in, //data to send
   input wire   trigger_in, //start a transaction
+  input wire [9:0] hcount_in,
+  input wire [8:0] vcount_in,
 
   output logic half_pixel_ready, // FOR DEBUGGING PURPOSES ADDED HERE
+  output logic final_pixel_out,
   output logic [LINES-1:0] chip_data_out, // CIPO (this is the peripheral FPGA)
   output logic chip_clk_out, //(DCLK)
   output logic chip_sel_out // (CS)
@@ -32,11 +35,13 @@ module spi_send_con_2
         clk_count <= 0;
         half_pixel_ready <= 1'b0;
         half_pixel <= 4'b0;
+        final_pixel_out <= 1'b0;
     end else if (trigger_in) begin 
         chip_sel_out <= 1'b0; // Begin 
         chip_data_out <= data_in[7:4];
         half_pixel <= data_in[3:0];
         half_pixel_ready <= 1'b1;
+        final_pixel_out <= (hcount_in == 636) && (vcount_in == 356);
         // Reset 
         clk_count <= 0;
     end else begin
@@ -52,6 +57,7 @@ module spi_send_con_2
                 if (half_pixel_ready) begin
                     chip_data_out <= half_pixel;
                     half_pixel_ready <= ~half_pixel_ready;
+                    final_pixel_out <= 1'b0;
                 end else begin
                     chip_sel_out <= 1'b1;
                 end

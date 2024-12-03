@@ -20,7 +20,7 @@ module top_level
   // spi
   input wire cs,
   input wire dclk,
-  input wire [4:0] cipo,
+  input wire [3:0] cipo,
   input wire spi_hsync,
   input wire spi_vsync,
   // seven segment
@@ -115,16 +115,18 @@ module top_level
   logic received_package;
   logic [7:0] received_pixel;
   logic received_pixel_valid;
+  logic final_pixel;
   spi_receive_con_2 #(
     .DATA_WIDTH(8),
-    .LINES(4),
-    .DATA_CLK_PERIOD(12)
+    .LINES(4)
   ) spi_receive (
     .clk_in(clk_camera),
     .rst_in(sys_rst_camera),
     .chip_data_in(cipo),
     .chip_clk_in(dclk),
     .chip_sel_in(cs),
+    .final_pixel_in(spi_hsync),
+    .final_pixel_out(final_pixel),
     .data_out(received_pixel),
     .data_valid_out(received_pixel_valid));
 
@@ -144,7 +146,7 @@ module top_level
   end
 
   evt_counter_2 #(
-    .MAX_COUNT(1000)
+    .MAX_COUNT(100)
   ) frame_ct (
     .clk_in(clk_camera),
     .rst_in(sys_rst_camera),
@@ -154,7 +156,25 @@ module top_level
   logic frame_hsyncs;
 
   evt_counter_2 #(
-    .MAX_COUNT(200_000)
+    .MAX_COUNT(25)
+  ) something (
+    .clk_in(clk_camera),
+    .rst_in(sys_rst_camera),
+    .evt_in(spi_hsync),
+    .hit_max_out(to_25)
+  ); 
+  logic to_25;
+  evt_counter_2 #(
+    .MAX_COUNT(1_000_000)
+  ) other (
+    .clk_in(clk_camera),
+    .rst_in(sys_rst_camera),
+    .evt_in(to_25),
+    .count_out(val_to_display)
+  );
+
+  evt_counter_2 #(
+    .MAX_COUNT(50_000_000)
   ) pixel_valid_ct(
     .clk_in(clk_camera),
     .rst_in(sys_rst_camera),
@@ -162,6 +182,17 @@ module top_level
     .hit_max_out(cams_valid)
   );
   logic cams_valid;
+
+  logic [31:0] val_to_display;
+  logic [6:0] ss_c;
+  assign ss0_c = ss_c;
+  assign ss1_c = ss_c;
+  seven_segment_controller mssc(.clk_in(clk_100_passthrough),
+                               .rst_in(sys_rst_camera),
+                               .val_in(val_to_display),
+                               .cat_out(ss_c),
+                               .an_out({ss0_an, ss1_an}));
+
 
   // Two ways to store a frame buffer: subsampled BRAM, and full-quality DRAM.
   
@@ -194,7 +225,7 @@ module top_level
     // .pixel_tdata(received_package),
     .pixel_tdata(received_pixel),
     // TODO: define the tlast value! you can do it in one line, based on camera hcount/vcount values
-    .pixel_tlast(spi_hsync), // change me
+    .pixel_tlast(final_pixel && received_pixel_valid), // change me
     .chunk_tvalid(camera_axis_tvalid),
     .chunk_tready(camera_axis_tready),
     .chunk_tdata(camera_axis_tdata),

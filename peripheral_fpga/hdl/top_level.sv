@@ -1,6 +1,3 @@
-
-
-
 `timescale 1ns / 1ps
 `default_nettype none
 
@@ -106,7 +103,7 @@ module top_level
   always_ff @(posedge clk_camera) begin
     if (sys_rst_camera) begin
       rgb0 <= 3'b001;
-    end else if (cams_valid) begin
+    end else if (check && trigger) begin
       rgb0 <= 3'b100;
     end 
 
@@ -117,8 +114,19 @@ module top_level
     end
   end
 
-  logic spi_hsync;
-  assign spi_hsync = (camera_hcount == 639) && (camera_vcount == 359);
+  // always_ff @(posedge clk_camera) begin
+  //   spi_hsync <= (camera_hcount == 639) && (camera_vcount == 359) && camera_valid;
+  // end
+
+  logic [31:0] val_to_display;
+  logic [6:0] ss_c;
+  assign ss0_c = ss_c;
+  assign ss1_c = ss_c;
+  seven_segment_controller mssc(.clk_in(clk_100_passthrough),
+                               .rst_in(sys_rst_camera),
+                               .val_in(val_to_display),
+                               .cat_out(ss_c),
+                               .an_out({ss0_an, ss1_an}));
 
   evt_counter #(
     .MAX_COUNT(1000)
@@ -129,6 +137,26 @@ module top_level
     .hit_max_out(spi_hsyncs)
   );
   logic spi_hsyncs;
+
+  evt_counter #(
+    .MAX_COUNT(25)
+  ) counter (
+    .clk_in(clk_camera),
+    .rst_in(sys_rst_camera),
+    .evt_in((camera_hcount == 636) && (camera_vcount == 356) && camera_valid),
+    .hit_max_out(to_25)
+  );
+
+
+  logic to_25;
+  evt_counter #(
+    .MAX_COUNT(1_000_000)
+  ) please (
+    .clk_in(clk_camera),
+    .rst_in(sys_rst_camera),
+    .evt_in(to_25),
+    .count_out(val_to_display)
+  );
 
   evt_counter #(
     .MAX_COUNT(50_000_000)
@@ -191,14 +219,17 @@ module top_level
   spi_send_con_2 #(
     .DATA_WIDTH(8),
     .LINES(4),
-    .DATA_CLK_PERIOD(12) // 200 MHz / 12 = 16.6 MHz SPI clock
+    .DATA_CLK_PERIOD(14) // 200 MHz / 12 = 16.6 MHz SPI clock
   ) spi_send (
     .clk_in(clk_camera),
     .rst_in(sys_rst_camera),
     .data_in(camera_pixel),
     .trigger_in(trigger),
+    .hcount_in(camera_hcount),
+    .vcount_in(camera_vcount),
 
     .half_pixel_ready(check),
+    .final_pixel_out(spi_hsync),
     .chip_data_out(cipo),
     .chip_clk_out(dclk),
     .chip_sel_out(cs)
