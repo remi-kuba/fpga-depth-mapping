@@ -15,7 +15,7 @@ module line_buffer (
             output logic data_valid_out //valid data out signal
   );
   parameter HRES = 640;
-  parameter VRES = 380;
+  parameter VRES = 360;
   localparam KERNEL_SIZE = 3;
 
   logic [KERNEL_SIZE:0][7:0] read_data; // read bram every cycle

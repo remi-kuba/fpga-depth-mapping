@@ -56,7 +56,7 @@ module traffic_generator
    output logic         r_hdmi_axis_tlast,
    output logic         r_hdmi_axis_valid,
    input wire           r_hdmi_axis_af, // almost full signal
-   input wire           r_hdmi_axis_ready
+   input wire           r_hdmi_axis_ready,
 
    // Write Cam1 AXIS FIFO input
    input wire [127:0]   wr_cam1_axis_data, // Change where the data is going
@@ -69,7 +69,7 @@ module traffic_generator
    output logic         r_cam1_axis_tlast,
    output logic         r_cam1_axis_valid,
    input wire           r_cam1_axis_af, // almost full signal
-   input wire           r_cam1_axis_ready
+   input wire           r_cam1_axis_ready,
 
    // Write Cam2 AXIS FIFO input
    input wire [127:0]   wr_cam2_axis_data, // Change where the data is going
@@ -84,7 +84,6 @@ module traffic_generator
    input wire           r_cam2_axis_af, // almost full signal
    input wire           r_cam2_axis_ready
 
-
    );
 
   // signals needed for app_cmd, specified by documentation
@@ -96,65 +95,33 @@ module traffic_generator
   assign app_zq_req = 0;
   assign app_wdf_mask = 16'b0;
 
-//This block changes the output 'state' to tell top_level 
-//which data to feed it
- assign_comb begin
-    case(tg_state):
-      RST, WAIT_INIT: begin
-        state = 4'b0;
-      end
-      RD_CAM1, WR_CAM1: begin
-        state = 4'b1;
-      end
-      RD_CAM2, WR_CAM2: begin
-        state = 4'b2;
-      end
-      RD_HDMI, WR_SAD: begin
-        state = 4'b3;
-      end
-    endcase
- end
-
   // state machine used to alternate between read & write requests
-  /*
-  0. reset or init
-  1. write cam1 data
-  2. read cam1 data
-  3. write cam2 data
-  4. read cam2 data
-  5. write from SAD (or direct to DRAM?)
-  6. read DRAM output to HDMI
-  
-  */
-  	  case(state): 
-	      RST, WAIT_INIT: begin
-	        state <= WAIT_INIT;
-	      end
-	      WAIT_INIT: begin
-	        state <= init_calib_complete ? RD_CAM1 : WAIT_INIT;
-	      end
+  typedef enum {
+    RST,
+		WAIT_INIT,
+		RD_HDMI,
+    RD_CAM1,
+    RD_CAM2,
+		WR_CAM1,
+    WR_CAM2,
+    WR_SAD
+	} tg_state;
+  tg_state state;
 
-	      RD_CAM1: begin
-	        state <= go_to_wr ? WR_CAM1 : RD_CAM1;
-	      end
-	      WR_CAM1: begin
-	        state <= go_to_rd ? RD_CAM2 : WR_CAM1; 
-	      end
+  //placeholder variables to input/output to/from different FIFOs
+   // Write AXIS FIFO input
+   logic [127:0]   write_axis_data;
+   logic           write_axis_tlast;
+   logic           write_axis_valid;
+   logic           write_axis_smallpile;
+   logic         write_axis_ready;
+   // Read AXIS FIFO output
+   logic [127:0] read_axis_data;
+   logic         read_axis_tlast;
+   logic         read_axis_valid;
+   logic           read_axis_af; // almost full signal
+   logic           read_axis_ready;
 
-	      RD_CAM2: begin
-	        state <= go_to_wr  ? WR_CAM2 : RD_CAM2;
-	      end
-	      WR_CAM2: begin
-	        state <= go_to_rd ? RD_HDMI : WR_CAM2;
-	      end
-
-	      RD_HDMI: begin
-	        state <= go_to_wr ? WR_SAD : RD_HDMI;
-	      end
-	      WR_SAD: begin
-	        state <= go_to_rd ? RD_CAM1 : WR_SAD;
-	      end
-	    endcase // case (state)
   
   // Define ready/valid signals to output to our input+output AXI Streams!
   
@@ -162,6 +129,7 @@ module traffic_generator
   // indicates it's the write AXIS' turn.
   logic   wdf_ready;
   assign wdf_ready = app_rdy && app_wdf_rdy;
+  //if wdf_ready && in a writing state
   assign write_axis_ready = wdf_ready && (state == WR_CAM1 || state == WR_CAM2 || state == WR_SAD);
 
   // Feed the read output from the MIG (app_rd_data and app_rd_data_valid)
@@ -176,14 +144,13 @@ module traffic_generator
   
   logic read_request_valid; // defined further below, based on state machine + address info
   logic read_request_ready;
+  //if app_rdy && in a reading state
   assign read_request_ready = app_rdy && (state == RD_HDMI ||state == RD_CAM1 || state == RD_CAM2);
-  
 
   logic write_count_in;
   logic request_count_in;
   logic read_count_in;
   logic write_rst_in;
-  logic request_rst_in;
 
   assign write_count_in = write_axis_ready && write_axis_valid; //handshake
   assign request_count_in = read_request_ready && read_request_valid; //handshake
@@ -211,7 +178,7 @@ module traffic_generator
   // for defining the read RESPONSES: your event should be a handshake on the read AXIStream
   // for defining the read REQUESTS: your event should be a "handshake" on the read requests
   
-  localparam MAX_ADDR = 14400; // change me!!
+  localparam MAX_ADDR = 3*14400; // change me!!
   
   // TODO: TLAST generation for the read output!
   // assign a tlast value based on the address your response is up to!
@@ -234,6 +201,17 @@ module traffic_generator
   assign go_to_wr = (addr_diff >= MAX_CMD_QUEUE) || read_axis_af;
   assign go_to_rd = ~write_axis_valid;
   
+
+    // state machine used to alternate between read & write requests
+  /*
+  0. reset or init
+  1. write cam1 data
+  2. read cam1 data
+  3. write cam2 data
+  4. read cam2 data
+  5. write from SAD (or direct to DRAM?)
+  6. read DRAM output to HDMI
+  */
   always_ff @(posedge clk_in) begin
     if(rst_in) begin
 	    state <= RST;
@@ -287,6 +265,18 @@ module traffic_generator
 	      app_wdf_wren = write_axis_valid && wdf_ready;
 	      app_wdf_data = write_axis_data;
 	      app_wdf_end  = write_axis_valid && wdf_ready;
+
+        //Depending on state,  give different inputs
+        write_axis_data = (state == WR_CAM1) ?  wr_cam1_axis_data:  (state == WR_CAM2) ? wr_cam2_axis_data : wr_sad_axis_data;
+        write_axis_valid = (state == WR_CAM1) ? wr_cam1_axis_valid :  (state == WR_CAM2) ? wr_cam2_axis_valid : wr_sad_axis_valid; 
+        write_axis_smallpile = (state == WR_CAM1) ? wr_cam1_axis_smallpile : (state == WR_CAM2) ? wr_cam2_axis_smallpile : wr_sad_axis_smallpile;
+        write_axis_tlast = (state == WR_CAM1) ? wr_cam1_axis_tlast :  (state == WR_CAM2) ? wr_cam2_axis_tlast :  wr_sad_axis_tlast;
+
+        //Change outputs based on state
+        wr_cam1_axis_ready = (state == WR_CAM1) ?  write_axis_ready:  (state == WR_CAM2) ?  0 :  0;
+        wr_cam2_axis_ready = (state == WR_CAM1) ? 0 : (state == WR_CAM2) ?  write_axis_ready : 0;
+        wr_sad_axis_ready = (state == WR_CAM1) ? 0 : (state == WR_CAM2) ? 0 : write_axis_ready;
+
 	    end
 	    RD_CAM1, RD_CAM2, RD_HDMI: begin
         // App address shifted right! !! your read_request_address should address a 128-bit message.
@@ -297,6 +287,25 @@ module traffic_generator
 	      app_wdf_wren = 1'b0;
 	      app_wdf_data = 0;
 	      app_wdf_end = 1'b0;
+
+        //Depending on state,  give different inputs
+        read_axis_af = (state == RD_CAM1) ? r_cam1_axis_af : (state == RD_CAM2) ? r_cam2_axis_af : r_hdmi_axis_af;
+        read_axis_ready = (state == RD_CAM1) ? r_cam1_axis_ready : (state == RD_CAM2) ? r_cam2_axis_ready : r_hdmi_axis_ready;
+
+        //Change outputs based on state
+        r_cam1_axis_data = (state == RD_CAM1) ? read_axis_data : (state == RD_CAM2) ? 0 : 0; 
+        r_cam2_axis_data = (state == RD_CAM1) ? 0 : (state == RD_CAM2) ? read_axis_data : 0; 
+        r_hdmi_axis_data = (state == RD_CAM1) ? 0 : (state == RD_CAM2) ? 0 : read_axis_data; 
+        
+        r_cam1_axis_tlast = (state == RD_CAM1) ? read_axis_tlast : (state == RD_CAM2) ? 0 : 0; 
+        r_cam2_axis_tlast = (state == RD_CAM1) ? 0 : (state == RD_CAM2) ? read_axis_tlast : 0; 
+        r_hdmi_axis_tlast = (state == RD_CAM1) ? 0 : (state == RD_CAM2) ? 0 : read_axis_tlast; 
+
+        r_cam1_axis_valid = (state == RD_CAM1) ? read_axis_valid : (state == RD_CAM2) ? 0 : 0; 
+        r_cam2_axis_valid = (state == RD_CAM1) ? 0 : (state == RD_CAM2) ? read_axis_valid : 0; 
+        r_hdmi_axis_valid = (state == RD_CAM1) ? 0 : (state == RD_CAM2) ? 0 : read_axis_valid; 
+
+
 	    end
       default: begin
         app_addr     = 0;

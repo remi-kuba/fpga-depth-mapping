@@ -29,8 +29,10 @@ module top_level(
     RESETS
   */
   // btn[0] controls system reset
-  logic sys_rst;
-  assign sys_rst = btn[0];
+  logic sys_rst_camera;
+  logic sys_rst_pixel;
+  assign sys_rst_camera = btn[0];
+  assign sys_rst_pixel = sys_rst_camera;
   // this port also is specifically set to high drive by the XDC file.
   // Camera clock only runs when holding btn[1] down (protect cameras)
   assign cam_xclk = btn[1] ? clk_xc : 1'b0;;
@@ -71,13 +73,13 @@ module top_level(
   logic          new_frame_hdmi;
   logic [5:0]    frame_count_hdmi;
   logic          nf_hdmi;
-  // rgb output values
+  // 8'b rgb output values = B&W
   logic [7:0]          red,green,blue;
 
   /*
     CAMERA 
+                  ** Handling input from the camera **
   */
-
   // synchronizers to prevent metastability
   logic [7:0]    camera_d_buf [1:0];
   logic          cam_hsync_buf [1:0];
@@ -91,28 +93,30 @@ module top_level(
      cam_vsync_buf <= {cam_vsync, cam_vsync_buf[1]};
   end
 
-  /*
-    PIXEL RECONSTRUCT (clk_camera, 200 MHz)
-  */
 
+  /*
+    LUMINANCE RECONSTRUCT (clk_camera, 200 MHz)
+  */
   logic [10:0] camera_hcount;
   logic [9:0]  camera_vcount;
-  logic [15:0] camera_pixel; //NOW 8-bit?
+  logic [7:0] camera_pixel; // 8-bit
   logic        camera_valid;
 
-//TODO: ADD LUMINANCE RECONSTRUCT instead
-  pixel_reconstruct pixel_reconstruct_inst
-  (.clk_in(clk_camera),
-   .rst_in(sys_rst),
-   .camera_pclk_in(cam_pclk_buf[0]),
-   .camera_hs_in(cam_hsync_buf[0]),
-   .camera_vs_in(cam_vsync_buf[0]),
-   .camera_data_in(camera_d_buf[0]),
-   .pixel_valid_out(camera_valid),
-   .pixel_hcount_out(camera_hcount),
-   .pixel_vcount_out(camera_vcount),
-   .pixel_data_out(camera_pixel)); // the camera pixel from CAM1
-
+luminance_reconstruct #(
+    .HCOUNT_WIDTH(10),
+    .VCOUNT_WIDTH(9)
+  ) lr (
+    .clk_in(clk_camera),
+    .rst_in(sys_rst_camera),
+    .camera_pclk_in(cam_pclk_buf[0]),
+    .camera_hs_in(cam_hsync_buf[0]),
+    .camera_vs_in(cam_vsync_buf[0]),
+    .camera_data_in(camera_d_buf[0]),
+    .pixel_valid_out(camera_valid),
+    .pixel_hcount_out(camera_hcount),
+    .pixel_vcount_out(camera_vcount),
+    .pixel_data_out(camera_pixel)// the camera pixel from CAM1
+  );
 
   //two-port BRAM used to hold output image from DRAM.
   //we're going to down-sample by a factor of 2 in both dimensions
@@ -128,12 +132,12 @@ module top_level(
 
   //Only for directly using camera data
   logic valid_camera_mem; //used to enable writing pixel data to frame buffer
-  logic [15:0] camera_mem; //used to pass pixel data into frame buffer -- 8bit now?
+  logic [7:0] camera_mem; //used to pass pixel data into frame buffer -- 8bit
 
   always_ff @(posedge clk_camera)begin
     // down sample  data from the camera by a factor of 2 in both
     //the x and y dimensions!
-    if (sys_rst_camera) begin
+    if (sys_rst) begin
       addra <= 0;
       camera_mem <= 0;  
       valid_camera_mem <= 0;
@@ -176,7 +180,7 @@ module top_level(
     good_addrb <=(hcount_hdmi<640)&&(vcount_hdmi<360);
   end
 
-  //split fame_buff into 3 8 bit Y luminance channels
+  //split frame_buff into 3 8 bit Y luminance channels
   //remapped frame_buffer outputs with 8 bits for r, g, b
   logic [7:0] fb_red, fb_green, fb_blue;
   always_ff @(posedge clk_pixel)begin
@@ -189,8 +193,7 @@ module top_level(
   /*
     CDC (clk_camera 200 Mhz -> clk_pixel 74.25 MHz)
   */
-  logic
-   empty;
+  logic empty;
   logic cdc_valid;
   logic [15:0] cdc_pixel; //now 8-bit?
   logic [10:0] cdc_hcount;
@@ -212,7 +215,7 @@ module top_level(
 
 
 /* SECTION FOR ALL DRAM (6 FIFOs -- 3 pairs for camera 1 data, camera 2 data, and SAD module input/output)*/
-//TODO (UNFINISHED)
+
 //CAM1 AXIS:  //potentially hold all data to write?
   logic [127:0] wr_cam1_axis_tdata; //output data of stacker
   logic         wr_cam1_axis_tlast;
@@ -233,14 +236,14 @@ module top_level(
 
   // takes our 8-bit values and deserialize/stack them into 128-bit messages to write to DRAM
   // the data pipeline is designed such that we can fairly safe to assume its always ready.
-  logic [7:0] pixel = (state == 1) ? camera_pixel : 8'b0; //TODO: UPDATE to have 3 possible inputs tdata based on state
+
   //potentially add different tlast
   stacker cam1_stacker(
     .clk_in(clk_camera),
-    .rst_in(sys_rst_camera),
+    .rst_in(sys_rst),
     .pixel_tvalid(camera_valid),
     .pixel_tready(),
-    .pixel_tdata(pixel),
+    .pixel_tdata(camera_pixel),
     .pixel_tlast(camera_hcount == 639 && camera_vcount == 359), // change me
     .chunk_tvalid(wr_cam1_axis_tvalid),
     .chunk_tready(wr_cam1_axis_tready),
@@ -251,11 +254,11 @@ module top_level(
 //FOR NOW JUST TAKING A COPY FROM THE CAMERA
   stacker cam2_stacker(
     .clk_in(clk_camera),
-    .rst_in(sys_rst_camera),
+    .rst_in(sys_rst),
     .pixel_tvalid(camera_valid),
     .pixel_tready(),
 //////
-    .pixel_tdata(pixel), //reconstructed pixel
+    .pixel_tdata(camera_pixel), //reconstructed pixel
     .pixel_tlast(camera_hcount == 639 && camera_vcount == 359), // final pixel
 //////
     .chunk_tvalid(wr_cam2_axis_tvalid),
@@ -266,7 +269,7 @@ module top_level(
 //TODO: GET OUTPUT OF SAD
   stacker sad_stacker(
     .clk_in(clk_camera),
-    .rst_in(sys_rst_camera),
+    .rst_in(sys_rst),
     .pixel_tvalid(camera_valid),
     .pixel_tready(),
     .pixel_tdata(),//calculated pixel
@@ -302,7 +305,7 @@ module top_level(
 
   //CAM1 FIFO
   ddr_fifo_wrap wr_cam1_data_fifo(
-    .sender_rst(sys_rst_camera),
+    .sender_rst(sys_rst),
     .sender_clk(clk_camera),
     .sender_axis_tvalid(wr_cam1_axis_tvalid),
     .sender_axis_tready(wr_cam1_axis_tready),
@@ -317,7 +320,7 @@ module top_level(
 
   //CAM2 FIFO
   ddr_fifo_wrap wr_cam2_data_fifo(
-    .sender_rst(sys_rst_camera),
+    .sender_rst(sys_rst),
     .sender_clk(clk_camera),
     .sender_axis_tvalid(wr_cam2_axis_tvalid),
     .sender_axis_tready(wr_cam2_axis_tready),
@@ -332,7 +335,7 @@ module top_level(
 
   //SAD FIFO
   ddr_fifo_wrap sad_data_fifo(
-    .sender_rst(sys_rst_camera),
+    .sender_rst(sys_rst),
     .sender_clk(clk_camera),
     .sender_axis_tvalid(wr_sad_axis_tvalid),
     .sender_axis_tready(wr_sad_axis_tready),
@@ -422,7 +425,7 @@ module top_level(
     
     // Inputs
     .clk_in           (clk_ui),
-    .rst_in           (sys_rst_ui),
+    .rst_in           (sys_rst),
     .app_rd_data      (app_rd_data[127:0]),
     .app_rd_data_end  (app_rd_data_end),
     .app_rd_data_valid(app_rd_data_valid),
@@ -452,8 +455,6 @@ module top_level(
     .r_cam2_axis_ready  (r_cam2_ui_axis_tready) 
     .r_hdmi_axis_af     (r_hdmi_ui_axis_prog_full),
     .r_hdmi_axis_ready  (r_hdmi_ui_axis_tready) 
-
-    .state            (tg_state) //Add logic for output
     
   );
 
@@ -493,7 +494,7 @@ module top_level(
     .app_ref_ack(app_ref_ack),
     .app_zq_ack(app_zq_ack),
     .ui_clk(clk_ui), 
-    .ui_clk_sync_rst(sys_rst_ui),
+    .ui_clk_sync_rst(sys_rst),
     .app_wdf_mask(app_wdf_mask),
     .init_calib_complete(init_calib_complete),
     .sys_rst(!sys_rst_migref) // active low
@@ -522,7 +523,7 @@ module top_level(
 
   //CAM1 OUT FIFO
   ddr_fifo_wrap rd_cam1_fifo(
-    .sender_rst(sys_rst_ui),
+    .sender_rst(sys_rst),
     .sender_clk(clk_ui),
     .sender_axis_tvalid(r_cam1_ui_axis_tvalid),
     .sender_axis_tready(r_cam1_ui_axis_tready),
@@ -538,7 +539,7 @@ module top_level(
 
   //CAM2 OUT FIFO
   ddr_fifo_wrap rd_cam2_fifo(
-    .sender_rst(sys_rst_ui),
+    .sender_rst(sys_rst),
     .sender_clk(clk_ui),
     .sender_axis_tvalid(r_cam2_ui_axis_tvalid),
     .sender_axis_tready(r_cam2_ui_axis_tready),
@@ -554,7 +555,7 @@ module top_level(
 
   //HDMI OUT FIFO
   ddr_fifo_wrap rd_hdmi_fifo(
-    .sender_rst(sys_rst_ui),
+    .sender_rst(sys_rst),
     .sender_clk(clk_ui),
     .sender_axis_tvalid(r_hdmi_ui_axis_tvalid),
     .sender_axis_tready(r_hdmi_ui_axis_tready),
@@ -575,53 +576,60 @@ module top_level(
   logic frame_buff_tready;
   logic [15:0] frame_buff_tdata;
   logic        frame_buff_tlast;
+  //Camera 1 out
+  logic stored_cam1_tvalid;
+  logic stored_cam1_tready;
+  logic [7:0] stored_cam1_tdata;
+  logic        stored_cam1_tlast;
+  //Camera 2 out
+  logic stored_cam2_tvalid;
+  logic stored_cam2_tready;
+  logic [7:0] stored_cam2_tdata;
+  logic        stored_cam2_tlast;
   
-  //SAD input 2 from CAM2
+  //SAD input 1 from CAM1
   unstacker unstacker_inst(
     .clk_in(clk_pixel),
-    .rst_in(sys_rst_pixel),
+    .rst_in(sys_rst),
     .chunk_tvalid(r_cam1_axis_tvalid),
     .chunk_tready(r_cam1_axis_tready),
     .chunk_tdata(r_cam1_axis_tdata),
     .chunk_tlast(r_cam1_axis_tlast),
-    .pixel_tvalid(),
-    .pixel_tready(),
-    .pixel_tdata(),
-    .pixel_tlast());
+    .pixel_tvalid(stored_cam1_tvalid),
+    .pixel_tready(stored_cam1_tready),
+    .pixel_tdata(stored_cam1_tdata),
+    .pixel_tlast(stored_cam1_tlast));
 
 //SAD input 2 from CAM2
   unstacker unstacker_inst(
     .clk_in(clk_pixel),
-    .rst_in(sys_rst_pixel),
+    .rst_in(sys_rst),
     .chunk_tvalid(r_cam2_axis_tvalid),
     .chunk_tready(r_cam2_axis_tready),
     .chunk_tdata(r_cam2_axis_tdata),
     .chunk_tlast(r_cam2_axis_tlast),
-    .pixel_tvalid(),
-    .pixel_tready(),
-    .pixel_tdata(),
-    .pixel_tlast());
+    .pixel_tvalid(stored_cam2_tvalid),
+    .pixel_tready(stored_cam2_tready),
+    .pixel_tdata(stored_cam2_tdata),
+    .pixel_tlast(stored_cam2_tlast));
 
 //HDMI fram_buff reader
   unstacker r_hdmi_unstacker(
     .clk_in(clk_pixel),
-    .rst_in(sys_rst_pixel),
+    .rst_in(sys_rst),
     .chunk_tvalid(r_hdmi_axis_tvalid),
     .chunk_tready(r_hdmi_axis_tready),
     .chunk_tdata(r_hdmi_axis_tdata),
     .chunk_tlast(r_hdmi_axis_tlast),
-    .pixel_tvalid(frame_buff_tvalid),
-    .pixel_tready(frame_buff_tready),
-    .pixel_tdata(frame_buff_tdata),
-    .pixel_tlast(frame_buff_tlast));
+    .pixel_tvalid(y_pix_tvalid),
+    .pixel_tready(y_pix_tready),
+    .pixel_tdata(y_pix_tdata),
+    .pixel_tlast(y_pix_tlast));
 
 
-  // TODO: assign frame_buff_tready
-  // I did this in 1 (kind of long) line. an always_comb block could also work.
-  assign frame_buff_tready = active_draw_hdmi && (~frame_buff_tlast || (hcount_hdmi == 1279 && vcount_hdmi == 719)); // change me!!
+  //assign y_pix_tready
+  assign y_pix_tready = active_draw_hdmi && (~frame_buff_tlast || (hcount_hdmi == 639 && vcount_hdmi == 359));
   
-  assign frame_buff_dram = frame_buff_tvalid ? frame_buff_tdata : 16'h2277;
-
 
 
   /*
@@ -637,7 +645,7 @@ module top_level(
   blur_filter #(.HRES(1280),.VRES(720))
     blur(
     .clk_in(clk_pixel), 
-    .rst_in(sys_rst_pixel),
+    .rst_in(sys_rst),
     .data_valid_in(cdc_valid),
     .pixel_data_in(cdc_pixel), // 16 bits -- now 8?
     .hcount_in(cdc_hcount), // 11 bits
@@ -729,7 +737,7 @@ module top_level(
    video_sig_gen vsg
      (
       .pixel_clk_in(clk_pixel),
-      .rst_in(sys_rst_pixel),
+      .rst_in(sys_rst),
       .hcount_out(hcount_hdmi),
       .vcount_out(vcount_hdmi),
       .vs_out(vsync_hdmi),
@@ -739,27 +747,29 @@ module top_level(
       .fc_out(frame_count_hdmi)
       );
 
+  logic [9:0] tmds_10b [0:2]; //output of each TMDS encoder!
+  logic       tmds_signal [2:0]; //output of each TMDS serializer!
 
    tmds_encoder tmds_red(
        .clk_in(clk_pixel),
-       .rst_in(sys_rst_pixel),
-       .data_in(red),
+       .rst_in(sys_rst),
+       .data_in(y_pix_tdata),
        .control_in(2'b0),
        .ve_in(active_draw_hdmi),
        .tmds_out(tmds_10b[2]));
 
    tmds_encoder tmds_green(
          .clk_in(clk_pixel),
-         .rst_in(sys_rst_pixel),
-         .data_in(green),
+         .rst_in(sys_rst),
+         .data_in(y_pix_tdata),
          .control_in(2'b0),
          .ve_in(active_draw_hdmi),
          .tmds_out(tmds_10b[1]));
 
    tmds_encoder tmds_blue(
         .clk_in(clk_pixel),
-        .rst_in(sys_rst_pixel),
-        .data_in(blue),
+        .rst_in(sys_rst),
+        .data_in(y_pix_tdata),
         .control_in({vsync_hdmi,hsync_hdmi}),
         .ve_in(active_draw_hdmi),
         .tmds_out(tmds_10b[0]));
@@ -767,19 +777,19 @@ module top_level(
    tmds_serializer red_ser(
          .clk_pixel_in(clk_pixel),
          .clk_5x_in(clk_5x),
-         .rst_in(sys_rst_pixel),
+         .rst_in(sys_rst),
          .tmds_in(tmds_10b[2]),
          .tmds_out(tmds_signal[2]));
    tmds_serializer green_ser(
          .clk_pixel_in(clk_pixel),
          .clk_5x_in(clk_5x),
-         .rst_in(sys_rst_pixel),
+         .rst_in(sys_rst),
          .tmds_in(tmds_10b[1]),
          .tmds_out(tmds_signal[1]));
    tmds_serializer blue_ser(
          .clk_pixel_in(clk_pixel),
          .clk_5x_in(clk_5x),
-         .rst_in(sys_rst_pixel),
+         .rst_in(sys_rst),
          .tmds_in(tmds_10b[0]),
          .tmds_out(tmds_signal[0]));
 
