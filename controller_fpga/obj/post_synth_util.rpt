@@ -1,0 +1,210 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2024.1 (lin64) Build 5076996 Wed May 22 18:36:09 MDT 2024
+| Date         : Thu Dec  5 14:54:47 2024
+| Host         : eecs-digital-11 running 64-bit Ubuntu 24.04.1 LTS
+| Command      : report_utilization -file obj/post_synth_util.rpt -hierarchical -hierarchical_depth 4
+| Design       : top_level
+| Device       : xc7s50csga324-1
+| Speed File   : -1
+| Design State : Synthesized
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Utilization Design Information
+
+Table of Contents
+-----------------
+1. Utilization by Hierarchy
+
+1. Utilization by Hierarchy
+---------------------------
+
++--------------------------------------------+------------------------------------------+------------+------------+---------+------+------+--------+--------+------------+
+|                  Instance                  |                  Module                  | Total LUTs | Logic LUTs | LUTRAMs | SRLs |  FFs | RAMB36 | RAMB18 | DSP Blocks |
++--------------------------------------------+------------------------------------------+------------+------------+---------+------+------+--------+--------+------------+
+| top_level                                  |                                    (top) |       7168 |       6707 |     444 |   17 | 7642 |     14 |      6 |          0 |
+|   (top_level)                              |                                    (top) |          0 |          0 |       0 |    0 |   22 |      0 |      0 |          0 |
+|   blue_ser                                 |                          tmds_serializer |          0 |          0 |       0 |    0 |    0 |      0 |      0 |          0 |
+|   cam1_stacker                             |                                  stacker |          9 |          9 |       0 |    0 |  270 |      0 |      0 |          0 |
+|   cam2_stacker                             |                                stacker_0 |         13 |         13 |       0 |    0 |  270 |      0 |      0 |          0 |
+|   cdc_fifo_camera                          |                                     fifo |         39 |         39 |       0 |    0 |   82 |      1 |      0 |          0 |
+|     (cdc_fifo_camera)                      |                                     fifo |          0 |          0 |       0 |    0 |    0 |      0 |      0 |          0 |
+|     U0                                     |                  fifo_generator_v13_2_10 |         39 |         39 |       0 |    0 |   82 |      1 |      0 |          0 |
+|       (U0)                                 |                  fifo_generator_v13_2_10 |          0 |          0 |       0 |    0 |    0 |      0 |      0 |          0 |
+|       inst_fifo_gen                        |            fifo_generator_v13_2_10_synth |         39 |         39 |       0 |    0 |   82 |      1 |      0 |          0 |
+|         gconvfifo.rf                       |                       fifo_generator_top |         39 |         39 |       0 |    0 |   82 |      1 |      0 |          0 |
+|   cdc_fifo_hdmi                            |                               fifo_HD387 |         39 |         39 |       0 |    0 |   82 |      1 |      0 |          0 |
+|     (cdc_fifo_hdmi)                        |                               fifo_HD387 |          0 |          0 |       0 |    0 |    0 |      0 |      0 |          0 |
+|     U0                                     |            fifo_generator_v13_2_10_HD388 |         39 |         39 |       0 |    0 |   82 |      1 |      0 |          0 |
+|       (U0)                                 |            fifo_generator_v13_2_10_HD388 |          0 |          0 |       0 |    0 |    0 |      0 |      0 |          0 |
+|       inst_fifo_gen                        |      fifo_generator_v13_2_10_synth_HD389 |         39 |         39 |       0 |    0 |   82 |      1 |      0 |          0 |
+|         gconvfifo.rf                       |                 fifo_generator_top_HD390 |         39 |         39 |       0 |    0 |   82 |      1 |      0 |          0 |
+|   ddr3_mig_inst                            |                                 ddr3_mig |       5346 |       4885 |     444 |   17 | 4055 |      0 |      0 |          0 |
+|     (ddr3_mig_inst)                        |                                 ddr3_mig |        216 |          0 |     216 |    0 |    0 |      0 |      0 |          0 |
+|     u_ddr3_mig_mig                         |                             ddr3_mig_mig |       5130 |       4885 |     228 |   17 | 4055 |      0 |      0 |          0 |
+|       temp_mon_enabled.u_tempmon           |         ddr3_migmig_7series_v4_2_tempmon |         39 |         39 |       0 |    0 |  122 |      0 |      0 |          0 |
+|       u_ddr3_clk_ibuf                      |        ddr3_migmig_7series_v4_2_clk_ibuf |          0 |          0 |       0 |    0 |    0 |      0 |      0 |          0 |
+|       u_ddr3_infrastructure                |  ddr3_migmig_7series_v4_2_infrastructure |         32 |         32 |       0 |    0 |   62 |      0 |      0 |          0 |
+|       u_iodelay_ctrl                       |    ddr3_migmig_7series_v4_2_iodelay_ctrl |          2 |          2 |       0 |    0 |   15 |      0 |      0 |          0 |
+|       u_memc_ui_top_std                    | ddr3_migmig_7series_v4_2_memc_ui_top_std |       5057 |       4812 |     228 |   17 | 3856 |      0 |      0 |          0 |
+|         (u_memc_ui_top_std)                | ddr3_migmig_7series_v4_2_memc_ui_top_std |          0 |          0 |       0 |    0 |    1 |      0 |      0 |          0 |
+|         mem_intfc0                         |       ddr3_migmig_7series_v4_2_mem_intfc |       4567 |       4518 |      32 |   17 | 3299 |      0 |      0 |          0 |
+|         u_ui_top                           |          ddr3_migmig_7series_v4_2_ui_top |        490 |        294 |     196 |    0 |  556 |      0 |      0 |          0 |
+|   green_ser                                |                        tmds_serializer_1 |          0 |          0 |       0 |    0 |    0 |      0 |      0 |          0 |
+|   hcounter1                                |              evt_counter__parameterized0 |         14 |         14 |       0 |    0 |   11 |      0 |      0 |          0 |
+|   lr                                       |                    luminance_reconstruct |         19 |         19 |       0 |    0 |   30 |      0 |      0 |          0 |
+|   r_cam1_unstacker                         |                                unstacker |          6 |          6 |       0 |    0 |    5 |      0 |      0 |          0 |
+|   r_cam2_unstacker                         |                              unstacker_2 |          6 |          6 |       0 |    0 |    5 |      0 |      0 |          0 |
+|   r_hdmi_unstacker                         |                              unstacker_3 |        129 |        129 |       0 |    0 |  134 |      0 |      0 |          0 |
+|   rd_cam1_fifo                             |                 ddr_fifo_wrap__xdcDup__4 |        144 |        144 |       0 |    0 |  398 |      2 |      1 |          0 |
+|     (rd_cam1_fifo)                         |                 ddr_fifo_wrap__xdcDup__4 |          1 |          1 |       0 |    0 |    0 |      0 |      0 |          0 |
+|     xpm_fifo_axis_inst                     |                 xpm_fifo_axis__xdcDup__4 |        143 |        143 |       0 |    0 |  398 |      2 |      1 |          0 |
+|       (xpm_fifo_axis_inst)                 |                 xpm_fifo_axis__xdcDup__4 |          2 |          2 |       0 |    0 |    0 |      0 |      0 |          0 |
+|       gaxis_rst_sync.xpm_cdc_sync_rst_inst |                     xpm_cdc_sync_rst__27 |          0 |          0 |       0 |    0 |    3 |      0 |      0 |          0 |
+|       xpm_fifo_base_inst                   |                 xpm_fifo_base__xdcDup__4 |        141 |        141 |       0 |    0 |  395 |      2 |      1 |          0 |
+|         (xpm_fifo_base_inst)               |                 xpm_fifo_base__xdcDup__4 |          5 |          5 |       0 |    0 |   22 |      0 |      0 |          0 |
+|         gen_cdc_pntr.rd_pntr_cdc_dc_inst   |          xpm_cdc_gray__parameterized1__9 |         11 |         11 |       0 |    0 |   32 |      0 |      0 |          0 |
+|         gen_cdc_pntr.rd_pntr_cdc_inst      |                         xpm_cdc_gray__19 |          9 |          9 |       0 |    0 |   28 |      0 |      0 |          0 |
+|         gen_cdc_pntr.rpw_gray_reg          |                      xpm_fifo_reg_vec_49 |          7 |          7 |       0 |    0 |    7 |      0 |      0 |          0 |
+|         gen_cdc_pntr.wpr_gray_reg          |                      xpm_fifo_reg_vec_50 |          7 |          7 |       0 |    0 |    7 |      0 |      0 |          0 |
+|         gen_cdc_pntr.wr_pntr_cdc_dc_inst   |          xpm_cdc_gray__parameterized0__9 |         11 |         11 |       0 |    0 |   48 |      0 |      0 |          0 |
+|         gen_cdc_pntr.wr_pntr_cdc_inst      |                         xpm_cdc_gray__18 |          9 |          9 |       0 |    0 |   28 |      0 |      0 |          0 |
+|         gen_fwft.rdpp1_inst                |                      xpm_counter_updn_51 |         10 |         10 |       0 |    0 |    2 |      0 |      0 |          0 |
+|         gen_sdpram.xpm_memory_base_inst    |                       xpm_memory_base__9 |          0 |          0 |       0 |    0 |  164 |      2 |      1 |          0 |
+|         rdp_inst                           |      xpm_counter_updn__parameterized0_52 |         18 |         18 |       0 |    0 |    8 |      0 |      0 |          0 |
+|         rdpp1_inst                         |      xpm_counter_updn__parameterized1_53 |          7 |          7 |       0 |    0 |    7 |      0 |      0 |          0 |
+|         rst_d1_inst                        |                      xpm_fifo_reg_bit_54 |          3 |          3 |       0 |    0 |    1 |      0 |      0 |          0 |
+|         wrp_inst                           |      xpm_counter_updn__parameterized0_55 |          8 |          8 |       0 |    0 |    8 |      0 |      0 |          0 |
+|         wrpp1_inst                         |      xpm_counter_updn__parameterized1_56 |         13 |         13 |       0 |    0 |    7 |      0 |      0 |          0 |
+|         wrpp2_inst                         |      xpm_counter_updn__parameterized2_57 |          6 |          6 |       0 |    0 |    7 |      0 |      0 |          0 |
+|         xpm_fifo_rst_inst                  |                  xpm_fifo_rst__xdcDup__4 |         18 |         18 |       0 |    0 |   19 |      0 |      0 |          0 |
+|   rd_cam2_fifo                             |                 ddr_fifo_wrap__xdcDup__5 |        144 |        144 |       0 |    0 |  398 |      2 |      1 |          0 |
+|     (rd_cam2_fifo)                         |                 ddr_fifo_wrap__xdcDup__5 |          1 |          1 |       0 |    0 |    0 |      0 |      0 |          0 |
+|     xpm_fifo_axis_inst                     |                 xpm_fifo_axis__xdcDup__5 |        143 |        143 |       0 |    0 |  398 |      2 |      1 |          0 |
+|       (xpm_fifo_axis_inst)                 |                 xpm_fifo_axis__xdcDup__5 |          2 |          2 |       0 |    0 |    0 |      0 |      0 |          0 |
+|       gaxis_rst_sync.xpm_cdc_sync_rst_inst |                     xpm_cdc_sync_rst__30 |          0 |          0 |       0 |    0 |    3 |      0 |      0 |          0 |
+|       xpm_fifo_base_inst                   |                 xpm_fifo_base__xdcDup__5 |        141 |        141 |       0 |    0 |  395 |      2 |      1 |          0 |
+|         (xpm_fifo_base_inst)               |                 xpm_fifo_base__xdcDup__5 |          5 |          5 |       0 |    0 |   22 |      0 |      0 |          0 |
+|         gen_cdc_pntr.rd_pntr_cdc_dc_inst   |         xpm_cdc_gray__parameterized1__10 |         11 |         11 |       0 |    0 |   32 |      0 |      0 |          0 |
+|         gen_cdc_pntr.rd_pntr_cdc_inst      |                         xpm_cdc_gray__21 |          9 |          9 |       0 |    0 |   28 |      0 |      0 |          0 |
+|         gen_cdc_pntr.rpw_gray_reg          |                      xpm_fifo_reg_vec_40 |          7 |          7 |       0 |    0 |    7 |      0 |      0 |          0 |
+|         gen_cdc_pntr.wpr_gray_reg          |                      xpm_fifo_reg_vec_41 |          7 |          7 |       0 |    0 |    7 |      0 |      0 |          0 |
+|         gen_cdc_pntr.wr_pntr_cdc_dc_inst   |         xpm_cdc_gray__parameterized0__10 |         11 |         11 |       0 |    0 |   48 |      0 |      0 |          0 |
+|         gen_cdc_pntr.wr_pntr_cdc_inst      |                         xpm_cdc_gray__20 |          9 |          9 |       0 |    0 |   28 |      0 |      0 |          0 |
+|         gen_fwft.rdpp1_inst                |                      xpm_counter_updn_42 |         10 |         10 |       0 |    0 |    2 |      0 |      0 |          0 |
+|         gen_sdpram.xpm_memory_base_inst    |                      xpm_memory_base__10 |          0 |          0 |       0 |    0 |  164 |      2 |      1 |          0 |
+|         rdp_inst                           |      xpm_counter_updn__parameterized0_43 |         18 |         18 |       0 |    0 |    8 |      0 |      0 |          0 |
+|         rdpp1_inst                         |      xpm_counter_updn__parameterized1_44 |          7 |          7 |       0 |    0 |    7 |      0 |      0 |          0 |
+|         rst_d1_inst                        |                      xpm_fifo_reg_bit_45 |          3 |          3 |       0 |    0 |    1 |      0 |      0 |          0 |
+|         wrp_inst                           |      xpm_counter_updn__parameterized0_46 |          8 |          8 |       0 |    0 |    8 |      0 |      0 |          0 |
+|         wrpp1_inst                         |      xpm_counter_updn__parameterized1_47 |         13 |         13 |       0 |    0 |    7 |      0 |      0 |          0 |
+|         wrpp2_inst                         |      xpm_counter_updn__parameterized2_48 |          6 |          6 |       0 |    0 |    7 |      0 |      0 |          0 |
+|         xpm_fifo_rst_inst                  |                  xpm_fifo_rst__xdcDup__5 |         18 |         18 |       0 |    0 |   19 |      0 |      0 |          0 |
+|   rd_hdmi_fifo                             |                            ddr_fifo_wrap |        154 |        154 |       0 |    0 |  234 |      2 |      1 |          0 |
+|     (rd_hdmi_fifo)                         |                            ddr_fifo_wrap |          9 |          9 |       0 |    0 |    0 |      0 |      0 |          0 |
+|     xpm_fifo_axis_inst                     |                            xpm_fifo_axis |        145 |        145 |       0 |    0 |  234 |      2 |      1 |          0 |
+|       (xpm_fifo_axis_inst)                 |                            xpm_fifo_axis |          2 |          2 |       0 |    0 |    0 |      0 |      0 |          0 |
+|       gaxis_rst_sync.xpm_cdc_sync_rst_inst |                     xpm_cdc_sync_rst__33 |          0 |          0 |       0 |    0 |    3 |      0 |      0 |          0 |
+|       xpm_fifo_base_inst                   |                            xpm_fifo_base |        143 |        143 |       0 |    0 |  231 |      2 |      1 |          0 |
+|         (xpm_fifo_base_inst)               |                            xpm_fifo_base |          7 |          7 |       0 |    0 |   22 |      0 |      0 |          0 |
+|         gen_cdc_pntr.rd_pntr_cdc_dc_inst   |             xpm_cdc_gray__parameterized1 |         11 |         11 |       0 |    0 |   32 |      0 |      0 |          0 |
+|         gen_cdc_pntr.rd_pntr_cdc_inst      |                             xpm_cdc_gray |          9 |          9 |       0 |    0 |   28 |      0 |      0 |          0 |
+|         gen_cdc_pntr.rpw_gray_reg          |                      xpm_fifo_reg_vec_31 |          7 |          7 |       0 |    0 |    7 |      0 |      0 |          0 |
+|         gen_cdc_pntr.wpr_gray_reg          |                      xpm_fifo_reg_vec_32 |          7 |          7 |       0 |    0 |    7 |      0 |      0 |          0 |
+|         gen_cdc_pntr.wr_pntr_cdc_dc_inst   |             xpm_cdc_gray__parameterized0 |         11 |         11 |       0 |    0 |   48 |      0 |      0 |          0 |
+|         gen_cdc_pntr.wr_pntr_cdc_inst      |                         xpm_cdc_gray__22 |          9 |          9 |       0 |    0 |   28 |      0 |      0 |          0 |
+|         gen_fwft.rdpp1_inst                |                      xpm_counter_updn_33 |         10 |         10 |       0 |    0 |    2 |      0 |      0 |          0 |
+|         gen_sdpram.xpm_memory_base_inst    |                          xpm_memory_base |          0 |          0 |       0 |    0 |    0 |      2 |      1 |          0 |
+|         rdp_inst                           |      xpm_counter_updn__parameterized0_34 |         18 |         18 |       0 |    0 |    8 |      0 |      0 |          0 |
+|         rdpp1_inst                         |      xpm_counter_updn__parameterized1_35 |          7 |          7 |       0 |    0 |    7 |      0 |      0 |          0 |
+|         rst_d1_inst                        |                      xpm_fifo_reg_bit_36 |          3 |          3 |       0 |    0 |    1 |      0 |      0 |          0 |
+|         wrp_inst                           |      xpm_counter_updn__parameterized0_37 |          8 |          8 |       0 |    0 |    8 |      0 |      0 |          0 |
+|         wrpp1_inst                         |      xpm_counter_updn__parameterized1_38 |         13 |         13 |       0 |    0 |    7 |      0 |      0 |          0 |
+|         wrpp2_inst                         |      xpm_counter_updn__parameterized2_39 |          6 |          6 |       0 |    0 |    7 |      0 |      0 |          0 |
+|         xpm_fifo_rst_inst                  |                             xpm_fifo_rst |         18 |         18 |       0 |    0 |   19 |      0 |      0 |          0 |
+|   readwrite_looper                         |                        traffic_generator |        462 |        462 |       0 |    0 |  583 |      0 |      0 |          0 |
+|     (readwrite_looper)                     |                        traffic_generator |        402 |        402 |       0 |    0 |  535 |      0 |      0 |          0 |
+|     read_counter                           |                              evt_counter |         10 |         10 |       0 |    0 |   16 |      0 |      0 |          0 |
+|     request_counter                        |                           evt_counter_29 |         27 |         27 |       0 |    0 |   16 |      0 |      0 |          0 |
+|     write_counter                          |                           evt_counter_30 |         23 |         23 |       0 |    0 |   16 |      0 |      0 |          0 |
+|   red_ser                                  |                        tmds_serializer_4 |          1 |          1 |       0 |    0 |    1 |      0 |      0 |          0 |
+|   sad_calculator                           |                             depth_mapper |         26 |         26 |       0 |    0 |   60 |      0 |      0 |          0 |
+|     left_lbuff                             |                              line_buffer |          1 |          1 |       0 |    0 |    1 |      0 |      0 |          0 |
+|     right_lbuff                            |                           line_buffer_28 |          0 |          0 |       0 |    0 |    2 |      0 |      0 |          0 |
+|     sadCalc                                |                                      sad |         25 |         25 |       0 |    0 |   57 |      0 |      0 |          0 |
+|   sad_data_fifo                            |                 ddr_fifo_wrap__xdcDup__3 |        144 |        144 |       0 |    0 |  234 |      2 |      1 |          0 |
+|     (sad_data_fifo)                        |                 ddr_fifo_wrap__xdcDup__3 |          0 |          0 |       0 |    0 |    0 |      0 |      0 |          0 |
+|     xpm_fifo_axis_inst                     |                 xpm_fifo_axis__xdcDup__3 |        144 |        144 |       0 |    0 |  234 |      2 |      1 |          0 |
+|       (xpm_fifo_axis_inst)                 |                 xpm_fifo_axis__xdcDup__3 |          2 |          2 |       0 |    0 |    0 |      0 |      0 |          0 |
+|       gaxis_rst_sync.xpm_cdc_sync_rst_inst |                     xpm_cdc_sync_rst__24 |          0 |          0 |       0 |    0 |    3 |      0 |      0 |          0 |
+|       xpm_fifo_base_inst                   |                 xpm_fifo_base__xdcDup__3 |        142 |        142 |       0 |    0 |  231 |      2 |      1 |          0 |
+|         (xpm_fifo_base_inst)               |                 xpm_fifo_base__xdcDup__3 |          6 |          6 |       0 |    0 |   22 |      0 |      0 |          0 |
+|         gen_cdc_pntr.rd_pntr_cdc_dc_inst   |          xpm_cdc_gray__parameterized1__8 |         11 |         11 |       0 |    0 |   32 |      0 |      0 |          0 |
+|         gen_cdc_pntr.rd_pntr_cdc_inst      |                         xpm_cdc_gray__17 |          9 |          9 |       0 |    0 |   28 |      0 |      0 |          0 |
+|         gen_cdc_pntr.rpw_gray_reg          |                      xpm_fifo_reg_vec_19 |          7 |          7 |       0 |    0 |    7 |      0 |      0 |          0 |
+|         gen_cdc_pntr.wpr_gray_reg          |                      xpm_fifo_reg_vec_20 |          7 |          7 |       0 |    0 |    7 |      0 |      0 |          0 |
+|         gen_cdc_pntr.wr_pntr_cdc_dc_inst   |          xpm_cdc_gray__parameterized0__8 |         11 |         11 |       0 |    0 |   48 |      0 |      0 |          0 |
+|         gen_cdc_pntr.wr_pntr_cdc_inst      |                         xpm_cdc_gray__16 |          9 |          9 |       0 |    0 |   28 |      0 |      0 |          0 |
+|         gen_fwft.rdpp1_inst                |                      xpm_counter_updn_21 |         10 |         10 |       0 |    0 |    2 |      0 |      0 |          0 |
+|         gen_sdpram.xpm_memory_base_inst    |                       xpm_memory_base__8 |          0 |          0 |       0 |    0 |    0 |      2 |      1 |          0 |
+|         rdp_inst                           |      xpm_counter_updn__parameterized0_22 |         18 |         18 |       0 |    0 |    8 |      0 |      0 |          0 |
+|         rdpp1_inst                         |      xpm_counter_updn__parameterized1_23 |          7 |          7 |       0 |    0 |    7 |      0 |      0 |          0 |
+|         rst_d1_inst                        |                      xpm_fifo_reg_bit_24 |          3 |          3 |       0 |    0 |    1 |      0 |      0 |          0 |
+|         wrp_inst                           |      xpm_counter_updn__parameterized0_25 |          8 |          8 |       0 |    0 |    8 |      0 |      0 |          0 |
+|         wrpp1_inst                         |      xpm_counter_updn__parameterized1_26 |         13 |         13 |       0 |    0 |    7 |      0 |      0 |          0 |
+|         wrpp2_inst                         |      xpm_counter_updn__parameterized2_27 |          6 |          6 |       0 |    0 |    7 |      0 |      0 |          0 |
+|         xpm_fifo_rst_inst                  |                  xpm_fifo_rst__xdcDup__3 |         18 |         18 |       0 |    0 |   19 |      0 |      0 |          0 |
+|   sad_stacker                              |                                stacker_5 |          9 |          9 |       0 |    0 |  239 |      0 |      0 |          0 |
+|   tmds_blue                                |                             tmds_encoder |         56 |         56 |       0 |    0 |   14 |      0 |      0 |          0 |
+|   tmds_red                                 |                           tmds_encoder_6 |         72 |         72 |       0 |    0 |   14 |      0 |      0 |          0 |
+|   vcounter1                                |              evt_counter__parameterized1 |          9 |          9 |       0 |    0 |    9 |      0 |      0 |          0 |
+|   vsg                                      |                            video_sig_gen |         39 |         39 |       0 |    0 |   24 |      0 |      0 |          0 |
+|   wizard_hdmi                              |                          cw_hdmi_clk_wiz |          0 |          0 |       0 |    0 |    0 |      0 |      0 |          0 |
+|   wizard_migcam                            |                          cw_fast_clk_wiz |          0 |          0 |       0 |    0 |    0 |      0 |      0 |          0 |
+|   wr_cam1_data_fifo                        |                 ddr_fifo_wrap__xdcDup__1 |        144 |        144 |       0 |    0 |  234 |      2 |      1 |          0 |
+|     (wr_cam1_data_fifo)                    |                 ddr_fifo_wrap__xdcDup__1 |          0 |          0 |       0 |    0 |    0 |      0 |      0 |          0 |
+|     xpm_fifo_axis_inst                     |                 xpm_fifo_axis__xdcDup__1 |        144 |        144 |       0 |    0 |  234 |      2 |      1 |          0 |
+|       (xpm_fifo_axis_inst)                 |                 xpm_fifo_axis__xdcDup__1 |          2 |          2 |       0 |    0 |    0 |      0 |      0 |          0 |
+|       gaxis_rst_sync.xpm_cdc_sync_rst_inst |                     xpm_cdc_sync_rst__18 |          0 |          0 |       0 |    0 |    3 |      0 |      0 |          0 |
+|       xpm_fifo_base_inst                   |                 xpm_fifo_base__xdcDup__1 |        142 |        142 |       0 |    0 |  231 |      2 |      1 |          0 |
+|         (xpm_fifo_base_inst)               |                 xpm_fifo_base__xdcDup__1 |          6 |          6 |       0 |    0 |   22 |      0 |      0 |          0 |
+|         gen_cdc_pntr.rd_pntr_cdc_dc_inst   |          xpm_cdc_gray__parameterized1__6 |         11 |         11 |       0 |    0 |   32 |      0 |      0 |          0 |
+|         gen_cdc_pntr.rd_pntr_cdc_inst      |                         xpm_cdc_gray__13 |          9 |          9 |       0 |    0 |   28 |      0 |      0 |          0 |
+|         gen_cdc_pntr.rpw_gray_reg          |                      xpm_fifo_reg_vec_10 |          7 |          7 |       0 |    0 |    7 |      0 |      0 |          0 |
+|         gen_cdc_pntr.wpr_gray_reg          |                      xpm_fifo_reg_vec_11 |          7 |          7 |       0 |    0 |    7 |      0 |      0 |          0 |
+|         gen_cdc_pntr.wr_pntr_cdc_dc_inst   |          xpm_cdc_gray__parameterized0__6 |         11 |         11 |       0 |    0 |   48 |      0 |      0 |          0 |
+|         gen_cdc_pntr.wr_pntr_cdc_inst      |                         xpm_cdc_gray__12 |          9 |          9 |       0 |    0 |   28 |      0 |      0 |          0 |
+|         gen_fwft.rdpp1_inst                |                      xpm_counter_updn_12 |         10 |         10 |       0 |    0 |    2 |      0 |      0 |          0 |
+|         gen_sdpram.xpm_memory_base_inst    |                       xpm_memory_base__6 |          0 |          0 |       0 |    0 |    0 |      2 |      1 |          0 |
+|         rdp_inst                           |      xpm_counter_updn__parameterized0_13 |         18 |         18 |       0 |    0 |    8 |      0 |      0 |          0 |
+|         rdpp1_inst                         |      xpm_counter_updn__parameterized1_14 |          7 |          7 |       0 |    0 |    7 |      0 |      0 |          0 |
+|         rst_d1_inst                        |                      xpm_fifo_reg_bit_15 |          3 |          3 |       0 |    0 |    1 |      0 |      0 |          0 |
+|         wrp_inst                           |      xpm_counter_updn__parameterized0_16 |          8 |          8 |       0 |    0 |    8 |      0 |      0 |          0 |
+|         wrpp1_inst                         |      xpm_counter_updn__parameterized1_17 |         13 |         13 |       0 |    0 |    7 |      0 |      0 |          0 |
+|         wrpp2_inst                         |      xpm_counter_updn__parameterized2_18 |          6 |          6 |       0 |    0 |    7 |      0 |      0 |          0 |
+|         xpm_fifo_rst_inst                  |                  xpm_fifo_rst__xdcDup__1 |         18 |         18 |       0 |    0 |   19 |      0 |      0 |          0 |
+|   wr_cam2_data_fifo                        |                 ddr_fifo_wrap__xdcDup__2 |        144 |        144 |       0 |    0 |  234 |      2 |      1 |          0 |
+|     (wr_cam2_data_fifo)                    |                 ddr_fifo_wrap__xdcDup__2 |          0 |          0 |       0 |    0 |    0 |      0 |      0 |          0 |
+|     xpm_fifo_axis_inst                     |                 xpm_fifo_axis__xdcDup__2 |        144 |        144 |       0 |    0 |  234 |      2 |      1 |          0 |
+|       (xpm_fifo_axis_inst)                 |                 xpm_fifo_axis__xdcDup__2 |          2 |          2 |       0 |    0 |    0 |      0 |      0 |          0 |
+|       gaxis_rst_sync.xpm_cdc_sync_rst_inst |                     xpm_cdc_sync_rst__21 |          0 |          0 |       0 |    0 |    3 |      0 |      0 |          0 |
+|       xpm_fifo_base_inst                   |                 xpm_fifo_base__xdcDup__2 |        142 |        142 |       0 |    0 |  231 |      2 |      1 |          0 |
+|         (xpm_fifo_base_inst)               |                 xpm_fifo_base__xdcDup__2 |          6 |          6 |       0 |    0 |   22 |      0 |      0 |          0 |
+|         gen_cdc_pntr.rd_pntr_cdc_dc_inst   |          xpm_cdc_gray__parameterized1__7 |         11 |         11 |       0 |    0 |   32 |      0 |      0 |          0 |
+|         gen_cdc_pntr.rd_pntr_cdc_inst      |                         xpm_cdc_gray__15 |          9 |          9 |       0 |    0 |   28 |      0 |      0 |          0 |
+|         gen_cdc_pntr.rpw_gray_reg          |                         xpm_fifo_reg_vec |          7 |          7 |       0 |    0 |    7 |      0 |      0 |          0 |
+|         gen_cdc_pntr.wpr_gray_reg          |                       xpm_fifo_reg_vec_7 |          7 |          7 |       0 |    0 |    7 |      0 |      0 |          0 |
+|         gen_cdc_pntr.wr_pntr_cdc_dc_inst   |          xpm_cdc_gray__parameterized0__7 |         11 |         11 |       0 |    0 |   48 |      0 |      0 |          0 |
+|         gen_cdc_pntr.wr_pntr_cdc_inst      |                         xpm_cdc_gray__14 |          9 |          9 |       0 |    0 |   28 |      0 |      0 |          0 |
+|         gen_fwft.rdpp1_inst                |                         xpm_counter_updn |         10 |         10 |       0 |    0 |    2 |      0 |      0 |          0 |
+|         gen_sdpram.xpm_memory_base_inst    |                       xpm_memory_base__7 |          0 |          0 |       0 |    0 |    0 |      2 |      1 |          0 |
+|         rdp_inst                           |         xpm_counter_updn__parameterized0 |         18 |         18 |       0 |    0 |    8 |      0 |      0 |          0 |
+|         rdpp1_inst                         |         xpm_counter_updn__parameterized1 |          7 |          7 |       0 |    0 |    7 |      0 |      0 |          0 |
+|         rst_d1_inst                        |                         xpm_fifo_reg_bit |          3 |          3 |       0 |    0 |    1 |      0 |      0 |          0 |
+|         wrp_inst                           |       xpm_counter_updn__parameterized0_8 |          8 |          8 |       0 |    0 |    8 |      0 |      0 |          0 |
+|         wrpp1_inst                         |       xpm_counter_updn__parameterized1_9 |         13 |         13 |       0 |    0 |    7 |      0 |      0 |          0 |
+|         wrpp2_inst                         |         xpm_counter_updn__parameterized2 |          6 |          6 |       0 |    0 |    7 |      0 |      0 |          0 |
+|         xpm_fifo_rst_inst                  |                  xpm_fifo_rst__xdcDup__2 |         18 |         18 |       0 |    0 |   19 |      0 |      0 |          0 |
++--------------------------------------------+------------------------------------------+------------+------------+---------+------+------+--------+--------+------------+
+
+
