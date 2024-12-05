@@ -1,22 +1,21 @@
 `default_nettype none
 
-module filter (
-  input wire clk_in,
+module depth_mapper (
+  input wire clk_in, //100 MHz
   input wire rst_in,
 
   input wire data_cam1_valid,
   input wire data_cam2_valid,
   input wire [7:0] cam1_pixel_data,
   input wire [7:0] cam2_pixel_data,
-  input wire [10:0] hcount_in1,
-  input wire [10:0] hcount_in2,
-  input wire [9:0] vcount_in1,
-  input wire [9:0] vcount_in2,
+  input wire [10:0] hcount_in,
+  input wire [9:0] vcount_in,
 
   output logic data_valid_out,
-  output logic [15:0] pixel_data_out,
+  output logic [7:0] pixel_depth_out,
   output logic [10:0] hcount_out,
   output logic [9:0] vcount_out
+
   );
 
   parameter HRES = 640;
@@ -31,7 +30,6 @@ module filter (
   logic [10:0] hcount_buff; //hard code like a loser whatever
   logic [9:0] vcount_buff;
 
-    //TODO: Add FIFOs? align with the hcount/vcount values
 
   line_buffer #(.HRES(HRES),
                 .VRES(VRES))
@@ -40,8 +38,8 @@ module filter (
     .rst_in(rst_in),
     .data_valid_in(data_cam1_valid),
     .pixel_data_in(cam1_pixel_data),
-    .hcount_in(hcount_in1),
-    .vcount_in(vcount_in2),
+    .hcount_in(hcount_in),
+    .vcount_in(vcount_in),
     .data_valid_out(b_to_s_valid),
     .line_buffer_out(Lbuffs),
     .hcount_out(hcount_buff),
@@ -55,8 +53,8 @@ module filter (
     .rst_in(rst_in),
     .data_valid_in(data_cam2_valid),
     .pixel_data_in(cam2_pixel_data),
-    .hcount_in(hcount_in1),
-    .vcount_in(vcount_in2),
+    .hcount_in(hcount_in),
+    .vcount_in(vcount_in),
     .data_valid_out(b_to_s_valid),
     .line_buffer_out(Rbuffs),
     .hcount_out(hcount_buff),
@@ -66,7 +64,7 @@ module filter (
 
 sad #(.KERNEL_WIDTH(3), .OFFSET(10)) sadCalc(
     .clk_in(clk_in), .rst_in(rst_in), .left_data_in(), .right_data_in(),
-    .hcount_in(), .vcount_in(), .data_valid_in(b_to_s_valid),
+    .hcount_in(hcount_in), .vcount_in(vcount_in), .data_valid_in(b_to_s_valid),
     .data_valid_out(data_valid_out), 
     .busy_out(), // whether it is still calculating a module
     .hcount_out(hcount_out), .vcount_out(vcount_out), 
@@ -75,20 +73,6 @@ sad #(.KERNEL_WIDTH(3), .OFFSET(10)) sadCalc(
     .diffs_out () // FOR TESTING PURPOSES
     );
 
-//   convolution #(
-//     .K_SELECT(K_SELECT) )
-//     mconv (
-//     .clk_in(clk_in),
-//     .rst_in(rst_in),
-//     .data_in(buffs),
-//     .data_valid_in(b_to_c_valid),
-//     .hcount_in(hcount_buff),
-//     .vcount_in(vcount_buff),
-//     .line_out(pixel_data_out),
-//     .data_valid_out(data_valid_out),
-//     .hcount_out(hcount_out),
-//     .vcount_out(vcount_out)
-//   );
 
 endmodule
 

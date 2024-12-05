@@ -2,18 +2,28 @@
  
 module top_level(
   input wire clk_100mhz, //100 MHz onboard clock
-  input wire [15:0] sw, //all 16 input slide switches
-  input wire [3:0] btn, //all four momentary button switches
+  input wire [15:0]   sw,
+  input wire [3:0]    btn,
+  output logic [2:0]  rgb0,
+  output logic [2:0]  rgb1,
+ output logic [15:0] led,
+
+  // seven segment
+  output logic [3:0]  ss0_an,//anode control for upper four digits of seven-seg display
+  output logic [3:0]  ss1_an,//anode control for lower four digits of seven-seg display
+  output logic [6:0]  ss0_c, //cathode controls for the segments of upper four digits
+  output logic [6:0]  ss1_c, //cathod controls for the segments of lower four digits
+
 
   // HDMI
   output logic [2:0] hdmi_tx_p, //hdmi output signals (positives) (blue, green, red)
   output logic [2:0] hdmi_tx_n, //hdmi output signals (negatives) (blue, green, red)
-  output logic hdmi_clk_p, hdmi_clk_n //differential hdmi clock
+  output logic hdmi_clk_p, hdmi_clk_n, //differential hdmi clock
 
   // SPI 
-  output logic dclk, // data clock output of SPI controller
-  output logic [5:0] cipo, // six parallel data outputs of SPI controller
-  output logic cs, // chip select line for the SPI bus
+  // output logic dclk, // data clock output of SPI controller
+  // output logic [5:0] cipo, // six parallel data outputs of SPI controller
+  // output logic cs, // chip select line for the SPI bus
 
   // Camera
   input wire [7:0]    camera_d, // 8 parallel data wires
@@ -21,8 +31,24 @@ module top_level(
   input wire          cam_hsync, // camera hsync wire
   input wire          cam_vsync, // camera vsync wire
   input wire          cam_pclk, // camera pixel clock
-  inout wire          i2c_scl, // i2c inout clock
-  inout wire          i2c_sda, // i2c inout data
+  input wire          i2c_scl, // i2c inout clock
+  input wire          i2c_sda, // i2c inout data
+
+  // DDR3 ports -- Causes Multiple Driver Nets if uncommented, but other undefined error
+  inout wire [15:0]  ddr3_dq,
+  inout wire [1:0]   ddr3_dqs_n,
+  inout wire [1:0]   ddr3_dqs_p,
+  output wire [12:0] ddr3_addr,
+  output wire [2:0]  ddr3_ba,
+  output wire        ddr3_ras_n,
+  output wire        ddr3_cas_n,
+  output wire        ddr3_we_n,
+  output wire        ddr3_reset_n,
+  output wire        ddr3_ck_p,
+  output wire        ddr3_ck_n,
+  output wire        ddr3_cke,
+  output wire [1:0]  ddr3_dm,
+  output wire        ddr3_odt
   );
 
   /*
@@ -31,11 +57,13 @@ module top_level(
   // btn[0] controls system reset
   logic sys_rst_camera;
   logic sys_rst_pixel;
+  logic sys_rst;
   assign sys_rst_camera = btn[0];
   assign sys_rst_pixel = sys_rst_camera;
+  assign sys_rst = sys_rst_camera;
   // this port also is specifically set to high drive by the XDC file.
   // Camera clock only runs when holding btn[1] down (protect cameras)
-  assign cam_xclk = btn[1] ? clk_xc : 1'b0;;
+  // assign cam_xclk = btn[1] ? clk_xc : 1'b0;
 
   /*
     CLOCKS
@@ -47,6 +75,12 @@ module top_level(
   logic clk_100_passthrough;
   logic clk_5x;
   logic clk_xc;
+  //MIG clocks
+  logic          clk_migref;
+  logic          sys_rst_migref;
+  logic          clk_ui;
+  logic          sys_rst_ui;
+
   cw_hdmi_clk_wiz wizard_hdmi
     (.sysclk(clk_100_passthrough),
      .clk_pixel(clk_pixel),
@@ -56,10 +90,12 @@ module top_level(
   cw_fast_clk_wiz wizard_migcam
     (.clk_in1(clk_100mhz),
      .clk_camera(clk_camera),
+     .clk_mig(clk_migref),
      .clk_xc(clk_xc),
      .clk_100(clk_100_passthrough),
      .reset(0));
-  
+    
+
   // assign camera's xclk to pmod port: drive the operating clock of the camera!
   // this port also is specifically set to high drive by the XDC file.
   assign cam_xclk = clk_xc;
@@ -67,14 +103,15 @@ module top_level(
   // video signal generator signals
   logic          hsync_hdmi;
   logic          vsync_hdmi;
-  logic [10:0]  hcount_hdmi;
+  logic [10:0]   hcount_hdmi;
   logic [9:0]    vcount_hdmi;
   logic          active_draw_hdmi;
   logic          new_frame_hdmi;
   logic [5:0]    frame_count_hdmi;
   logic          nf_hdmi;
-  // 8'b rgb output values = B&W
-  logic [7:0]          red,green,blue;
+
+  // rgb output values
+  logic [7:0]    red,green,blue;
 
   /*
     CAMERA 
@@ -99,7 +136,7 @@ module top_level(
   */
   logic [10:0] camera_hcount;
   logic [9:0]  camera_vcount;
-  logic [7:0] camera_pixel; // 8-bit
+  logic [7:0]  camera_pixel; // 8-bit
   logic        camera_valid;
 
 luminance_reconstruct #(
@@ -118,100 +155,28 @@ luminance_reconstruct #(
     .pixel_data_out(camera_pixel)// the camera pixel from CAM1
   );
 
-  //two-port BRAM used to hold output image from DRAM.
-  //we're going to down-sample by a factor of 2 in both dimensions
-  //so we have 640 by 360.  
-  //even if we could line it up once, the clocks of both systems will drift over time
-  //so to avoid this sync issue, we use a conflict-resolution device...the frame buffer
-  //instead we use a frame buffer as a go-between. The DRAM --> FIFO sends pixels in at
-  //its own rate, and we pull them out for display at the 720p rate/requirement
-  //this avoids the whole sync issue. 
-  localparam FB_DEPTH = 640*360;
-  localparam FB_SIZE = $clog2(FB_DEPTH);
-  logic [FB_SIZE-1:0] addra; //used to specify address to write to in frame buffer
-
-  //Only for directly using camera data
-  logic valid_camera_mem; //used to enable writing pixel data to frame buffer
-  logic [7:0] camera_mem; //used to pass pixel data into frame buffer -- 8bit
-
-  always_ff @(posedge clk_camera)begin
-    // down sample  data from the camera by a factor of 2 in both
-    //the x and y dimensions!
-    if (sys_rst) begin
-      addra <= 0;
-      camera_mem <= 0;  
-      valid_camera_mem <= 0;
-    end else begin
-      addra <= camera_hcount[10:1] + (camera_vcount[9:1])*320; //x/2 + (y/2)*w
-      camera_mem <= camera_pixel;
-      if (camera_hcount[0] == 0 && camera_vcount[0] == 0 && camera_valid) begin //if both hcount and vcount are divisible by 2
-        valid_camera_mem <= 1;
-      end else begin
-        valid_camera_mem <= 0;
-      end
-    end
-  end
-
-  //frame buffer from IP
-  blk_mem_gen_0 frame_buffer (
-    .addra(addra), //pixels are stored using this math
-    .clka(clk_camera),
-    .wea(valid_camera_mem),
-    .dina(camera_mem),
-    .ena(1'b1),
-    .douta(), //never read from this side
-    .addrb(addrb),//transformed lookup pixel
-    .dinb(16'b0),
-    .clkb(clk_pixel),
-    .web(1'b0),
-    .enb(1'b1),
-    .doutb(frame_buff_raw)
-  );
-  logic [15:0] frame_buff_raw; //data out of frame buffer (16-bit)
-  logic [FB_SIZE-1:0] addrb; //used to lookup address in memory for reading from buffer
-  logic good_addrb; //used to indicate within valid frame for scaling
-
-
-  // Scale pixel coordinates from HDMI to the frame buffer to grab the right pixel
-  //scaling logic -- 2X
-  always_ff @(posedge clk_pixel)begin
-    //2X scaling from frame buffer
-    addrb <= (hcount_hdmi>>1) + 320*(vcount_hdmi>>1); //Shift to divide by 2
-    good_addrb <=(hcount_hdmi<640)&&(vcount_hdmi<360);
-  end
-
-  //split frame_buff into 3 8 bit Y luminance channels
-  //remapped frame_buffer outputs with 8 bits for r, g, b
-  logic [7:0] fb_red, fb_green, fb_blue;
-  always_ff @(posedge clk_pixel)begin
-    fb_red <= good_addrb ? frame_buff_raw[7:0] : 8'b0;
-    fb_green <= good_addrb ? frame_buff_raw[7:0] : 8'b0;
-    fb_blue <= good_addrb ? frame_buff_raw[7:0] : 8'b0;
-  end
-
-
   /*
-    CDC (clk_camera 200 Mhz -> clk_pixel 74.25 MHz)
+    CDC (clk_camera 200 Mhz -> clk_100mhz 100 MHz)
   */
   logic empty;
-  logic cdc_valid;
-  logic [15:0] cdc_pixel; //now 8-bit?
-  logic [10:0] cdc_hcount;
-  logic [9:0] cdc_vcount;
+  logic cdc_valid1;
+  logic [15:0] cdc_pixel1; //now 8-bit?
+  logic [10:0] cdc_hcount1;
+  logic [9:0] cdc_vcount1;
 
-  fifo cdc_fifo
+  fifo cdc_fifo_camera
     (.wr_clk(clk_camera),
      .full(),
      .din({camera_hcount, camera_vcount, camera_pixel}),
      .wr_en(camera_valid),
 
-     .rd_clk(clk_pixel),
+     .rd_clk(clk_100_passthrough),
      .empty(empty),
-     .dout({cdc_hcount, cdc_vcount, cdc_pixel}),
+     .dout({cdc_hcount1, cdc_vcount1, cdc_pixel1}),
      .rd_en(1) //always read
     );
 
-  assign cdc_valid = ~empty; //watch when empty. Ready immediately if something there
+  assign cdc_valid1 = ~empty; //watch when empty. Ready immediately if something there
 
 
 /* SECTION FOR ALL DRAM (6 FIFOs -- 3 pairs for camera 1 data, camera 2 data, and SAD module input/output)*/
@@ -229,22 +194,22 @@ luminance_reconstruct #(
   logic         wr_cam2_axis_tvalid;
 
 // //SAD_OUT AXIS:
-  logic [127:0] sad_axis_tdata;
-  logic         sad_axis_tlast;
-  logic         sad_axis_tready;
-  logic         sad_axis_tvalid;
+  logic [127:0] wr_sad_axis_tdata;
+  logic         wr_sad_axis_tlast;
+  logic         wr_sad_axis_tready;
+  logic         wr_sad_axis_tvalid;
 
   // takes our 8-bit values and deserialize/stack them into 128-bit messages to write to DRAM
   // the data pipeline is designed such that we can fairly safe to assume its always ready.
 
   //potentially add different tlast
   stacker cam1_stacker(
-    .clk_in(clk_camera),
+    .clk_in(clk_100_passthrough),
     .rst_in(sys_rst),
-    .pixel_tvalid(camera_valid),
+    .pixel_tvalid(cdc_valid1),
     .pixel_tready(),
-    .pixel_tdata(camera_pixel),
-    .pixel_tlast(camera_hcount == 639 && camera_vcount == 359), // change me
+    .pixel_tdata(cdc_pixel1),
+    .pixel_tlast(cdc_hcount1 == 639 && cdc_vcount1 == 359), // change me
     .chunk_tvalid(wr_cam1_axis_tvalid),
     .chunk_tready(wr_cam1_axis_tready),
     .chunk_tdata(wr_cam1_axis_tdata),
@@ -253,27 +218,27 @@ luminance_reconstruct #(
 //TODO: GET DATA/PIXELS FROM SPI
 //FOR NOW JUST TAKING A COPY FROM THE CAMERA
   stacker cam2_stacker(
-    .clk_in(clk_camera),
+    .clk_in(clk_100_passthrough),
     .rst_in(sys_rst),
-    .pixel_tvalid(camera_valid),
+    .pixel_tvalid(cdc_valid1),
     .pixel_tready(),
 //////
-    .pixel_tdata(camera_pixel), //reconstructed pixel
-    .pixel_tlast(camera_hcount == 639 && camera_vcount == 359), // final pixel
+    .pixel_tdata(cdc_pixel1), //reconstructed pixel
+    .pixel_tlast(cdc_hcount1 == 639 && cdc_vcount1 == 359), // final pixel
 //////
     .chunk_tvalid(wr_cam2_axis_tvalid),
     .chunk_tready(wr_cam2_axis_tready),
     .chunk_tdata(wr_cam2_axis_tdata),
     .chunk_tlast(wr_cam2_axis_tlast));
 
-//TODO: GET OUTPUT OF SAD
+//OUTPUT OF SAD from depth_mapper
   stacker sad_stacker(
-    .clk_in(clk_camera),
+    .clk_in(clk_100_passthrough),
     .rst_in(sys_rst),
-    .pixel_tvalid(camera_valid),
+    .pixel_tvalid(sad_valid_out),
     .pixel_tready(),
-    .pixel_tdata(),//calculated pixel
-    .pixel_tlast(), // final pixel
+    .pixel_tdata(sad_data_out),//calculated pixel
+    .pixel_tlast(sad_tlast), // final pixel
     .chunk_tvalid(wr_sad_axis_tvalid),
     .chunk_tready(wr_sad_axis_tready),
     .chunk_tdata(wr_sad_axis_tdata),
@@ -306,7 +271,7 @@ luminance_reconstruct #(
   //CAM1 FIFO
   ddr_fifo_wrap wr_cam1_data_fifo(
     .sender_rst(sys_rst),
-    .sender_clk(clk_camera),
+    .sender_clk(clk_100_passthrough),
     .sender_axis_tvalid(wr_cam1_axis_tvalid),
     .sender_axis_tready(wr_cam1_axis_tready),
     .sender_axis_tdata(wr_cam1_axis_tdata),
@@ -321,7 +286,7 @@ luminance_reconstruct #(
   //CAM2 FIFO
   ddr_fifo_wrap wr_cam2_data_fifo(
     .sender_rst(sys_rst),
-    .sender_clk(clk_camera),
+    .sender_clk(clk_100_passthrough),
     .sender_axis_tvalid(wr_cam2_axis_tvalid),
     .sender_axis_tready(wr_cam2_axis_tready),
     .sender_axis_tdata(wr_cam2_axis_tdata),
@@ -336,7 +301,7 @@ luminance_reconstruct #(
   //SAD FIFO
   ddr_fifo_wrap sad_data_fifo(
     .sender_rst(sys_rst),
-    .sender_clk(clk_camera),
+    .sender_clk(clk_100_passthrough),
     .sender_axis_tvalid(wr_sad_axis_tvalid),
     .sender_axis_tready(wr_sad_axis_tready),
     .sender_axis_tdata(wr_sad_axis_tdata),
@@ -410,7 +375,7 @@ luminance_reconstruct #(
     .app_ref_req      (app_ref_req),
     .app_zq_req       (app_zq_req),
     .wr_cam1_axis_ready (wr_cam1_ui_axis_tready),
-    .wr_cam2_axis_ready (wr_cam1_ui_axis_tready),
+    .wr_cam2_axis_ready (wr_cam2_ui_axis_tready),
     .wr_sad_axis_ready (wr_sad_ui_axis_tready),
 
     .r_cam1_axis_data   (r_cam1_ui_axis_tdata),
@@ -450,16 +415,15 @@ luminance_reconstruct #(
     .wr_sad_axis_smallpile(wr_sad_ui_axis_prog_empty),
 
     .r_cam1_axis_af     (r_cam1_ui_axis_prog_full),
-    .r_cam1_axis_ready  (r_cam1_ui_axis_tready) 
+    .r_cam1_axis_ready  (r_cam1_ui_axis_tready),
     .r_cam2_axis_af     (r_cam2_ui_axis_prog_full),
-    .r_cam2_axis_ready  (r_cam2_ui_axis_tready) 
+    .r_cam2_axis_ready  (r_cam2_ui_axis_tready), 
     .r_hdmi_axis_af     (r_hdmi_ui_axis_prog_full),
     .r_hdmi_axis_ready  (r_hdmi_ui_axis_tready) 
-    
-  );
+    );
 
   // the MIG IP!
-  ddr3_mig ddr3_mig_inst 
+    ddr3_mig ddr3_mig_inst 
     (
     .ddr3_dq(ddr3_dq),
     .ddr3_dqs_n(ddr3_dqs_n),
@@ -494,9 +458,10 @@ luminance_reconstruct #(
     .app_ref_ack(app_ref_ack),
     .app_zq_ack(app_zq_ack),
     .ui_clk(clk_ui), 
-    .ui_clk_sync_rst(sys_rst),
+    .ui_clk_sync_rst(sys_rst_ui),
     .app_wdf_mask(app_wdf_mask),
     .init_calib_complete(init_calib_complete),
+    // .device_temp(device_temp),
     .sys_rst(!sys_rst_migref) // active low
   );
 
@@ -530,7 +495,7 @@ luminance_reconstruct #(
     .sender_axis_tdata(r_cam1_ui_axis_tdata),
     .sender_axis_tlast(r_cam1_ui_axis_tlast),
     .sender_axis_prog_full(r_cam1_ui_axis_prog_full),
-    .receiver_clk(clk_pixel),
+    .receiver_clk(clk_100_passthrough),
     .receiver_axis_tvalid(r_cam1_axis_tvalid),
     .receiver_axis_tready(r_cam1_axis_tready),
     .receiver_axis_tdata(r_cam1_axis_tdata),
@@ -546,7 +511,7 @@ luminance_reconstruct #(
     .sender_axis_tdata(r_cam2_ui_axis_tdata),
     .sender_axis_tlast(r_cam2_ui_axis_tlast),
     .sender_axis_prog_full(r_cam2_ui_axis_prog_full),
-    .receiver_clk(clk_pixel),
+    .receiver_clk(clk_100_passthrough),
     .receiver_axis_tvalid(r_cam2_axis_tvalid),
     .receiver_axis_tready(r_cam2_axis_tready),
     .receiver_axis_tdata(r_cam2_axis_tdata),
@@ -562,60 +527,58 @@ luminance_reconstruct #(
     .sender_axis_tdata(r_hdmi_ui_axis_tdata),
     .sender_axis_tlast(r_hdmi_ui_axis_tlast),
     .sender_axis_prog_full(r_hdmi_ui_axis_prog_full),
-    .receiver_clk(clk_pixel),
+    .receiver_clk(clk_100_passthrough),
     .receiver_axis_tvalid(r_hdmi_axis_tvalid),
     .receiver_axis_tready(r_hdmi_axis_tready),
     .receiver_axis_tdata(r_hdmi_axis_tdata),
     .receiver_axis_tlast(r_hdmi_axis_tlast),
     .receiver_axis_prog_empty(r_hdmi_axis_prog_empty));
 
-
-
   //Display out
-  logic frame_buff_tvalid;
-  logic frame_buff_tready;
-  logic [15:0] frame_buff_tdata;
-  logic        frame_buff_tlast;
+  logic         y_pix_tvalid;
+  logic         y_pix_tready;
+  logic [7:0]   y_pix_tdata;
+  logic         y_pix_tlast;
   //Camera 1 out
-  logic stored_cam1_tvalid;
-  logic stored_cam1_tready;
-  logic [7:0] stored_cam1_tdata;
-  logic        stored_cam1_tlast;
+  logic         stored_cam1_tvalid;
+  logic [7:0]   stored_cam1_tdata;
+  logic         stored_cam1_tlast;
   //Camera 2 out
-  logic stored_cam2_tvalid;
-  logic stored_cam2_tready;
-  logic [7:0] stored_cam2_tdata;
-  logic        stored_cam2_tlast;
+  logic         stored_cam2_tvalid;
+  logic [7:0]   stored_cam2_tdata;
+  logic         stored_cam2_tlast;
+
+  logic         sad_input_tready; //share tready for both camera outputs
   
   //SAD input 1 from CAM1
-  unstacker unstacker_inst(
-    .clk_in(clk_pixel),
+  unstacker r_cam1_unstacker(
+    .clk_in(clk_100_passthrough),
     .rst_in(sys_rst),
     .chunk_tvalid(r_cam1_axis_tvalid),
     .chunk_tready(r_cam1_axis_tready),
     .chunk_tdata(r_cam1_axis_tdata),
     .chunk_tlast(r_cam1_axis_tlast),
     .pixel_tvalid(stored_cam1_tvalid),
-    .pixel_tready(stored_cam1_tready),
+    .pixel_tready(sad_input_tready),
     .pixel_tdata(stored_cam1_tdata),
     .pixel_tlast(stored_cam1_tlast));
 
 //SAD input 2 from CAM2
-  unstacker unstacker_inst(
-    .clk_in(clk_pixel),
+  unstacker r_cam2_unstacker(
+    .clk_in(clk_100_passthrough),
     .rst_in(sys_rst),
     .chunk_tvalid(r_cam2_axis_tvalid),
     .chunk_tready(r_cam2_axis_tready),
     .chunk_tdata(r_cam2_axis_tdata),
     .chunk_tlast(r_cam2_axis_tlast),
     .pixel_tvalid(stored_cam2_tvalid),
-    .pixel_tready(stored_cam2_tready),
+    .pixel_tready(sad_input_tready),
     .pixel_tdata(stored_cam2_tdata),
     .pixel_tlast(stored_cam2_tlast));
 
 //HDMI fram_buff reader
   unstacker r_hdmi_unstacker(
-    .clk_in(clk_pixel),
+    .clk_in(clk_100_passthrough),
     .rst_in(sys_rst),
     .chunk_tvalid(r_hdmi_axis_tvalid),
     .chunk_tready(r_hdmi_axis_tready),
@@ -628,116 +591,160 @@ luminance_reconstruct #(
 
 
   //assign y_pix_tready
-  assign y_pix_tready = active_draw_hdmi && (~frame_buff_tlast || (hcount_hdmi == 639 && vcount_hdmi == 359));
+  assign y_pix_tready = active_draw_hdmi && (~y_pix_tlast || (hcount_hdmi == 639 && vcount_hdmi == 359));
   
+  //assign sad_input_tready
+  assign sad_input_tready = stored_cam1_tvalid && stored_cam2_tvalid;
+  
+  logic end_of_row;
+  logic end_of_column;
 
+  evt_counter #(.MAX_COUNT(640)) hcounter1
+  ( .clk_in(clk_100_passthrough),
+    .rst_in(sys_rst),
+    .evt_in(sad_input_tready),
+    .count_out(hcount_sad_in),
+    .hit_max(end_of_row)
+  );
+  evt_counter #(.MAX_COUNT(360)) vcounter1
+  ( .clk_in(clk_100_passthrough),
+    .rst_in(sys_rst),
+    .evt_in(end_of_row),
+    .count_out(vcount_sad_in),
+    .hit_max(end_of_column) // could be used for a new frame
+  );
+
+  logic [10:0]  hcount_sad_in;
+  logic [9:0]   vcount_sad_in;
+
+  logic         sad_valid_out;
+  logic [7:0]   sad_data_out;
+  logic         sad_tlast;
+
+  logic [10:0]  hcount_sad_out;
+  logic [9:0]   vcount_sad_out;
+
+depth_mapper sad_calculator(
+  .clk_in(clk_100_passthrough), //100 MHz
+  .rst_in(sys_rst),
+  //Inputs from cam1 and cam2 data
+  .data_cam1_valid(sad_input_tready), //same handshake for both (ready depends on tvalid)
+  .data_cam2_valid(sad_input_tready),
+  .cam1_pixel_data(stored_cam1_tdata),
+  .cam2_pixel_data(stored_cam2_tdata),
+  .hcount_in(hcount_sad_in),
+  .vcount_in(vcount_sad_in),
+  //Outputs
+  .data_valid_out(sad_valid_out),
+  .pixel_depth_out(sad_data_out),
+  .hcount_out(hcount_sad_out),
+  .vcount_out(vcount_sad_out)
+  );
+
+  assign sad_tlast = (hcount_sad_out == 639) && (vcount_sad_out == 359);
+
+  
+  /*
+    CDC (clk_100mhz 100 MHz -> clk_pixel 74.25 Mhz)
+  */
+  logic         empty2;
+  logic         cdc_valid2;
+  logic [7:0]   cdc_pixel2;
+  logic [10:0]  cdc_hcount2;
+  logic [9:0]   cdc_vcount2;
+  logic [7:0]   y_pixel;
+
+
+  fifo cdc_fifo_hdmi
+    (.wr_clk(clk_100_passthrough),
+     .full(),
+     .din(y_pix_tdata),
+     .wr_en(y_pix_tvalid),
+
+     .rd_clk(clk_pixel),
+     .empty(empty2),
+     .dout(y_pixel),
+     .rd_en(1) //always read
+    );
+
+  assign cdc_valid2 = ~empty2; //watch when empty. Ready immediately if something there
 
   /*
     LINE BUFFER (clk_pixel, 74.25 MHz) + 
     ANTI-ALIASING GAUSSIAN BLUR (clk_pixel, 74.25 MHz)
   */
 
-  logic [10:0] blur_hcount;  //hcount from blur module
-  logic [9:0] blur_vcount; //vcount from blur module
-  logic [15:0] blur_pixel; //pixel data from blur module //NOW 8-bit?
-  logic blur_valid; //valid signals for blur module
-  //full resolution filter
-  blur_filter #(.HRES(1280),.VRES(720))
-    blur(
-    .clk_in(clk_pixel), 
-    .rst_in(sys_rst),
-    .data_valid_in(cdc_valid),
-    .pixel_data_in(cdc_pixel), // 16 bits -- now 8?
-    .hcount_in(cdc_hcount), // 11 bits
-    .vcount_in(cdc_vcount), // 10 bits
-    .data_valid_out(blur_valid), 
-    .pixel_data_out(blur_pixel), // 16 bits -- now 8?
-    .hcount_out(blur_hcount), // 11 bits
-    .vcount_out(blur_vcount) // 10 bits
-  );
-
-  
-  /*
-    CDC (clk_pixe 74.25 Mhz -> clk_100mhz 100 MHz)
-  */
-  logic
-   empty2;
-  logic cdc_valid2;
-  logic [15:0] cdc_pixel2;
-  logic [10:0] cdc_hcount2;
-  logic [9:0] cdc_vcount2;
-
-  fifo cdc_fifo_2
-    (.wr_clk(clk_pixel),
-     .full(),
-     .din({blur_hcount, blur_vcount, blur_pixel}),
-     .wr_en(blur_valid),
-
-     .rd_clk(clk_pixel),
-     .empty(empty2),
-     .dout({cdc_hcount2, cdc_vcount2, cdc_pixel2}),
-     .rd_en(1) //always read
-    );
-
-  assign cdc_valid2 = ~empty2; //watch when empty. Ready immediately if something there
-
+  // logic [10:0] blur_hcount;  //hcount from blur module
+  // logic [9:0] blur_vcount; //vcount from blur module
+  // logic [15:0] blur_pixel; //pixel data from blur module //NOW 8-bit?
+  // logic blur_valid; //valid signals for blur module
+  // //full resolution filter
+  // blur_filter #(.HRES(1280),.VRES(720))
+  //   blur(
+  //   .clk_in(clk_pixel), 
+  //   .rst_in(sys_rst_pixel),
+  //   .data_valid_in(cdc_valid2),
+  //   .pixel_data_in(cdc_pixel), // 16 bits -- now 8?
+  //   .hcount_in(cdc_hcount), // 11 bits
+  //   .vcount_in(cdc_vcount), // 10 bits
+  //   .data_valid_out(blur_valid), 
+  //   .pixel_data_out(blur_pixel), // 16 bits -- now 8?
+  //   .hcount_out(blur_hcount), // 11 bits
+  //   .vcount_out(blur_vcount) // 10 bits
+  // );
 
 
   /*
     DOWNSAMPLING 
     720 x 1280 -> 360 x 640 
-  */
-  logic should_pack;
-  // downsample (take every other pixel from every other row)
-  // only pack into spi on the valid output cycle
-  assign should_pack = (cdc_hcount2[0] == 1'b0) &&
-                       (cdc_vcount2[0] == 1'b0) && 
-                        cdc_valid2;
+  // */
+  // logic should_pack;
+  // // downsample (take every other pixel from every other row)
+  // // only pack into spi on the valid output cycle
+  // assign should_pack = (cdc_hcount2[0] == 1'b0) &&
+  //                      (cdc_vcount2[0] == 1'b0) && 
+  //                       cdc_valid2;
 
-  /*
-    SPI CONVERSION (clk_100mhz, 100 MHz)
-  */
-  logic [5:0][7:0] pixels_to_send;
-  always_ff @(posedge clk_100mhz) begin
-    if (should_pack) begin
-      pixels_to_send <= {pixels_to_send[5:0], cdc_pixel2};
-    end
-  end
+  // /*
+  //   SPI CONVERSION (clk_100mhz, 100 MHz)
+  // */
+  // logic [5:0][7:0] pixels_to_send;
+  // always_ff @(posedge clk_100mhz) begin
+  //   if (should_pack) begin
+  //     pixels_to_send <= {pixels_to_send[5:0], cdc_pixel2};
+  //   end
+  // end
 
-  logic packet_ready;
-  evt_counter #(
-    .MAX_COUNT(6)
-  ) packet_ready_counter (
-    .clk_in(clk_100mhz),
-    .rst_in(sys_rst),
-    .evt_in(should_pack),
-    .hit_max(packet_ready),
-  );
+  // logic packet_ready;
+  // evt_counter #(
+  //   .MAX_COUNT(6)
+  // ) packet_ready_counter (
+  //   .clk_in(clk_100mhz),
+  //   .rst_in(sys_rst),
+  //   .evt_in(should_pack),
+  //   .hit_max(packet_ready)
+  // );
 
-  spi_send_con # (
-    .DATA_WIDTH(8), // each line should send the 16 bit pixel
-    .LINES(4), // six parallel lines
-    .DATA_CLK_PERIOD(6), // 16.6 MHz SPI Clock
-  ) spi_send (
-    .clk_in(clk_100mhz),
-    .rst_in(sys_rst),
-    .data_in(pixels_to_send), // LINES arrays of length DATA_WIDTH bits
-    .trigger_in(packet_ready),
+  // spi_send_con # (
+  //   .DATA_WIDTH(8), // each line should send the 16 bit pixel
+  //   .LINES(4), // six parallel lines
+  //   .DATA_CLK_PERIOD(6), // 16.6 MHz SPI Clock
+  // ) spi_send (
+  //   .clk_in(clk_100mhz),
+  //   .rst_in(sys_rst),
+  //   .data_in(pixels_to_send), // LINES arrays of length DATA_WIDTH bits
+  //   .trigger_in(packet_ready),
 
-    .chip_data_out(copi), // 6 bits (1 bit from each of the 6 pixels)
-    .chip_clk_out(dclk),
-    .chip_sel_out(cs)
-  )
-  
-
-
-
+  //   .chip_data_out(copi), // 6 bits (1 bit from each of the 6 pixels)
+  //   .chip_clk_out(dclk),
+  //   .chip_sel_out(cs)
+  // );
 
   // HDMI video signal generator
    video_sig_gen vsg
      (
       .pixel_clk_in(clk_pixel),
-      .rst_in(sys_rst),
+      .rst_in(sys_rst_pixel),
       .hcount_out(hcount_hdmi),
       .vcount_out(vcount_hdmi),
       .vs_out(vsync_hdmi),
@@ -752,24 +759,22 @@ luminance_reconstruct #(
 
    tmds_encoder tmds_red(
        .clk_in(clk_pixel),
-       .rst_in(sys_rst),
-       .data_in(y_pix_tdata),
+       .rst_in(sys_rst_pixel),
+       .data_in(y_pixel),
        .control_in(2'b0),
        .ve_in(active_draw_hdmi),
        .tmds_out(tmds_10b[2]));
-
    tmds_encoder tmds_green(
          .clk_in(clk_pixel),
-         .rst_in(sys_rst),
-         .data_in(y_pix_tdata),
+         .rst_in(sys_rst_pixel),
+         .data_in(y_pixel),
          .control_in(2'b0),
          .ve_in(active_draw_hdmi),
          .tmds_out(tmds_10b[1]));
-
    tmds_encoder tmds_blue(
         .clk_in(clk_pixel),
-        .rst_in(sys_rst),
-        .data_in(y_pix_tdata),
+        .rst_in(sys_rst_pixel),
+        .data_in(y_pixel),
         .control_in({vsync_hdmi,hsync_hdmi}),
         .ve_in(active_draw_hdmi),
         .tmds_out(tmds_10b[0]));
@@ -777,19 +782,19 @@ luminance_reconstruct #(
    tmds_serializer red_ser(
          .clk_pixel_in(clk_pixel),
          .clk_5x_in(clk_5x),
-         .rst_in(sys_rst),
+         .rst_in(sys_rst_pixel),
          .tmds_in(tmds_10b[2]),
          .tmds_out(tmds_signal[2]));
    tmds_serializer green_ser(
          .clk_pixel_in(clk_pixel),
          .clk_5x_in(clk_5x),
-         .rst_in(sys_rst),
+         .rst_in(sys_rst_pixel),
          .tmds_in(tmds_10b[1]),
          .tmds_out(tmds_signal[1]));
    tmds_serializer blue_ser(
          .clk_pixel_in(clk_pixel),
          .clk_5x_in(clk_5x),
-         .rst_in(sys_rst),
+         .rst_in(sys_rst_pixel),
          .tmds_in(tmds_10b[0]),
          .tmds_out(tmds_signal[0]));
 
