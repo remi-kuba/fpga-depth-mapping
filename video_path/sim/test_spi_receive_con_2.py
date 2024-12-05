@@ -22,7 +22,11 @@ async def test_spi_receive_con_2(dut):
     await ClockCycles(dut.clk_in, 3, rising = False)
 
     dut.rst_in.value = 0
-    await ClockCycles(dut.clk_in, 3, rising = False)
+    dut.chip_sel_in.value = 1
+    dut.chip_clk_in.value = 1
+    dut.chip_data_in.value = 0
+
+    await ClockCycles(dut.clk_in, 3, rising=False)
     
     dut.chip_sel_in.value = 0
     dut.chip_clk_in.value = 0

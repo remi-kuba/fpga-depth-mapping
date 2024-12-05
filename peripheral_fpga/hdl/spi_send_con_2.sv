@@ -14,6 +14,7 @@ module spi_send_con_2
   input wire   trigger_in, //start a transaction
   input wire [9:0] hcount_in,
   input wire [8:0] vcount_in,
+  input wire turn_off_cipo_in, // FOR DEBUGGING PURPOSES ADDED HERE
 
   output logic half_pixel_ready, // FOR DEBUGGING PURPOSES ADDED HERE
   output logic final_pixel_out,
@@ -37,9 +38,10 @@ module spi_send_con_2
         half_pixel <= 4'b0;
         final_pixel_out <= 1'b0;
     end else if (trigger_in) begin 
+        chip_clk_out <= 1'b0;
         chip_sel_out <= 1'b0; // Begin 
-        chip_data_out <= data_in[7:4];
-        half_pixel <= data_in[3:0];
+        chip_data_out <= (turn_off_cipo_in)? 4'b0 : data_in[7:4];
+        half_pixel <= (turn_off_cipo_in)? 4'b0 : data_in[3:0];
         half_pixel_ready <= 1'b1;
         final_pixel_out <= (hcount_in == 636) && (vcount_in == 356);
         // Reset 
@@ -56,7 +58,7 @@ module spi_send_con_2
             if (chip_clk_out == 1'b1) begin // falling edge (1 -> 0)
                 if (half_pixel_ready) begin
                     chip_data_out <= half_pixel;
-                    half_pixel_ready <= ~half_pixel_ready;
+                    half_pixel_ready <= 1'b0;
                     final_pixel_out <= 1'b0;
                 end else begin
                     chip_sel_out <= 1'b1;

@@ -10,8 +10,8 @@ module sad #(
     input wire rst_in,
     input wire [KERNEL_WIDTH-1:0][7:0] left_data_in,
     input wire [KERNEL_WIDTH-1:0][7:0] right_data_in,
-    input wire [10:0] hcount_in,
-    input wire [9:0] vcount_in,
+    input wire [9:0] hcount_in,
+    input wire [8:0] vcount_in,
     input wire data_valid_in,
     output logic data_valid_out,
     output logic busy_out, // whether it is still calculating a module
@@ -152,7 +152,7 @@ module sad #(
             hcount_out <= hcount_pl;
             vcount_out <= vcount_pl;
     
-            if (diff <= smallest_diff) begin
+            if (diff < smallest_diff) begin
                 smallest_diff <= diff;
                 best_offset <= curr_offset;
             end

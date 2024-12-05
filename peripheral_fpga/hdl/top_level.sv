@@ -27,7 +27,7 @@ module top_level
   output logic dclk, // data clock output of SPI controller
   output logic [3:0] cipo, // six parallel data outputs of SPI controller
   output logic cs, // chip select line for the SPI bus
-  output logic spi_hsync,
+  output logic tlast,
   output logic spi_vsync
 );
 
@@ -109,13 +109,13 @@ module top_level
 
     if (sys_rst_camera) begin
       rgb1 <= 3'b001;
-    end else if (spi_hsyncs) begin
+    end else if (tlasts) begin
       rgb1 <= 3'b100;
     end
   end
 
   // always_ff @(posedge clk_camera) begin
-  //   spi_hsync <= (camera_hcount == 639) && (camera_vcount == 359) && camera_valid;
+  //   tlast <= (camera_hcount == 639) && (camera_vcount == 359) && camera_valid;
   // end
 
   logic [31:0] val_to_display;
@@ -133,17 +133,17 @@ module top_level
   ) frame_ct (
     .clk_in(clk_camera),
     .rst_in(sys_rst_camera),
-    .evt_in(spi_hsync),
-    .hit_max_out(spi_hsyncs)
+    .evt_in(tlast),
+    .hit_max_out(tlasts)
   );
-  logic spi_hsyncs;
+  logic tlasts;
 
   evt_counter #(
-    .MAX_COUNT(25)
+    .MAX_COUNT(25) // tlast lasts for 7 clock cycles (25 * 7)
   ) counter (
     .clk_in(clk_camera),
     .rst_in(sys_rst_camera),
-    .evt_in((camera_hcount == 636) && (camera_vcount == 356) && camera_valid),
+    .evt_in((camera_hcount == 636) && (camera_vcount == 356)),
     .hit_max_out(to_25)
   );
 
@@ -186,35 +186,11 @@ module top_level
     .pixel_data_out(camera_pixel)
   );
 
-  // /*
-  //   CDC FIFO
-  // */
-  // logic empty;
-  // logic cdc_valid;
-  // logic [7:0] cdc_pixel;
-  // logic [10:0] cdc_hcount;
-  // logic [9:0] cdc_vcount;
-
-  // fifo cdc_fifo
-  // (.wr_clk(clk_camera),
-  //  .full(),
-  //  .din({camera_hcount, camera_vcount, camera_pixel}),
-  //  .wr_en(camera_valid && camera_hcount[0] == 0 && camera_vcount[0] == 0),
-
-  //  .rd_clk(clk_100_passthrough),
-  //  .empty(empty),
-  //  .dout({cdc_hcount, cdc_vcount, cdc_pixel}),
-  //  .rd_en(1) //always read
-  // );
-  // assign cdc_valid = ~empty;
-
-
   /*
     SPI SENDER
   */
   logic check;
   logic trigger;
-  // assign trigger = cdc_valid;
   assign trigger = camera_valid && (camera_hcount[1:0] == 0) && (camera_vcount[1:0] == 0);
   spi_send_con_2 #(
     .DATA_WIDTH(8),
@@ -227,9 +203,10 @@ module top_level
     .trigger_in(trigger),
     .hcount_in(camera_hcount),
     .vcount_in(camera_vcount),
+    .turn_off_cipo_in(sw[15]),
 
     .half_pixel_ready(check),
-    .final_pixel_out(spi_hsync),
+    .final_pixel_out(tlast),
     .chip_data_out(cipo),
     .chip_clk_out(dclk),
     .chip_sel_out(cs)

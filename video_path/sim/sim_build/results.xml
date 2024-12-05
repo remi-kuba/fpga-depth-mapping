@@ -1,6 +1,6 @@
 <testsuites name="results">
   <testsuite name="all" package="all">
-    <property name="random_seed" value="1733205303" />
-    <testcase name="test_spi_receive_con_2" classname="test_spi_receive_con_2" file="/Users/remi/Desktop/fpga-depth-mapping/video_path/sim/test_spi_receive_con_2.py" lineno="15" time="0.0022401809692382812" sim_time_ns="490.001" ratio_time="218732.775042997" />
+    <property name="random_seed" value="1733341859" />
+    <testcase name="test_spi_receive_con_2" classname="test_spi_receive_con_2" file="/Users/remi/Desktop/fpga-depth-mapping/video_path/sim/test_spi_receive_con_2.py" lineno="15" time="0.005148887634277344" sim_time_ns="490.001" ratio_time="95166.38054750879" />
   </testsuite>
 </testsuites>

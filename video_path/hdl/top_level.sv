@@ -21,7 +21,7 @@ module top_level
   input wire cs,
   input wire dclk,
   input wire [3:0] cipo,
-  input wire spi_hsync,
+  input wire spi_tlast,
   input wire spi_vsync,
   // seven segment
   output logic [3:0]  ss0_an,//anode control for upper four digits of seven-seg display
@@ -116,16 +116,33 @@ module top_level
   logic [7:0] received_pixel;
   logic received_pixel_valid;
   logic final_pixel;
+
+  logic [3:0] cipo_buf [1:0];
+  logic [1:0] dclk_buf;
+  logic [1:0] spi_tlast_buf;
+  logic [1:0] cs_buf;
+
+  always_ff @(posedge clk_camera) begin
+    cipo_buf[0] <= cipo;
+    cipo_buf[1] <= cipo_buf[0];
+    dclk_buf[0] <= dclk;
+    dclk_buf[1] <= dclk_buf[0];
+    spi_tlast_buf[0] <= spi_tlast;
+    spi_tlast_buf[1] <= spi_tlast_buf[0];
+    cs_buf[0] <= cs;
+    cs_buf[1] <= cs_buf[0];
+  end
+
   spi_receive_con_2 #(
     .DATA_WIDTH(8),
     .LINES(4)
   ) spi_receive (
     .clk_in(clk_camera),
     .rst_in(sys_rst_camera),
-    .chip_data_in(cipo),
-    .chip_clk_in(dclk),
-    .chip_sel_in(cs),
-    .final_pixel_in(spi_hsync),
+    .chip_data_in(cipo_buf[1]),
+    .chip_clk_in(dclk_buf[1]),
+    .chip_sel_in(cs_buf[1]),
+    .final_pixel_in(spi_tlast_buf[1]),
     .final_pixel_out(final_pixel),
     .data_out(received_pixel),
     .data_valid_out(received_pixel_valid));
@@ -134,7 +151,7 @@ module top_level
   always_ff @(posedge clk_camera) begin
     if (sys_rst_camera) begin
       rgb0 <= 3'b001;
-    end else if (cams_valid) begin
+    end else if (one_frame != final_pixel) begin
       rgb0 <= 3'b100;
     end 
 
@@ -150,38 +167,20 @@ module top_level
   ) frame_ct (
     .clk_in(clk_camera),
     .rst_in(sys_rst_camera),
-    .evt_in(spi_hsync),
+    .evt_in(spi_tlast),
     .hit_max_out(frame_hsyncs)
   );
   logic frame_hsyncs;
 
   evt_counter_2 #(
-    .MAX_COUNT(25)
-  ) something (
-    .clk_in(clk_camera),
-    .rst_in(sys_rst_camera),
-    .evt_in(spi_hsync),
-    .hit_max_out(to_25)
-  ); 
-  logic to_25;
-  evt_counter_2 #(
-    .MAX_COUNT(1_000_000)
-  ) other (
-    .clk_in(clk_camera),
-    .rst_in(sys_rst_camera),
-    .evt_in(to_25),
-    .count_out(val_to_display)
-  );
-
-  evt_counter_2 #(
-    .MAX_COUNT(50_000_000)
+    .MAX_COUNT(14_400)
   ) pixel_valid_ct(
     .clk_in(clk_camera),
     .rst_in(sys_rst_camera),
     .evt_in(received_pixel_valid),
-    .hit_max_out(cams_valid)
+    .hit_max_out(one_frame)
   );
-  logic cams_valid;
+  logic one_frame;
 
   logic [31:0] val_to_display;
   logic [6:0] ss_c;
@@ -193,6 +192,23 @@ module top_level
                                .cat_out(ss_c),
                                .an_out({ss0_an, ss1_an}));
 
+  logic to_25;
+  evt_counter_2 #(
+    .MAX_COUNT(25)
+  ) something (
+    .clk_in(clk_camera),
+    .rst_in(sys_rst_camera),
+    .evt_in(final_pixel),
+    .hit_max_out(to_25)
+  ); 
+  evt_counter_2 #(
+    .MAX_COUNT(1_000_000)
+  ) other (
+    .clk_in(clk_camera),
+    .rst_in(sys_rst_camera),
+    .evt_in(to_25),
+    .count_out(val_to_display)
+  );
 
   // Two ways to store a frame buffer: subsampled BRAM, and full-quality DRAM.
   

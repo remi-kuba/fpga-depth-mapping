@@ -1,8 +1,8 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2024.1 (lin64) Build 5076996 Wed May 22 18:36:09 MDT 2024
-| Date         : Tue Dec  3 01:23:20 2024
-| Host         : eecs-digital-45 running 64-bit Ubuntu 24.04.1 LTS
+| Date         : Wed Dec  4 16:44:06 2024
+| Host         : eecs-digital-34 running 64-bit Ubuntu 24.04.1 LTS
 | Command      : report_timing -file obj/post_place_timing.rpt
 | Design       : top_level
 | Device       : 7s50-csga324
@@ -12,19 +12,19 @@ Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanc
 
 Timing Report
 
-Slack (MET) :             0.326ns  (required time - arrival time)
-  Source:                 pixel_valid_ct/count_out_reg[9]/C
+Slack (MET) :             0.507ns  (required time - arrival time)
+  Source:                 crw/aia/next_addr_reg[4]/C
                             (rising edge-triggered cell FDRE clocked by clk_camera_cw_fast  {rise@0.000ns fall@2.500ns period=5.000ns})
-  Destination:            pixel_valid_ct/count_out_reg[0]/R
+  Destination:            crw/aia/next_addr_reg[3]/R
                             (rising edge-triggered cell FDRE clocked by clk_camera_cw_fast  {rise@0.000ns fall@2.500ns period=5.000ns})
   Path Group:             clk_camera_cw_fast
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            5.000ns  (clk_camera_cw_fast rise@5.000ns - clk_camera_cw_fast rise@0.000ns)
-  Data Path Delay:        3.951ns  (logic 0.976ns (24.703%)  route 2.975ns (75.297%))
-  Logic Levels:           4  (LUT2=1 LUT4=1 LUT5=1 LUT6=1)
-  Clock Path Skew:        -0.023ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    -2.057ns = ( 2.943 - 5.000 ) 
-    Source Clock Delay      (SCD):    -2.455ns
+  Data Path Delay:        3.878ns  (logic 1.021ns (26.328%)  route 2.857ns (73.672%))
+  Logic Levels:           3  (LUT3=1 LUT5=1 LUT6=1)
+  Clock Path Skew:        -0.024ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    -2.136ns = ( 2.864 - 5.000 ) 
+    Source Clock Delay      (SCD):    -2.533ns
     Clock Pessimism Removal (CPR):    -0.420ns
   Clock Uncertainty:      0.067ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
     Total System Jitter     (TSJ):    0.071ns
@@ -43,20 +43,18 @@ Slack (MET) :             0.326ns  (required time - arrival time)
                                                      -8.525    -5.832 r  wizard_migcam/plle2_adv_inst/CLKOUT2
                          net (fo=1, estimated)        1.660    -4.172    wizard_migcam/clk_camera_cw_fast
     BUFGCTRL_X0Y1        BUFG (Prop_bufg_I_O)         0.096    -4.076 r  wizard_migcam/clkout3_buf/O
-                         net (fo=246, estimated)      1.621    -2.455    pixel_valid_ct/clk_camera
-    SLICE_X3Y60          FDRE                                         r  pixel_valid_ct/count_out_reg[9]/C
+                         net (fo=246, estimated)      1.543    -2.533    crw/aia/clk_camera
+    SLICE_X8Y69          FDRE                                         r  crw/aia/next_addr_reg[4]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X3Y60          FDRE (Prop_fdre_C_Q)         0.456    -1.999 f  pixel_valid_ct/count_out_reg[9]/Q
-                         net (fo=2, estimated)        0.746    -1.253    pixel_valid_ct/count_out_reg_n_0_[9]
-    SLICE_X2Y63          LUT4 (Prop_lut4_I1_O)        0.124    -1.129 f  pixel_valid_ct/hit_max_out_i_5__0/O
-                         net (fo=1, estimated)        0.306    -0.823    pixel_valid_ct/hit_max_out_i_5__0_n_0
-    SLICE_X2Y61          LUT5 (Prop_lut5_I4_O)        0.124    -0.699 f  pixel_valid_ct/hit_max_out_i_2__0/O
-                         net (fo=1, estimated)        0.565    -0.134    pixel_valid_ct/hit_max_out_i_2__0_n_0
-    SLICE_X1Y61          LUT6 (Prop_lut6_I0_O)        0.124    -0.010 r  pixel_valid_ct/hit_max_out_i_1__0/O
-                         net (fo=2, estimated)        0.667     0.657    pixel_valid_ct/hit_max_out_i_1__0_n_0
-    SLICE_X2Y61          LUT2 (Prop_lut2_I1_O)        0.148     0.805 r  pixel_valid_ct/count_out[0]_i_1__0/O
-                         net (fo=26, estimated)       0.691     1.496    pixel_valid_ct/count_out[0]_i_1__0_n_0
-    SLICE_X3Y58          FDRE                                         r  pixel_valid_ct/count_out_reg[0]/R
+    SLICE_X8Y69          FDRE (Prop_fdre_C_Q)         0.478    -2.055 r  crw/aia/next_addr_reg[4]/Q
+                         net (fo=4, estimated)        0.868    -1.187    crw/aia/Q[3]
+    SLICE_X8Y69          LUT6 (Prop_lut6_I0_O)        0.295    -0.892 f  crw/aia/next_addr[8]_i_4/O
+                         net (fo=4, estimated)        0.592    -0.300    crw/aia/next_addr[8]_i_4_n_0
+    SLICE_X8Y69          LUT3 (Prop_lut3_I2_O)        0.124    -0.176 r  crw/aia/next_addr[8]_i_3/O
+                         net (fo=2, estimated)        0.831     0.655    crw/aia/next_addr[8]_i_3_n_0
+    SLICE_X8Y68          LUT5 (Prop_lut5_I1_O)        0.124     0.779 r  crw/aia/next_addr[8]_i_1/O
+                         net (fo=8, estimated)        0.566     1.345    crw/aia/next_addr[7]
+    SLICE_X8Y69          FDRE                                         r  crw/aia/next_addr_reg[3]/R
   -------------------------------------------------------------------    -------------------
 
                          (clock clk_camera_cw_fast rise edge)
@@ -69,16 +67,16 @@ Slack (MET) :             0.326ns  (required time - arrival time)
                                                      -7.790    -0.229 r  wizard_migcam/plle2_adv_inst/CLKOUT2
                          net (fo=1, estimated)        1.577     1.348    wizard_migcam/clk_camera_cw_fast
     BUFGCTRL_X0Y1        BUFG (Prop_bufg_I_O)         0.091     1.439 r  wizard_migcam/clkout3_buf/O
-                         net (fo=246, estimated)      1.504     2.943    pixel_valid_ct/clk_camera
-    SLICE_X3Y58          FDRE                                         r  pixel_valid_ct/count_out_reg[0]/C
-                         clock pessimism             -0.420     2.522    
-                         clock uncertainty           -0.067     2.456    
-    SLICE_X3Y58          FDRE (Setup_fdre_C_R)       -0.633     1.823    pixel_valid_ct/count_out_reg[0]
+                         net (fo=246, estimated)      1.425     2.864    crw/aia/clk_camera
+    SLICE_X8Y69          FDRE                                         r  crw/aia/next_addr_reg[3]/C
+                         clock pessimism             -0.420     2.443    
+                         clock uncertainty           -0.067     2.377    
+    SLICE_X8Y69          FDRE (Setup_fdre_C_R)       -0.524     1.853    crw/aia/next_addr_reg[3]
   -------------------------------------------------------------------
-                         required time                          1.823    
-                         arrival time                          -1.496    
+                         required time                          1.853    
+                         arrival time                          -1.345    
   -------------------------------------------------------------------
-                         slack                                  0.326    
+                         slack                                  0.507    
 
 
 

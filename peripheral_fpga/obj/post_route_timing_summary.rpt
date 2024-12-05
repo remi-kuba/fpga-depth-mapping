@@ -1,8 +1,8 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2024.1 (lin64) Build 5076996 Wed May 22 18:36:09 MDT 2024
-| Date         : Tue Dec  3 01:23:34 2024
-| Host         : eecs-digital-45 running 64-bit Ubuntu 24.04.1 LTS
+| Date         : Wed Dec  4 16:44:14 2024
+| Host         : eecs-digital-34 running 64-bit Ubuntu 24.04.1 LTS
 | Command      : report_timing_summary -file obj/post_route_timing_summary.rpt
 | Design       : top_level
 | Device       : 7s50-csga324
@@ -53,7 +53,7 @@ Table of Contents
 2. checking constant_clock (0)
 3. checking pulse_width_clock (0)
 4. checking unconstrained_internal_endpoints (0)
-5. checking no_input_delay (14)
+5. checking no_input_delay (15)
 6. checking no_output_delay (37)
 7. checking multiple_clock (0)
 8. checking generated_clocks (0)
@@ -84,9 +84,9 @@ Table of Contents
  There are 0 pins that are not constrained for maximum delay due to constant clock.
 
 
-5. checking no_input_delay (14)
+5. checking no_input_delay (15)
 -------------------------------
- There are 14 input ports with no input delay specified. (HIGH)
+ There are 15 input ports with no input delay specified. (HIGH)
 
  There are 0 input ports with no input delay but user has a false path constraint.
 
@@ -138,7 +138,7 @@ Table of Contents
 
     WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints  
     -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------  
-      0.453        0.000                      0                  555        0.143        0.000                      0                  555        2.000        0.000                       0                   281  
+      0.410        0.000                      0                  563        0.158        0.000                      0                  563        2.000        0.000                       0                   281  
 
 
 All user specified timing constraints are met.
@@ -166,8 +166,8 @@ gclk                  {0.000 4.000}        10.000          100.000
 Clock                     WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints  
 -----                     -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------  
 gclk                                                                                                                                                                    2.000        0.000                       0                     1  
-  clk_100_cw_fast           4.972        0.000                      0                   50        0.261        0.000                      0                   50        4.500        0.000                       0                    27  
-  clk_camera_cw_fast        0.453        0.000                      0                  505        0.143        0.000                      0                  505        2.000        0.000                       0                   248  
+  clk_100_cw_fast           4.305        0.000                      0                   50        0.251        0.000                      0                   50        4.500        0.000                       0                    27  
+  clk_camera_cw_fast        0.410        0.000                      0                  513        0.158        0.000                      0                  513        2.000        0.000                       0                   248  
   clk_xc_cw_fast                                                                                                                                                       37.845        0.000                       0                     2  
   clkfbout_cw_fast                                                                                                                                                      7.845        0.000                       0                     3  
 
@@ -225,28 +225,28 @@ High Pulse Width  Slow    PLLE2_ADV/CLKIN1  n/a            2.000         4.000  
 From Clock:  clk_100_cw_fast
   To Clock:  clk_100_cw_fast
 
-Setup :            0  Failing Endpoints,  Worst Slack        4.972ns,  Total Violation        0.000ns
-Hold  :            0  Failing Endpoints,  Worst Slack        0.261ns,  Total Violation        0.000ns
+Setup :            0  Failing Endpoints,  Worst Slack        4.305ns,  Total Violation        0.000ns
+Hold  :            0  Failing Endpoints,  Worst Slack        0.251ns,  Total Violation        0.000ns
 PW    :            0  Failing Endpoints,  Worst Slack        4.500ns,  Total Violation        0.000ns
 ---------------------------------------------------------------------------------------------------
 
 
 Max Delay Paths
 --------------------------------------------------------------------------------------
-Slack (MET) :             4.972ns  (required time - arrival time)
-  Source:                 mssc/segment_counter_reg[0]/C
+Slack (MET) :             4.305ns  (required time - arrival time)
+  Source:                 mssc/segment_counter_reg[12]/C
                             (rising edge-triggered cell FDRE clocked by clk_100_cw_fast  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            mssc/segment_counter_reg[4]/R
+  Destination:            mssc/segment_counter_reg[12]/R
                             (rising edge-triggered cell FDRE clocked by clk_100_cw_fast  {rise@0.000ns fall@5.000ns period=10.000ns})
   Path Group:             clk_100_cw_fast
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            10.000ns  (clk_100_cw_fast rise@10.000ns - clk_100_cw_fast rise@0.000ns)
-  Data Path Delay:        4.501ns  (logic 0.828ns (18.398%)  route 3.673ns (81.602%))
+  Data Path Delay:        5.097ns  (logic 0.890ns (17.461%)  route 4.207ns (82.539%))
   Logic Levels:           3  (LUT2=1 LUT4=1 LUT6=1)
-  Clock Path Skew:        -0.025ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    -2.023ns = ( 7.977 - 10.000 ) 
-    Source Clock Delay      (SCD):    -2.413ns
-    Clock Pessimism Removal (CPR):    -0.415ns
+  Clock Path Skew:        0.000ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    -2.096ns = ( 7.904 - 10.000 ) 
+    Source Clock Delay      (SCD):    -2.486ns
+    Clock Pessimism Removal (CPR):    -0.390ns
   Clock Uncertainty:      0.074ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
     Total System Jitter     (TSJ):    0.071ns
     Discrete Jitter          (DJ):    0.129ns
@@ -264,18 +264,18 @@ Slack (MET) :             4.972ns  (required time - arrival time)
                                                      -8.486    -5.792 r  wizard_migcam/plle2_adv_inst/CLKOUT0
                          net (fo=1, routed)           1.660    -4.132    wizard_migcam/clk_100_cw_fast
     BUFGCTRL_X0Y2        BUFG (Prop_bufg_I_O)         0.096    -4.036 r  wizard_migcam/clkout1_buf/O
-                         net (fo=25, routed)          1.623    -2.413    mssc/clk_100
-    SLICE_X5Y55          FDRE                                         r  mssc/segment_counter_reg[0]/C
+                         net (fo=25, routed)          1.550    -2.486    mssc/clk_100
+    SLICE_X12Y65         FDRE                                         r  mssc/segment_counter_reg[12]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X5Y55          FDRE (Prop_fdre_C_Q)         0.456    -1.957 f  mssc/segment_counter_reg[0]/Q
-                         net (fo=2, routed)           0.825    -1.132    mssc/segment_counter_reg[0]
-    SLICE_X4Y57          LUT4 (Prop_lut4_I3_O)        0.124    -1.008 f  mssc/segment_state[7]_i_4/O
-                         net (fo=1, routed)           0.674    -0.334    mssc/segment_state[7]_i_4_n_0
-    SLICE_X4Y57          LUT6 (Prop_lut6_I2_O)        0.124    -0.210 r  mssc/segment_state[7]_i_1/O
-                         net (fo=9, routed)           1.221     1.011    mssc/segment_state_0
-    SLICE_X2Y61          LUT2 (Prop_lut2_I1_O)        0.124     1.135 r  mssc/segment_counter[0]_i_1/O
-                         net (fo=17, routed)          0.953     2.088    mssc/segment_counter[0]_i_1_n_0
-    SLICE_X5Y56          FDRE                                         r  mssc/segment_counter_reg[4]/R
+    SLICE_X12Y65         FDRE (Prop_fdre_C_Q)         0.518    -1.968 f  mssc/segment_counter_reg[12]/Q
+                         net (fo=2, routed)           0.812    -1.156    mssc/segment_counter_reg[12]
+    SLICE_X13Y64         LUT4 (Prop_lut4_I0_O)        0.124    -1.032 f  mssc/segment_state[7]_i_4/O
+                         net (fo=1, routed)           0.665    -0.367    mssc/segment_state[7]_i_4_n_0
+    SLICE_X13Y64         LUT6 (Prop_lut6_I2_O)        0.124    -0.243 r  mssc/segment_state[7]_i_1/O
+                         net (fo=9, routed)           1.101     0.859    mssc/segment_state_0
+    SLICE_X7Y63          LUT2 (Prop_lut2_I1_O)        0.124     0.983 r  mssc/segment_counter[0]_i_1/O
+                         net (fo=17, routed)          1.628     2.611    mssc/segment_counter[0]_i_1_n_0
+    SLICE_X12Y65         FDRE                                         r  mssc/segment_counter_reg[12]/R
   -------------------------------------------------------------------    -------------------
 
                          (clock clk_100_cw_fast rise edge)
@@ -288,16 +288,16 @@ Slack (MET) :             4.972ns  (required time - arrival time)
                                                      -7.753     4.798 r  wizard_migcam/plle2_adv_inst/CLKOUT0
                          net (fo=1, routed)           1.582     6.380    wizard_migcam/clk_100_cw_fast
     BUFGCTRL_X0Y2        BUFG (Prop_bufg_I_O)         0.091     6.471 r  wizard_migcam/clkout1_buf/O
-                         net (fo=25, routed)          1.507     7.977    mssc/clk_100
-    SLICE_X5Y56          FDRE                                         r  mssc/segment_counter_reg[4]/C
-                         clock pessimism             -0.415     7.562    
-                         clock uncertainty           -0.074     7.488    
-    SLICE_X5Y56          FDRE (Setup_fdre_C_R)       -0.429     7.059    mssc/segment_counter_reg[4]
+                         net (fo=25, routed)          1.434     7.904    mssc/clk_100
+    SLICE_X12Y65         FDRE                                         r  mssc/segment_counter_reg[12]/C
+                         clock pessimism             -0.390     7.514    
+                         clock uncertainty           -0.074     7.440    
+    SLICE_X12Y65         FDRE (Setup_fdre_C_R)       -0.524     6.916    mssc/segment_counter_reg[12]
   -------------------------------------------------------------------
-                         required time                          7.059    
-                         arrival time                          -2.088    
+                         required time                          6.916    
+                         arrival time                          -2.611    
   -------------------------------------------------------------------
-                         slack                                  4.972    
+                         slack                                  4.305    
 
 
 
@@ -305,20 +305,20 @@ Slack (MET) :             4.972ns  (required time - arrival time)
 
 Min Delay Paths
 --------------------------------------------------------------------------------------
-Slack (MET) :             0.261ns  (arrival time - required time)
-  Source:                 mssc/segment_counter_reg[11]/C
+Slack (MET) :             0.251ns  (arrival time - required time)
+  Source:                 mssc/segment_state_reg[1]/C
                             (rising edge-triggered cell FDRE clocked by clk_100_cw_fast  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            mssc/segment_counter_reg[11]/D
+  Destination:            mssc/segment_state_reg[2]/D
                             (rising edge-triggered cell FDRE clocked by clk_100_cw_fast  {rise@0.000ns fall@5.000ns period=10.000ns})
   Path Group:             clk_100_cw_fast
   Path Type:              Hold (Min at Fast Process Corner)
   Requirement:            0.000ns  (clk_100_cw_fast rise@0.000ns - clk_100_cw_fast rise@0.000ns)
-  Data Path Delay:        0.366ns  (logic 0.249ns (67.994%)  route 0.117ns (32.006%))
-  Logic Levels:           1  (CARRY4=1)
-  Clock Path Skew:        0.000ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    -0.325ns
-    Source Clock Delay      (SCD):    -0.557ns
-    Clock Pessimism Removal (CPR):    0.232ns
+  Data Path Delay:        0.324ns  (logic 0.141ns (43.505%)  route 0.183ns (56.495%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.014ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    -0.356ns
+    Source Clock Delay      (SCD):    -0.585ns
+    Clock Pessimism Removal (CPR):    0.215ns
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
   -------------------------------------------------------------------    -------------------
@@ -332,15 +332,12 @@ Slack (MET) :             0.261ns  (arrival time - required time)
                                                      -2.326    -1.677 r  wizard_migcam/plle2_adv_inst/CLKOUT0
                          net (fo=1, routed)           0.504    -1.173    wizard_migcam/clk_100_cw_fast
     BUFGCTRL_X0Y2        BUFG (Prop_bufg_I_O)         0.026    -1.147 r  wizard_migcam/clkout1_buf/O
-                         net (fo=25, routed)          0.590    -0.557    mssc/clk_100
-    SLICE_X5Y57          FDRE                                         r  mssc/segment_counter_reg[11]/C
+                         net (fo=25, routed)          0.562    -0.585    mssc/clk_100
+    SLICE_X15Y60         FDRE                                         r  mssc/segment_state_reg[1]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X5Y57          FDRE (Prop_fdre_C_Q)         0.141    -0.416 r  mssc/segment_counter_reg[11]/Q
-                         net (fo=2, routed)           0.117    -0.299    mssc/segment_counter_reg[11]
-    SLICE_X5Y57          CARRY4 (Prop_carry4_S[3]_O[3])
-                                                      0.108    -0.191 r  mssc/segment_counter_reg[8]_i_1/O[3]
-                         net (fo=1, routed)           0.000    -0.191    mssc/segment_counter_reg[8]_i_1_n_4
-    SLICE_X5Y57          FDRE                                         r  mssc/segment_counter_reg[11]/D
+    SLICE_X15Y60         FDRE (Prop_fdre_C_Q)         0.141    -0.444 r  mssc/segment_state_reg[1]/Q
+                         net (fo=8, routed)           0.183    -0.261    mssc/Q[1]
+    SLICE_X14Y62         FDRE                                         r  mssc/segment_state_reg[2]/D
   -------------------------------------------------------------------    -------------------
 
                          (clock clk_100_cw_fast rise edge)
@@ -353,15 +350,15 @@ Slack (MET) :             0.261ns  (arrival time - required time)
                                                      -2.641    -1.764 r  wizard_migcam/plle2_adv_inst/CLKOUT0
                          net (fo=1, routed)           0.550    -1.214    wizard_migcam/clk_100_cw_fast
     BUFGCTRL_X0Y2        BUFG (Prop_bufg_I_O)         0.029    -1.185 r  wizard_migcam/clkout1_buf/O
-                         net (fo=25, routed)          0.860    -0.325    mssc/clk_100
-    SLICE_X5Y57          FDRE                                         r  mssc/segment_counter_reg[11]/C
-                         clock pessimism             -0.232    -0.557    
-    SLICE_X5Y57          FDRE (Hold_fdre_C_D)         0.105    -0.452    mssc/segment_counter_reg[11]
+                         net (fo=25, routed)          0.829    -0.356    mssc/clk_100
+    SLICE_X14Y62         FDRE                                         r  mssc/segment_state_reg[2]/C
+                         clock pessimism             -0.215    -0.571    
+    SLICE_X14Y62         FDRE (Hold_fdre_C_D)         0.059    -0.512    mssc/segment_state_reg[2]
   -------------------------------------------------------------------
-                         required time                          0.452    
-                         arrival time                          -0.191    
+                         required time                          0.512    
+                         arrival time                          -0.261    
   -------------------------------------------------------------------
-                         slack                                  0.261    
+                         slack                                  0.251    
 
 
 
@@ -377,8 +374,8 @@ Sources:            { wizard_migcam/plle2_adv_inst/CLKOUT0 }
 Check Type        Corner  Lib Pin            Reference Pin  Required(ns)  Actual(ns)  Slack(ns)  Location        Pin
 Min Period        n/a     BUFG/I             n/a            2.155         10.000      7.845      BUFGCTRL_X0Y2   wizard_migcam/clkout1_buf/I
 Max Period        n/a     PLLE2_ADV/CLKOUT0  n/a            160.000       10.000      150.000    PLLE2_ADV_X0Y0  wizard_migcam/plle2_adv_inst/CLKOUT0
-Low Pulse Width   Slow    FDRE/C             n/a            0.500         5.000       4.500      SLICE_X5Y55     mssc/segment_counter_reg[0]/C
-High Pulse Width  Slow    FDRE/C             n/a            0.500         5.000       4.500      SLICE_X5Y55     mssc/segment_counter_reg[0]/C
+Low Pulse Width   Slow    FDRE/C             n/a            0.500         5.000       4.500      SLICE_X12Y62    mssc/segment_counter_reg[0]/C
+High Pulse Width  Slow    FDRE/C             n/a            0.500         5.000       4.500      SLICE_X12Y62    mssc/segment_counter_reg[0]/C
 
 
 
@@ -386,28 +383,28 @@ High Pulse Width  Slow    FDRE/C             n/a            0.500         5.000 
 From Clock:  clk_camera_cw_fast
   To Clock:  clk_camera_cw_fast
 
-Setup :            0  Failing Endpoints,  Worst Slack        0.453ns,  Total Violation        0.000ns
-Hold  :            0  Failing Endpoints,  Worst Slack        0.143ns,  Total Violation        0.000ns
+Setup :            0  Failing Endpoints,  Worst Slack        0.410ns,  Total Violation        0.000ns
+Hold  :            0  Failing Endpoints,  Worst Slack        0.158ns,  Total Violation        0.000ns
 PW    :            0  Failing Endpoints,  Worst Slack        2.000ns,  Total Violation        0.000ns
 ---------------------------------------------------------------------------------------------------
 
 
 Max Delay Paths
 --------------------------------------------------------------------------------------
-Slack (MET) :             0.453ns  (required time - arrival time)
-  Source:                 pixel_valid_ct/count_out_reg[9]/C
+Slack (MET) :             0.410ns  (required time - arrival time)
+  Source:                 lr/pixel_vcount_out_reg[1]/C
                             (rising edge-triggered cell FDRE clocked by clk_camera_cw_fast  {rise@0.000ns fall@2.500ns period=5.000ns})
-  Destination:            pixel_valid_ct/count_out_reg[12]/R
+  Destination:            counter/count_out_reg[0]/R
                             (rising edge-triggered cell FDRE clocked by clk_camera_cw_fast  {rise@0.000ns fall@2.500ns period=5.000ns})
   Path Group:             clk_camera_cw_fast
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            5.000ns  (clk_camera_cw_fast rise@5.000ns - clk_camera_cw_fast rise@0.000ns)
-  Data Path Delay:        3.821ns  (logic 0.944ns (24.705%)  route 2.877ns (75.295%))
-  Logic Levels:           4  (LUT2=1 LUT4=1 LUT5=1 LUT6=1)
-  Clock Path Skew:        -0.026ns (DCD - SCD + CPR)
+  Data Path Delay:        4.071ns  (logic 0.828ns (20.337%)  route 3.243ns (79.663%))
+  Logic Levels:           3  (LUT3=1 LUT4=1 LUT5=1)
+  Clock Path Skew:        -0.023ns (DCD - SCD + CPR)
     Destination Clock Delay (DCD):    -2.024ns = ( 2.976 - 5.000 ) 
-    Source Clock Delay      (SCD):    -2.412ns
-    Clock Pessimism Removal (CPR):    -0.414ns
+    Source Clock Delay      (SCD):    -2.416ns
+    Clock Pessimism Removal (CPR):    -0.415ns
   Clock Uncertainty:      0.067ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
     Total System Jitter     (TSJ):    0.071ns
     Discrete Jitter          (DJ):    0.113ns
@@ -425,20 +422,18 @@ Slack (MET) :             0.453ns  (required time - arrival time)
                                                      -8.486    -5.792 r  wizard_migcam/plle2_adv_inst/CLKOUT2
                          net (fo=1, routed)           1.660    -4.132    wizard_migcam/clk_camera_cw_fast
     BUFGCTRL_X0Y1        BUFG (Prop_bufg_I_O)         0.096    -4.036 r  wizard_migcam/clkout3_buf/O
-                         net (fo=246, routed)         1.624    -2.412    pixel_valid_ct/clk_camera
-    SLICE_X3Y60          FDRE                                         r  pixel_valid_ct/count_out_reg[9]/C
+                         net (fo=246, routed)         1.620    -2.416    lr/clk_camera
+    SLICE_X4Y61          FDRE                                         r  lr/pixel_vcount_out_reg[1]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X3Y60          FDRE (Prop_fdre_C_Q)         0.456    -1.956 f  pixel_valid_ct/count_out_reg[9]/Q
-                         net (fo=2, routed)           0.745    -1.211    pixel_valid_ct/count_out_reg_n_0_[9]
-    SLICE_X2Y63          LUT4 (Prop_lut4_I1_O)        0.124    -1.087 f  pixel_valid_ct/hit_max_out_i_5__0/O
-                         net (fo=1, routed)           0.305    -0.781    pixel_valid_ct/hit_max_out_i_5__0_n_0
-    SLICE_X2Y61          LUT5 (Prop_lut5_I4_O)        0.124    -0.657 f  pixel_valid_ct/hit_max_out_i_2__0/O
-                         net (fo=1, routed)           0.564    -0.093    pixel_valid_ct/hit_max_out_i_2__0_n_0
-    SLICE_X1Y61          LUT6 (Prop_lut6_I0_O)        0.124     0.031 r  pixel_valid_ct/hit_max_out_i_1__0/O
-                         net (fo=2, routed)           0.421     0.452    pixel_valid_ct/hit_max_out_i_1__0_n_0
-    SLICE_X2Y61          LUT2 (Prop_lut2_I1_O)        0.116     0.568 r  pixel_valid_ct/count_out[0]_i_1__0/O
-                         net (fo=26, routed)          0.841     1.409    pixel_valid_ct/count_out[0]_i_1__0_n_0
-    SLICE_X3Y61          FDRE                                         r  pixel_valid_ct/count_out_reg[12]/R
+    SLICE_X4Y61          FDRE (Prop_fdre_C_Q)         0.456    -1.960 f  lr/pixel_vcount_out_reg[1]/Q
+                         net (fo=10, routed)          1.150    -0.810    lr/camera_vcount[1]
+    SLICE_X4Y61          LUT4 (Prop_lut4_I0_O)        0.124    -0.686 f  lr/hit_max_out_i_3__0/O
+                         net (fo=1, routed)           0.815     0.129    lr/hit_max_out_i_3__0_n_0
+    SLICE_X4Y59          LUT5 (Prop_lut5_I0_O)        0.124     0.253 f  lr/hit_max_out_i_2__0/O
+                         net (fo=4, routed)           0.639     0.892    lr/pixel_vcount_out_reg[1]_0
+    SLICE_X4Y59          LUT3 (Prop_lut3_I1_O)        0.124     1.016 r  lr/count_out[4]_i_1__0/O
+                         net (fo=5, routed)           0.640     1.655    counter/SR[0]
+    SLICE_X4Y58          FDRE                                         r  counter/count_out_reg[0]/R
   -------------------------------------------------------------------    -------------------
 
                          (clock clk_camera_cw_fast rise edge)
@@ -451,16 +446,16 @@ Slack (MET) :             0.453ns  (required time - arrival time)
                                                      -7.753    -0.202 r  wizard_migcam/plle2_adv_inst/CLKOUT2
                          net (fo=1, routed)           1.582     1.380    wizard_migcam/clk_camera_cw_fast
     BUFGCTRL_X0Y1        BUFG (Prop_bufg_I_O)         0.091     1.471 r  wizard_migcam/clkout3_buf/O
-                         net (fo=246, routed)         1.506     2.976    pixel_valid_ct/clk_camera
-    SLICE_X3Y61          FDRE                                         r  pixel_valid_ct/count_out_reg[12]/C
-                         clock pessimism             -0.414     2.562    
-                         clock uncertainty           -0.067     2.495    
-    SLICE_X3Y61          FDRE (Setup_fdre_C_R)       -0.633     1.862    pixel_valid_ct/count_out_reg[12]
+                         net (fo=246, routed)         1.506     2.976    counter/clk_camera
+    SLICE_X4Y58          FDRE                                         r  counter/count_out_reg[0]/C
+                         clock pessimism             -0.415     2.561    
+                         clock uncertainty           -0.067     2.494    
+    SLICE_X4Y58          FDRE (Setup_fdre_C_R)       -0.429     2.065    counter/count_out_reg[0]
   -------------------------------------------------------------------
-                         required time                          1.862    
-                         arrival time                          -1.409    
+                         required time                          2.065    
+                         arrival time                          -1.655    
   -------------------------------------------------------------------
-                         slack                                  0.453    
+                         slack                                  0.410    
 
 
 
@@ -468,20 +463,20 @@ Slack (MET) :             0.453ns  (required time - arrival time)
 
 Min Delay Paths
 --------------------------------------------------------------------------------------
-Slack (MET) :             0.143ns  (arrival time - required time)
-  Source:                 crw/bram_addr_reg[3]/C
+Slack (MET) :             0.158ns  (arrival time - required time)
+  Source:                 counter/count_out_reg[4]/C
                             (rising edge-triggered cell FDRE clocked by clk_camera_cw_fast  {rise@0.000ns fall@2.500ns period=5.000ns})
-  Destination:            registers/BRAM_reg/ADDRBWRADDR[7]
-                            (rising edge-triggered cell RAMB18E1 clocked by clk_camera_cw_fast  {rise@0.000ns fall@2.500ns period=5.000ns})
+  Destination:            counter/hit_max_out_reg/D
+                            (rising edge-triggered cell FDRE clocked by clk_camera_cw_fast  {rise@0.000ns fall@2.500ns period=5.000ns})
   Path Group:             clk_camera_cw_fast
   Path Type:              Hold (Min at Fast Process Corner)
   Requirement:            0.000ns  (clk_camera_cw_fast rise@0.000ns - clk_camera_cw_fast rise@0.000ns)
-  Data Path Delay:        0.402ns  (logic 0.164ns (40.826%)  route 0.238ns (59.174%))
-  Logic Levels:           0  
-  Clock Path Skew:        0.075ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    -0.321ns
-    Source Clock Delay      (SCD):    -0.592ns
-    Clock Pessimism Removal (CPR):    0.195ns
+  Data Path Delay:        0.262ns  (logic 0.186ns (70.948%)  route 0.076ns (29.052%))
+  Logic Levels:           1  (LUT6=1)
+  Clock Path Skew:        0.013ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    -0.325ns
+    Source Clock Delay      (SCD):    -0.557ns
+    Clock Pessimism Removal (CPR):    0.219ns
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
   -------------------------------------------------------------------    -------------------
@@ -495,12 +490,14 @@ Slack (MET) :             0.143ns  (arrival time - required time)
                                                      -2.326    -1.677 r  wizard_migcam/plle2_adv_inst/CLKOUT2
                          net (fo=1, routed)           0.504    -1.173    wizard_migcam/clk_camera_cw_fast
     BUFGCTRL_X0Y1        BUFG (Prop_bufg_I_O)         0.026    -1.147 r  wizard_migcam/clkout3_buf/O
-                         net (fo=246, routed)         0.555    -0.592    crw/clk_camera
-    SLICE_X10Y70         FDRE                                         r  crw/bram_addr_reg[3]/C
+                         net (fo=246, routed)         0.590    -0.557    counter/clk_camera
+    SLICE_X4Y58          FDRE                                         r  counter/count_out_reg[4]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X10Y70         FDRE (Prop_fdre_C_Q)         0.164    -0.428 r  crw/bram_addr_reg[3]/Q
-                         net (fo=2, routed)           0.238    -0.190    registers/ADDRARDADDR[3]
-    RAMB18_X0Y28         RAMB18E1                                     r  registers/BRAM_reg/ADDRBWRADDR[7]
+    SLICE_X4Y58          FDRE (Prop_fdre_C_Q)         0.141    -0.416 r  counter/count_out_reg[4]/Q
+                         net (fo=3, routed)           0.076    -0.340    counter/count_out_reg_n_0_[4]
+    SLICE_X5Y58          LUT6 (Prop_lut6_I3_O)        0.045    -0.295 r  counter/hit_max_out_i_1__0/O
+                         net (fo=1, routed)           0.000    -0.295    counter/hit_max_out_i_1__0_n_0
+    SLICE_X5Y58          FDRE                                         r  counter/hit_max_out_reg/D
   -------------------------------------------------------------------    -------------------
 
                          (clock clk_camera_cw_fast rise edge)
@@ -513,16 +510,15 @@ Slack (MET) :             0.143ns  (arrival time - required time)
                                                      -2.641    -1.764 r  wizard_migcam/plle2_adv_inst/CLKOUT2
                          net (fo=1, routed)           0.550    -1.214    wizard_migcam/clk_camera_cw_fast
     BUFGCTRL_X0Y1        BUFG (Prop_bufg_I_O)         0.029    -1.185 r  wizard_migcam/clkout3_buf/O
-                         net (fo=246, routed)         0.864    -0.321    registers/clk_camera
-    RAMB18_X0Y28         RAMB18E1                                     r  registers/BRAM_reg/CLKBWRCLK
-                         clock pessimism             -0.195    -0.517    
-    RAMB18_X0Y28         RAMB18E1 (Hold_ramb18e1_CLKBWRCLK_ADDRBWRADDR[7])
-                                                      0.183    -0.334    registers/BRAM_reg
+                         net (fo=246, routed)         0.860    -0.325    counter/clk_camera
+    SLICE_X5Y58          FDRE                                         r  counter/hit_max_out_reg/C
+                         clock pessimism             -0.219    -0.544    
+    SLICE_X5Y58          FDRE (Hold_fdre_C_D)         0.091    -0.453    counter/hit_max_out_reg
   -------------------------------------------------------------------
-                         required time                          0.334    
-                         arrival time                          -0.190    
+                         required time                          0.453    
+                         arrival time                          -0.295    
   -------------------------------------------------------------------
-                         slack                                  0.143    
+                         slack                                  0.158    
 
 
 
@@ -538,8 +534,8 @@ Sources:            { wizard_migcam/plle2_adv_inst/CLKOUT2 }
 Check Type        Corner  Lib Pin             Reference Pin  Required(ns)  Actual(ns)  Slack(ns)  Location        Pin
 Min Period        n/a     RAMB18E1/CLKARDCLK  n/a            2.944         5.000       2.056      RAMB18_X0Y28    registers/BRAM_reg/CLKARDCLK
 Max Period        n/a     PLLE2_ADV/CLKOUT2   n/a            160.000       5.000       155.000    PLLE2_ADV_X0Y0  wizard_migcam/plle2_adv_inst/CLKOUT2
-Low Pulse Width   Slow    FDRE/C              n/a            0.500         2.500       2.000      SLICE_X1Y68     cam_hsync_buf_reg[0]/C
-High Pulse Width  Slow    FDRE/C              n/a            0.500         2.500       2.000      SLICE_X1Y68     cam_hsync_buf_reg[0]/C
+Low Pulse Width   Slow    FDRE/C              n/a            0.500         2.500       2.000      SLICE_X3Y65     cam_hsync_buf_reg[0]/C
+High Pulse Width  Slow    FDRE/C              n/a            0.500         2.500       2.000      SLICE_X3Y65     cam_hsync_buf_reg[0]/C
 
 
 

@@ -1,8 +1,8 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2024.1 (lin64) Build 5076996 Wed May 22 18:36:09 MDT 2024
-| Date         : Tue Dec  3 01:23:08 2024
-| Host         : eecs-digital-45 running 64-bit Ubuntu 24.04.1 LTS
+| Date         : Wed Dec  4 16:44:01 2024
+| Host         : eecs-digital-34 running 64-bit Ubuntu 24.04.1 LTS
 | Command      : report_utilization -file obj/post_synth_util.rpt -hierarchical -hierarchical_depth 4
 | Design       : top_level
 | Device       : xc7s50csga324-1
@@ -22,18 +22,18 @@ Table of Contents
 +------------------+-----------------------------------+------------+------------+---------+------+-----+--------+--------+------------+
 |     Instance     |               Module              | Total LUTs | Logic LUTs | LUTRAMs | SRLs | FFs | RAMB36 | RAMB18 | DSP Blocks |
 +------------------+-----------------------------------+------------+------------+---------+------+-----+--------+--------+------------+
-| top_level        |                             (top) |        216 |        216 |       0 |    0 | 266 |      0 |      1 |          0 |
+| top_level        |                             (top) |        221 |        221 |       0 |    0 | 266 |      0 |      1 |          0 |
 |   (top_level)    |                             (top) |          0 |          0 |       0 |    0 |  28 |      0 |      0 |          0 |
 |   counter        |       evt_counter__parameterized0 |          6 |          6 |       0 |    0 |   6 |      0 |      0 |          0 |
-|   crw            |                  camera_registers |        107 |        107 |       0 |    0 | 104 |      0 |      0 |          0 |
+|   crw            |                  camera_registers |        109 |        109 |       0 |    0 | 104 |      0 |      0 |          0 |
 |     (crw)        |                  camera_registers |          8 |          8 |       0 |    0 |  42 |      0 |      0 |          0 |
 |     aia          |                    addr_increment |          8 |          8 |       0 |    0 |   9 |      0 |      0 |          0 |
-|     sccb_c       |                        i2c_master |         91 |         91 |       0 |    0 |  53 |      0 |      0 |          0 |
+|     sccb_c       |                        i2c_master |         93 |         93 |       0 |    0 |  53 |      0 |      0 |          0 |
 |   frame_ct       |                       evt_counter |         11 |         11 |       0 |    0 |  11 |      0 |      0 |          0 |
-|   lr             |             luminance_reconstruct |         33 |         33 |       0 |    0 |  30 |      0 |      0 |          0 |
-|   mssc           |          seven_segment_controller |         23 |         23 |       0 |    0 |  25 |      0 |      0 |          0 |
-|   pixel_valid_ct |       evt_counter__parameterized2 |          8 |          8 |       0 |    0 |  27 |      0 |      0 |          0 |
-|   please         |       evt_counter__parameterized1 |         11 |         11 |       0 |    0 |  20 |      0 |      0 |          0 |
+|   lr             |             luminance_reconstruct |         32 |         32 |       0 |    0 |  30 |      0 |      0 |          0 |
+|   mssc           |          seven_segment_controller |         18 |         18 |       0 |    0 |  25 |      0 |      0 |          0 |
+|   pixel_valid_ct |       evt_counter__parameterized2 |          9 |          9 |       0 |    0 |  27 |      0 |      0 |          0 |
+|   please         |       evt_counter__parameterized1 |         19 |         19 |       0 |    0 |  20 |      0 |      0 |          0 |
 |   registers      | xilinx_single_port_ram_read_first |          7 |          7 |       0 |    0 |   0 |      0 |      1 |          0 |
 |   spi_send       |                    spi_send_con_2 |         10 |         10 |       0 |    0 |  15 |      0 |      0 |          0 |
 |   wizard_hdmi    |                   cw_hdmi_clk_wiz |          0 |          0 |       0 |    0 |   0 |      0 |      0 |          0 |

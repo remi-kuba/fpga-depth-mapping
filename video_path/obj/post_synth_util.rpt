@@ -1,8 +1,8 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2024.1 (lin64) Build 5076996 Wed May 22 18:36:09 MDT 2024
-| Date         : Tue Dec  3 01:51:09 2024
-| Host         : eecs-digital-03 running 64-bit Ubuntu 24.04 LTS
+| Date         : Wed Dec  4 17:06:53 2024
+| Host         : eecs-digital-28 running 64-bit Ubuntu 24.04.1 LTS
 | Command      : report_utilization -file obj/post_synth_util.rpt -hierarchical -hierarchical_depth 4
 | Design       : top_level
 | Device       : xc7s50csga324-1
@@ -22,8 +22,8 @@ Table of Contents
 +--------------------------------------------+------------------------------------------+------------+------------+---------+------+------+--------+--------+------------+
 |                  Instance                  |                  Module                  | Total LUTs | Logic LUTs | LUTRAMs | SRLs |  FFs | RAMB36 | RAMB18 | DSP Blocks |
 +--------------------------------------------+------------------------------------------+------------+------------+---------+------+------+--------+--------+------------+
-| top_level                                  |                                    (top) |       6378 |       5917 |     444 |   17 | 5237 |      4 |      1 |          0 |
-|   (top_level)                              |                                    (top) |          0 |          0 |       0 |    0 |    6 |      0 |      0 |          0 |
+| top_level                                  |                                    (top) |       6371 |       5910 |     444 |   17 | 5242 |      4 |      1 |          0 |
+|   (top_level)                              |                                    (top) |          0 |          0 |       0 |    0 |   20 |      0 |      0 |          0 |
 |   blue_ser                                 |                          tmds_serializer |          0 |          0 |       0 |    0 |    0 |      0 |      0 |          0 |
 |   camera_data_fifo                         |                            ddr_fifo_wrap |        165 |        165 |       0 |    0 |  234 |      2 |      0 |          0 |
 |     (camera_data_fifo)                     |                            ddr_fifo_wrap |         21 |         21 |       0 |    0 |    0 |      0 |      0 |          0 |
@@ -47,10 +47,10 @@ Table of Contents
 |         wrpp1_inst                         |      xpm_counter_updn__parameterized1_17 |         13 |         13 |       0 |    0 |    7 |      0 |      0 |          0 |
 |         wrpp2_inst                         |      xpm_counter_updn__parameterized2_18 |          6 |          6 |       0 |    0 |    7 |      0 |      0 |          0 |
 |         xpm_fifo_rst_inst                  |                          xpm_fifo_rst_19 |         18 |         18 |       0 |    0 |   19 |      0 |      0 |          0 |
-|   crw                                      |                         camera_registers |        105 |        105 |       0 |    0 |  104 |      0 |      0 |          0 |
-|     (crw)                                  |                         camera_registers |          8 |          8 |       0 |    0 |   42 |      0 |      0 |          0 |
+|   crw                                      |                         camera_registers |        108 |        108 |       0 |    0 |  104 |      0 |      0 |          0 |
+|     (crw)                                  |                         camera_registers |          9 |          9 |       0 |    0 |   42 |      0 |      0 |          0 |
 |     aia                                    |                           addr_increment |          8 |          8 |       0 |    0 |    9 |      0 |      0 |          0 |
-|     sccb_c                                 |                               i2c_master |         89 |         89 |       0 |    0 |   53 |      0 |      0 |          0 |
+|     sccb_c                                 |                               i2c_master |         91 |         91 |       0 |    0 |   53 |      0 |      0 |          0 |
 |   ddr3_mig_inst                            |                                 ddr3_mig |       5346 |       4885 |     444 |   17 | 4055 |      0 |      0 |          0 |
 |     (ddr3_mig_inst)                        |                                 ddr3_mig |        216 |          0 |     216 |    0 |    0 |      0 |      0 |          0 |
 |     u_ddr3_mig_mig                         |                             ddr3_mig_mig |       5130 |       4885 |     228 |   17 | 4055 |      0 |      0 |          0 |
@@ -62,12 +62,12 @@ Table of Contents
 |         (u_memc_ui_top_std)                | ddr3_migmig_7series_v4_2_memc_ui_top_std |          0 |          0 |       0 |    0 |    1 |      0 |      0 |          0 |
 |         mem_intfc0                         |       ddr3_migmig_7series_v4_2_mem_intfc |       4567 |       4518 |      32 |   17 | 3299 |      0 |      0 |          0 |
 |         u_ui_top                           |          ddr3_migmig_7series_v4_2_ui_top |        490 |        294 |     196 |    0 |  556 |      0 |      0 |          0 |
-|   frame_ct                                 |                            evt_counter_2 |          9 |          9 |       0 |    0 |    8 |      0 |      0 |          0 |
+|   frame_ct                                 |                            evt_counter_2 |          8 |          8 |       0 |    0 |    8 |      0 |      0 |          0 |
 |   green_ser                                |                        tmds_serializer_0 |          0 |          0 |       0 |    0 |    0 |      0 |      0 |          0 |
-|   mssc                                     |                 seven_segment_controller |         17 |         17 |       0 |    0 |   25 |      0 |      0 |          0 |
-|   other                                    |            evt_counter_2__parameterized1 |         18 |         18 |       0 |    0 |   20 |      0 |      0 |          0 |
-|   pdfifo                                   |                          ddr_fifo_wrap_1 |        150 |        150 |       0 |    0 |  234 |      2 |      0 |          0 |
-|     (pdfifo)                               |                          ddr_fifo_wrap_1 |          6 |          6 |       0 |    0 |    0 |      0 |      0 |          0 |
+|   mssc                                     |                 seven_segment_controller |         34 |         34 |       0 |    0 |   25 |      0 |      0 |          0 |
+|   other                                    |            evt_counter_2__parameterized2 |          6 |          6 |       0 |    0 |   20 |      0 |      0 |          0 |
+|   pdfifo                                   |                          ddr_fifo_wrap_1 |        145 |        145 |       0 |    0 |  234 |      2 |      0 |          0 |
+|     (pdfifo)                               |                          ddr_fifo_wrap_1 |          1 |          1 |       0 |    0 |    0 |      0 |      0 |          0 |
 |     xpm_fifo_axis_inst                     |                            xpm_fifo_axis |        144 |        144 |       0 |    0 |  234 |      2 |      0 |          0 |
 |       (xpm_fifo_axis_inst)                 |                            xpm_fifo_axis |          2 |          2 |       0 |    0 |    0 |      0 |      0 |          0 |
 |       gaxis_rst_sync.xpm_cdc_sync_rst_inst |                      xpm_cdc_sync_rst__2 |          0 |          0 |       0 |    0 |    3 |      0 |      0 |          0 |
@@ -88,7 +88,7 @@ Table of Contents
 |         wrpp1_inst                         |       xpm_counter_updn__parameterized1_9 |         13 |         13 |       0 |    0 |    7 |      0 |      0 |          0 |
 |         wrpp2_inst                         |         xpm_counter_updn__parameterized2 |          6 |          6 |       0 |    0 |    7 |      0 |      0 |          0 |
 |         xpm_fifo_rst_inst                  |                             xpm_fifo_rst |         18 |         18 |       0 |    0 |   19 |      0 |      0 |          0 |
-|   pixel_valid_ct                           |            evt_counter_2__parameterized2 |          8 |          8 |       0 |    0 |   27 |      0 |      0 |          0 |
+|   pixel_valid_ct                           |            evt_counter_2__parameterized0 |          5 |          5 |       0 |    0 |   15 |      0 |      0 |          0 |
 |   readwrite_looper                         |                        traffic_generator |        104 |        104 |       0 |    0 |   34 |      0 |      0 |          0 |
 |     (readwrite_looper)                     |                        traffic_generator |         47 |         47 |       0 |    0 |    4 |      0 |      0 |          0 |
 |     read_req_addr                          |                              evt_counter |         34 |         34 |       0 |    0 |   10 |      0 |      0 |          0 |
@@ -96,14 +96,14 @@ Table of Contents
 |     write_addr                             |                            evt_counter_6 |         12 |         12 |       0 |    0 |   10 |      0 |      0 |          0 |
 |   red_ser                                  |                        tmds_serializer_2 |          1 |          1 |       0 |    0 |    1 |      0 |      0 |          0 |
 |   registers                                |        xilinx_single_port_ram_read_first |          6 |          6 |       0 |    0 |    0 |      0 |      1 |          0 |
-|   something                                |            evt_counter_2__parameterized0 |          6 |          6 |       0 |    0 |    6 |      0 |      0 |          0 |
-|   spi_receive                              |                        spi_receive_con_2 |          7 |          7 |       0 |    0 |   13 |      0 |      0 |          0 |
-|   stacker_inst                             |                                  stacker |          9 |          9 |       0 |    0 |  270 |      0 |      0 |          0 |
-|   tmds_blue                                |                             tmds_encoder |          1 |          1 |       0 |    0 |   14 |      0 |      0 |          0 |
-|   tmds_green                               |                           tmds_encoder_3 |          2 |          2 |       0 |    0 |   14 |      0 |      0 |          0 |
-|   tmds_red                                 |                           tmds_encoder_4 |          2 |          2 |       0 |    0 |   14 |      0 |      0 |          0 |
-|   unstacker_inst                           |                                unstacker |        351 |        351 |       0 |    0 |  134 |      0 |      0 |          0 |
-|   vsg                                      |                            video_sig_gen |         71 |         71 |       0 |    0 |   24 |      0 |      0 |          0 |
+|   something                                |            evt_counter_2__parameterized1 |          6 |          6 |       0 |    0 |    6 |      0 |      0 |          0 |
+|   spi_receive                              |                        spi_receive_con_2 |          9 |          9 |       0 |    0 |   13 |      0 |      0 |          0 |
+|   stacker_inst                             |                                  stacker |         10 |         10 |       0 |    0 |  270 |      0 |      0 |          0 |
+|   tmds_blue                                |                             tmds_encoder |          2 |          2 |       0 |    0 |   15 |      0 |      0 |          0 |
+|   tmds_green                               |                           tmds_encoder_3 |          2 |          2 |       0 |    0 |   15 |      0 |      0 |          0 |
+|   tmds_red                                 |                           tmds_encoder_4 |          2 |          2 |       0 |    0 |   15 |      0 |      0 |          0 |
+|   unstacker_inst                           |                                unstacker |        366 |        366 |       0 |    0 |  134 |      0 |      0 |          0 |
+|   vsg                                      |                            video_sig_gen |         46 |         46 |       0 |    0 |   24 |      0 |      0 |          0 |
 |   wizard_hdmi                              |                          cw_hdmi_clk_wiz |          0 |          0 |       0 |    0 |    0 |      0 |      0 |          0 |
 |   wizard_migcam                            |                          cw_fast_clk_wiz |          0 |          0 |       0 |    0 |    0 |      0 |      0 |          0 |
 +--------------------------------------------+------------------------------------------+------------+------------+---------+------+------+--------+--------+------------+

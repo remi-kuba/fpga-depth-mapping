@@ -143,7 +143,7 @@ set_property -dict {PACKAGE_PIN K14 IOSTANDARD LVCMOS33}  [ get_ports "cipo[0]" 
 set_property -dict {PACKAGE_PIN J15 IOSTANDARD LVCMOS33}  [ get_ports "cipo[1]" ]
 set_property -dict {PACKAGE_PIN H16 IOSTANDARD LVCMOS33}  [ get_ports "cipo[2]" ]
 set_property -dict {PACKAGE_PIN H17 IOSTANDARD LVCMOS33}  [ get_ports "cipo[3]" ]
-set_property -dict {PACKAGE_PIN K16 IOSTANDARD LVCMOS33}  [ get_ports "spi_hsync" ]
+set_property -dict {PACKAGE_PIN K16 IOSTANDARD LVCMOS33}  [ get_ports "spi_tlast" ]
 set_property -dict {PACKAGE_PIN J16 IOSTANDARD LVCMOS33}  [ get_ports "spi_vsync" ]
 #set_property -dict {PACKAGE_PIN H18 IOSTANDARD LVCMOS33}  [ get_ports "pmodb[0]" ]
 #set_property -dict {PACKAGE_PIN G18 IOSTANDARD LVCMOS33}  [ get_ports "pmodb[1]" ]

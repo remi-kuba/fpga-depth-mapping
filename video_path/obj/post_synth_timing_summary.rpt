@@ -1,8 +1,8 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2024.1 (lin64) Build 5076996 Wed May 22 18:36:09 MDT 2024
-| Date         : Tue Dec  3 01:51:09 2024
-| Host         : eecs-digital-03 running 64-bit Ubuntu 24.04 LTS
+| Date         : Wed Dec  4 17:06:53 2024
+| Host         : eecs-digital-28 running 64-bit Ubuntu 24.04.1 LTS
 | Command      : report_timing_summary -file obj/post_synth_timing_summary.rpt
 | Design       : top_level
 | Device       : 7s50-csga324
@@ -138,7 +138,7 @@ Table of Contents
 
     WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints  
     -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------  
-     -0.173       -4.490                     26                14983       -1.350      -23.109                     53                14917        0.206        0.000                       0                  6394  
+     -0.293       -5.242                     18                14977       -1.350      -23.109                     53                14911        0.206        0.000                       0                  6399  
 
 
 Timing constraints are not met.
@@ -190,11 +190,11 @@ gclk                                                                            
 Clock                                                                                                                                                                WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints  
 -----                                                                                                                                                                -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------  
 gclk                                                                                                                                                                                                                                                                                                               2.000        0.000                       0                     1  
-  clk_100_cw_fast                                                                                                                                                      5.149        0.000                      0                   50        0.136        0.000                      0                   50        3.000        0.000                       0                    28  
-    clk_pixel_cw_hdmi                                                                                                                                                  2.352        0.000                      0                  588        0.003        0.000                      0                  588        6.234        0.000                       0                   330  
+  clk_100_cw_fast                                                                                                                                                      5.860        0.000                      0                   50        0.139        0.000                      0                   50        3.000        0.000                       0                    28  
+    clk_pixel_cw_hdmi                                                                                                                                                  2.413        0.000                      0                  594        0.003        0.000                      0                  594        6.234        0.000                       0                   333  
     clk_tmds_cw_hdmi                                                                                                                                                                                                                                                                                               0.538        0.000                       0                     8  
     clkfbout_cw_hdmi                                                                                                                                                                                                                                                                                              47.845        0.000                       0                     3  
-  clk_camera_cw_fast                                                                                                                                                  -0.173       -4.490                     26                 1258        0.007        0.000                      0                 1258        2.000        0.000                       0                   575  
+  clk_camera_cw_fast                                                                                                                                                  -0.293       -5.242                     18                 1246        0.007        0.000                      0                 1246        2.000        0.000                       0                   577  
   clk_mig_cw_fast                                                                                                                                                      2.241        0.000                      0                  126        0.007        0.000                      0                  126        0.264        0.000                       0                    65  
     freq_refclk                                                                                                                                                                                                                                                                                                    0.206        0.000                       0                     8  
       u_memc_ui_top_std/mem_intfc0/ddr_phy_top0/u_ddr_mc_phy_wrapper/u_ddr_mc_phy/ddr_phy_4lanes_0.u_ddr_phy_4lanes/ddr_byte_lane_C.ddr_byte_lane_C/iserdes_clk                                                                                                                                                    1.410        0.000                       0                    16  
@@ -286,24 +286,24 @@ High Pulse Width  Slow    PLLE2_ADV/CLKIN1  n/a            2.000         4.000  
 From Clock:  clk_100_cw_fast
   To Clock:  clk_100_cw_fast
 
-Setup :            0  Failing Endpoints,  Worst Slack        5.149ns,  Total Violation        0.000ns
-Hold  :            0  Failing Endpoints,  Worst Slack        0.136ns,  Total Violation        0.000ns
+Setup :            0  Failing Endpoints,  Worst Slack        5.860ns,  Total Violation        0.000ns
+Hold  :            0  Failing Endpoints,  Worst Slack        0.139ns,  Total Violation        0.000ns
 PW    :            0  Failing Endpoints,  Worst Slack        3.000ns,  Total Violation        0.000ns
 ---------------------------------------------------------------------------------------------------
 
 
 Max Delay Paths
 --------------------------------------------------------------------------------------
-Slack (MET) :             5.149ns  (required time - arrival time)
-  Source:                 mssc/segment_counter_reg[6]/C
+Slack (MET) :             5.860ns  (required time - arrival time)
+  Source:                 mssc/segment_counter_reg[9]/C
                             (rising edge-triggered cell FDRE clocked by clk_100_cw_fast  {rise@0.000ns fall@5.000ns period=10.000ns})
   Destination:            mssc/segment_counter_reg[0]/R
                             (rising edge-triggered cell FDRE clocked by clk_100_cw_fast  {rise@0.000ns fall@5.000ns period=10.000ns})
   Path Group:             clk_100_cw_fast
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            10.000ns  (clk_100_cw_fast rise@10.000ns - clk_100_cw_fast rise@0.000ns)
-  Data Path Delay:        4.199ns  (logic 0.999ns (23.791%)  route 3.200ns (76.209%))
-  Logic Levels:           3  (LUT2=1 LUT6=2)
+  Data Path Delay:        3.488ns  (logic 0.999ns (28.641%)  route 2.489ns (71.359%))
+  Logic Levels:           3  (LUT4=1 LUT5=1 LUT6=1)
   Clock Path Skew:        -0.145ns (DCD - SCD + CPR)
     Destination Clock Delay (DCD):    -2.794ns = ( 7.206 - 10.000 ) 
     Source Clock Delay      (SCD):    -3.108ns
@@ -326,16 +326,16 @@ Slack (MET) :             5.149ns  (required time - arrival time)
                          net (fo=1, unplaced)         0.800    -3.788    wizard_migcam/clk_100_cw_fast
                          BUFG (Prop_bufg_I_O)         0.096    -3.692 r  wizard_migcam/clkout1_buf/O
                          net (fo=26, unplaced)        0.584    -3.108    mssc/clk_100
-                         FDRE                                         r  mssc/segment_counter_reg[6]/C
+                         FDRE                                         r  mssc/segment_counter_reg[9]/C
   -------------------------------------------------------------------    -------------------
-                         FDRE (Prop_fdre_C_Q)         0.456    -2.652 f  mssc/segment_counter_reg[6]/Q
-                         net (fo=2, unplaced)         0.976    -1.676    mssc/segment_counter_reg[6]
-                         LUT6 (Prop_lut6_I0_O)        0.295    -1.381 r  mssc/segment_state[7]_i_2/O
-                         net (fo=1, unplaced)         0.902    -0.479    mssc/segment_state[7]_i_2_n_0
-                         LUT6 (Prop_lut6_I0_O)        0.124    -0.355 r  mssc/segment_state[7]_i_1/O
-                         net (fo=9, unplaced)         0.490     0.135    mssc/segment_state
-                         LUT2 (Prop_lut2_I1_O)        0.124     0.259 r  mssc/segment_counter[0]_i_1/O
-                         net (fo=17, unplaced)        0.832     1.091    mssc/segment_counter[0]_i_1_n_0
+                         FDRE (Prop_fdre_C_Q)         0.456    -2.652 r  mssc/segment_counter_reg[9]/Q
+                         net (fo=3, unplaced)         0.759    -1.893    mssc/segment_counter_reg[9]
+                         LUT4 (Prop_lut4_I1_O)        0.295    -1.598 r  mssc/segment_counter[0]_i_6/O
+                         net (fo=1, unplaced)         0.449    -1.149    mssc/segment_counter[0]_i_6_n_0
+                         LUT5 (Prop_lut5_I4_O)        0.124    -1.025 r  mssc/segment_counter[0]_i_4/O
+                         net (fo=1, unplaced)         0.449    -0.576    mssc/segment_counter[0]_i_4_n_0
+                         LUT6 (Prop_lut6_I1_O)        0.124    -0.452 r  mssc/segment_counter[0]_i_1/O
+                         net (fo=17, unplaced)        0.832     0.380    mssc/segment_counter[0]_i_1_n_0
                          FDRE                                         r  mssc/segment_counter_reg[0]/R
   -------------------------------------------------------------------    -------------------
 
@@ -356,9 +356,9 @@ Slack (MET) :             5.149ns  (required time - arrival time)
                          FDRE (Setup_fdre_C_R)       -0.433     6.241    mssc/segment_counter_reg[0]
   -------------------------------------------------------------------
                          required time                          6.241    
-                         arrival time                          -1.091    
+                         arrival time                          -0.380    
   -------------------------------------------------------------------
-                         slack                                  5.149    
+                         slack                                  5.860    
 
 
 
@@ -366,7 +366,7 @@ Slack (MET) :             5.149ns  (required time - arrival time)
 
 Min Delay Paths
 --------------------------------------------------------------------------------------
-Slack (MET) :             0.136ns  (arrival time - required time)
+Slack (MET) :             0.139ns  (arrival time - required time)
   Source:                 mssc/segment_counter_reg[0]/C
                             (rising edge-triggered cell FDRE clocked by clk_100_cw_fast  {rise@0.000ns fall@5.000ns period=10.000ns})
   Destination:            mssc/segment_counter_reg[0]/D
@@ -374,7 +374,7 @@ Slack (MET) :             0.136ns  (arrival time - required time)
   Path Group:             clk_100_cw_fast
   Path Type:              Hold (Min at Fast Process Corner)
   Requirement:            0.000ns  (clk_100_cw_fast rise@0.000ns - clk_100_cw_fast rise@0.000ns)
-  Data Path Delay:        0.386ns  (logic 0.256ns (66.351%)  route 0.130ns (33.649%))
+  Data Path Delay:        0.389ns  (logic 0.256ns (65.847%)  route 0.133ns (34.153%))
   Logic Levels:           2  (CARRY4=1 LUT1=1)
   Clock Path Skew:        0.145ns (DCD - SCD - CPR)
     Destination Clock Delay (DCD):    -0.587ns
@@ -397,12 +397,12 @@ Slack (MET) :             0.136ns  (arrival time - required time)
                          FDRE                                         r  mssc/segment_counter_reg[0]/C
   -------------------------------------------------------------------    -------------------
                          FDRE (Prop_fdre_C_Q)         0.141    -0.778 f  mssc/segment_counter_reg[0]/Q
-                         net (fo=2, unplaced)         0.130    -0.649    mssc/segment_counter_reg[0]
-                         LUT1 (Prop_lut1_I0_O)        0.045    -0.604 r  mssc/segment_counter[0]_i_3/O
-                         net (fo=1, unplaced)         0.000    -0.604    mssc/segment_counter[0]_i_3_n_0
+                         net (fo=3, unplaced)         0.133    -0.646    mssc/segment_counter_reg[0]
+                         LUT1 (Prop_lut1_I0_O)        0.045    -0.601 r  mssc/segment_counter[0]_i_5/O
+                         net (fo=1, unplaced)         0.000    -0.601    mssc/segment_counter[0]_i_5_n_0
                          CARRY4 (Prop_carry4_S[0]_O[0])
-                                                      0.070    -0.534 r  mssc/segment_counter_reg[0]_i_2/O[0]
-                         net (fo=1, unplaced)         0.000    -0.534    mssc/segment_counter_reg[0]_i_2_n_7
+                                                      0.070    -0.531 r  mssc/segment_counter_reg[0]_i_2/O[0]
+                         net (fo=1, unplaced)         0.000    -0.531    mssc/segment_counter_reg[0]_i_2_n_7
                          FDRE                                         r  mssc/segment_counter_reg[0]/D
   -------------------------------------------------------------------    -------------------
 
@@ -422,9 +422,9 @@ Slack (MET) :             0.136ns  (arrival time - required time)
                          FDRE (Hold_fdre_C_D)         0.105    -0.669    mssc/segment_counter_reg[0]
   -------------------------------------------------------------------
                          required time                          0.669    
-                         arrival time                          -0.534    
+                         arrival time                          -0.531    
   -------------------------------------------------------------------
-                         slack                                  0.136    
+                         slack                                  0.139    
 
 
 
@@ -449,7 +449,7 @@ High Pulse Width  Slow    MMCME2_ADV/CLKIN1  n/a            2.000         5.000 
 From Clock:  clk_pixel_cw_hdmi
   To Clock:  clk_pixel_cw_hdmi
 
-Setup :            0  Failing Endpoints,  Worst Slack        2.352ns,  Total Violation        0.000ns
+Setup :            0  Failing Endpoints,  Worst Slack        2.413ns,  Total Violation        0.000ns
 Hold  :            0  Failing Endpoints,  Worst Slack        0.003ns,  Total Violation        0.000ns
 PW    :            0  Failing Endpoints,  Worst Slack        6.234ns,  Total Violation        0.000ns
 ---------------------------------------------------------------------------------------------------
@@ -457,16 +457,16 @@ PW    :            0  Failing Endpoints,  Worst Slack        6.234ns,  Total Vio
 
 Max Delay Paths
 --------------------------------------------------------------------------------------
-Slack (MET) :             2.352ns  (required time - arrival time)
-  Source:                 vsg/vcount_out_reg[6]/C
+Slack (MET) :             2.413ns  (required time - arrival time)
+  Source:                 vsg/hcount_out_reg[8]/C
                             (rising edge-triggered cell FDRE clocked by clk_pixel_cw_hdmi  {rise@0.000ns fall@6.734ns period=13.468ns})
-  Destination:            tmds_green/tally_reg[3]/D
+  Destination:            tmds_green/tally_reg[4]/D
                             (rising edge-triggered cell FDRE clocked by clk_pixel_cw_hdmi  {rise@0.000ns fall@6.734ns period=13.468ns})
   Path Group:             clk_pixel_cw_hdmi
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            13.468ns  (clk_pixel_cw_hdmi rise@13.468ns - clk_pixel_cw_hdmi rise@0.000ns)
-  Data Path Delay:        10.790ns  (logic 1.867ns (17.303%)  route 8.923ns (82.697%))
-  Logic Levels:           10  (LUT5=1 LUT6=9)
+  Data Path Delay:        10.729ns  (logic 2.011ns (18.744%)  route 8.718ns (81.256%))
+  Logic Levels:           11  (LUT4=3 LUT5=5 LUT6=3)
   Clock Path Skew:        -0.145ns (DCD - SCD + CPR)
     Destination Clock Delay (DCD):    -2.578ns = ( 10.890 - 13.468 ) 
     Source Clock Delay      (SCD):    -2.892ns
@@ -493,32 +493,34 @@ Slack (MET) :             2.352ns  (required time - arrival time)
                                                      -1.480    -4.587 r  wizard_hdmi/mmcm_adv_inst/CLKOUT0
                          net (fo=1, unplaced)         0.800    -3.788    wizard_hdmi/clk_pixel_cw_hdmi
                          BUFG (Prop_bufg_I_O)         0.096    -3.692 r  wizard_hdmi/clkout1_buf/O
-                         net (fo=329, unplaced)       0.800    -2.892    vsg/clk_pixel
-                         FDRE                                         r  vsg/vcount_out_reg[6]/C
+                         net (fo=332, unplaced)       0.800    -2.892    vsg/clk_pixel
+                         FDRE                                         r  vsg/hcount_out_reg[8]/C
   -------------------------------------------------------------------    -------------------
-                         FDRE (Prop_fdre_C_Q)         0.456    -2.436 r  vsg/vcount_out_reg[6]/Q
-                         net (fo=14, unplaced)        1.016    -1.420    vsg/vcount_hdmi[6]
-                         LUT6 (Prop_lut6_I0_O)        0.295    -1.125 r  vsg/tmds_out[2]_i_4/O
-                         net (fo=13, unplaced)        0.952    -0.173    vsg/tmds_out[2]_i_4_n_0
-                         LUT6 (Prop_lut6_I0_O)        0.124    -0.049 r  vsg/tmds_out[2]_i_2__1/O
-                         net (fo=73, unplaced)        0.541     0.492    unstacker_inst/tmds_out_reg[0]
-                         LUT6 (Prop_lut6_I3_O)        0.124     0.616 r  unstacker_inst/tmds_out[8]_i_3/O
-                         net (fo=4, unplaced)         1.135     1.751    unstacker_inst/tmds_out[8]_i_3_n_0
-                         LUT6 (Prop_lut6_I1_O)        0.124     1.875 r  unstacker_inst/tally[4]_i_45/O
-                         net (fo=11, unplaced)        0.948     2.823    unstacker_inst/tally[4]_i_45_n_0
-                         LUT6 (Prop_lut6_I2_O)        0.124     2.947 r  unstacker_inst/tally[2]_i_19/O
-                         net (fo=2, unplaced)         0.913     3.860    unstacker_inst/tally[2]_i_19_n_0
-                         LUT6 (Prop_lut6_I1_O)        0.124     3.984 r  unstacker_inst/tally[2]_i_12/O
-                         net (fo=1, unplaced)         0.902     4.886    unstacker_inst/tally[2]_i_12_n_0
-                         LUT6 (Prop_lut6_I1_O)        0.124     5.010 f  unstacker_inst/tally[2]_i_5__0/O
-                         net (fo=2, unplaced)         1.122     6.132    unstacker_inst/tally[2]_i_5__0_n_0
-                         LUT6 (Prop_lut6_I1_O)        0.124     6.256 r  unstacker_inst/tally[4]_i_10/O
-                         net (fo=2, unplaced)         0.975     7.231    unstacker_inst/tally[4]_i_10_n_0
-                         LUT6 (Prop_lut6_I0_O)        0.124     7.355 r  unstacker_inst/tally[3]_i_2/O
-                         net (fo=1, unplaced)         0.419     7.774    unstacker_inst/tally[3]_i_2_n_0
-                         LUT5 (Prop_lut5_I0_O)        0.124     7.898 r  unstacker_inst/tally[3]_i_1__0/O
-                         net (fo=1, unplaced)         0.000     7.898    tmds_green/D[2]
-                         FDRE                                         r  tmds_green/tally_reg[3]/D
+                         FDRE (Prop_fdre_C_Q)         0.456    -2.436 r  vsg/hcount_out_reg[8]/Q
+                         net (fo=10, unplaced)        0.784    -1.652    vsg/hcount_hdmi[8]
+                         LUT4 (Prop_lut4_I1_O)        0.321    -1.331 f  vsg/tmds_out[2]_i_5/O
+                         net (fo=1, unplaced)         0.902    -0.429    vsg/tmds_out[2]_i_5_n_0
+                         LUT5 (Prop_lut5_I1_O)        0.124    -0.305 f  vsg/tmds_out[2]_i_3/O
+                         net (fo=34, unplaced)        0.522     0.217    unstacker_inst/img_addr
+                         LUT5 (Prop_lut5_I3_O)        0.118     0.335 f  unstacker_inst/tmds_out[9]_i_4__0/O
+                         net (fo=1, unplaced)         1.111     1.446    unstacker_inst/tmds_out[9]_i_4__0_n_0
+                         LUT5 (Prop_lut5_I0_O)        0.124     1.570 r  unstacker_inst/tmds_out[9]_i_2__0/O
+                         net (fo=57, unplaced)        0.535     2.105    unstacker_inst/tmds_green/q_m[8]
+                         LUT6 (Prop_lut6_I0_O)        0.124     2.229 r  unstacker_inst/tmds_out[3]_i_2__0/O
+                         net (fo=8, unplaced)         0.487     2.716    unstacker_inst/tmds_green/q_m[3]
+                         LUT4 (Prop_lut4_I1_O)        0.124     2.840 r  unstacker_inst/tally[4]_i_33__1/O
+                         net (fo=10, unplaced)        0.945     3.785    unstacker_inst/tally[4]_i_33__1_n_0
+                         LUT6 (Prop_lut6_I2_O)        0.124     3.909 r  unstacker_inst/tally[4]_i_24__0/O
+                         net (fo=13, unplaced)        0.952     4.861    unstacker_inst/shift_phrase_reg[5]_0[0]
+                         LUT6 (Prop_lut6_I1_O)        0.124     4.985 r  unstacker_inst/tally[3]_i_13__0/O
+                         net (fo=2, unplaced)         0.913     5.898    unstacker_inst/tally[3]_i_13__0_n_0
+                         LUT5 (Prop_lut5_I2_O)        0.124     6.022 r  unstacker_inst/tally[4]_i_7/O
+                         net (fo=1, unplaced)         0.665     6.687    unstacker_inst/tally[4]_i_7_n_0
+                         LUT5 (Prop_lut5_I1_O)        0.124     6.811 r  unstacker_inst/tally[4]_i_2__0/O
+                         net (fo=1, unplaced)         0.902     7.713    unstacker_inst/tally[4]_i_2__0_n_0
+                         LUT4 (Prop_lut4_I0_O)        0.124     7.837 r  unstacker_inst/tally[4]_i_1__0/O
+                         net (fo=1, unplaced)         0.000     7.837    tmds_green/D[4]
+                         FDRE                                         r  tmds_green/tally_reg[4]/D
   -------------------------------------------------------------------    -------------------
 
                          (clock clk_pixel_cw_hdmi rise edge)
@@ -536,16 +538,16 @@ Slack (MET) :             2.352ns  (required time - arrival time)
                                                      -1.290     9.384 r  wizard_hdmi/mmcm_adv_inst/CLKOUT0
                          net (fo=1, unplaced)         0.760    10.144    wizard_hdmi/clk_pixel_cw_hdmi
                          BUFG (Prop_bufg_I_O)         0.091    10.235 r  wizard_hdmi/clkout1_buf/O
-                         net (fo=329, unplaced)       0.655    10.890    tmds_green/clk_pixel
-                         FDRE                                         r  tmds_green/tally_reg[3]/C
+                         net (fo=332, unplaced)       0.655    10.890    tmds_green/clk_pixel
+                         FDRE                                         r  tmds_green/tally_reg[4]/C
                          clock pessimism             -0.459    10.431    
                          clock uncertainty           -0.210    10.221    
-                         FDRE (Setup_fdre_C_D)        0.029    10.250    tmds_green/tally_reg[3]
+                         FDRE (Setup_fdre_C_D)        0.029    10.250    tmds_green/tally_reg[4]
   -------------------------------------------------------------------
                          required time                         10.250    
-                         arrival time                          -7.898    
+                         arrival time                          -7.837    
   -------------------------------------------------------------------
-                         slack                                  2.352    
+                         slack                                  2.413    
 
 
 
@@ -585,7 +587,7 @@ Slack (MET) :             0.003ns  (arrival time - required time)
                                                      -0.477    -1.397 r  wizard_hdmi/mmcm_adv_inst/CLKOUT0
                          net (fo=1, unplaced)         0.337    -1.059    wizard_hdmi/clk_pixel_cw_hdmi
                          BUFG (Prop_bufg_I_O)         0.026    -1.033 r  wizard_hdmi/clkout1_buf/O
-                         net (fo=329, unplaced)       0.210    -0.824    red_ser/clk_pixel
+                         net (fo=332, unplaced)       0.210    -0.824    red_ser/clk_pixel
                          FDRE                                         r  red_ser/pwup_rst_reg/C
   -------------------------------------------------------------------    -------------------
                          FDRE (Prop_fdre_C_Q)         0.141    -0.683 r  red_ser/pwup_rst_reg/Q
@@ -610,7 +612,7 @@ Slack (MET) :             0.003ns  (arrival time - required time)
                                                      -0.643    -1.230 r  wizard_hdmi/mmcm_adv_inst/CLKOUT0
                          net (fo=1, unplaced)         0.355    -0.875    wizard_hdmi/clk_pixel_cw_hdmi
                          BUFG (Prop_bufg_I_O)         0.029    -0.846 r  wizard_hdmi/clkout1_buf/O
-                         net (fo=329, unplaced)       0.355    -0.491    blue_ser/clk_pixel
+                         net (fo=332, unplaced)       0.355    -0.491    blue_ser/clk_pixel
     OLOGIC_X0Y20         OSERDESE2                                    r  blue_ser/primary/CLKDIV
                          clock pessimism             -0.187    -0.679    
     OLOGIC_X0Y20         OSERDESE2 (Hold_oserdese2_CLKDIV_RST)
@@ -690,7 +692,7 @@ Max Period  n/a     MMCME2_ADV/CLKFBIN  n/a            100.000       50.000     
 From Clock:  clk_camera_cw_fast
   To Clock:  clk_camera_cw_fast
 
-Setup :           26  Failing Endpoints,  Worst Slack       -0.173ns,  Total Violation       -4.490ns
+Setup :           18  Failing Endpoints,  Worst Slack       -0.293ns,  Total Violation       -5.242ns
 Hold  :            0  Failing Endpoints,  Worst Slack        0.007ns,  Total Violation        0.000ns
 PW    :            0  Failing Endpoints,  Worst Slack        2.000ns,  Total Violation        0.000ns
 ---------------------------------------------------------------------------------------------------
@@ -698,16 +700,16 @@ PW    :            0  Failing Endpoints,  Worst Slack        2.000ns,  Total Vio
 
 Max Delay Paths
 --------------------------------------------------------------------------------------
-Slack (VIOLATED) :        -0.173ns  (required time - arrival time)
-  Source:                 pixel_valid_ct/count_out_reg[8]/C
+Slack (VIOLATED) :        -0.293ns  (required time - arrival time)
+  Source:                 crw/sccb_c/bit_count_reg_reg[3]/C
                             (rising edge-triggered cell FDRE clocked by clk_camera_cw_fast  {rise@0.000ns fall@2.500ns period=5.000ns})
-  Destination:            pixel_valid_ct/count_out_reg[0]/R
+  Destination:            crw/sccb_c/delay_reg_reg[0]/CE
                             (rising edge-triggered cell FDRE clocked by clk_camera_cw_fast  {rise@0.000ns fall@2.500ns period=5.000ns})
   Path Group:             clk_camera_cw_fast
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            5.000ns  (clk_camera_cw_fast rise@5.000ns - clk_camera_cw_fast rise@0.000ns)
-  Data Path Delay:        4.528ns  (logic 1.123ns (24.801%)  route 3.405ns (75.199%))
-  Logic Levels:           4  (LUT2=1 LUT4=1 LUT5=1 LUT6=1)
+  Data Path Delay:        4.879ns  (logic 1.293ns (26.501%)  route 3.586ns (73.499%))
+  Logic Levels:           5  (LUT3=2 LUT5=2 LUT6=1)
   Clock Path Skew:        -0.145ns (DCD - SCD + CPR)
     Destination Clock Delay (DCD):    -2.794ns = ( 2.206 - 5.000 ) 
     Source Clock Delay      (SCD):    -3.108ns
@@ -729,20 +731,22 @@ Slack (VIOLATED) :        -0.173ns  (required time - arrival time)
                                                      -6.612    -4.587 r  wizard_migcam/plle2_adv_inst/CLKOUT2
                          net (fo=1, unplaced)         0.800    -3.788    wizard_migcam/clk_camera_cw_fast
                          BUFG (Prop_bufg_I_O)         0.096    -3.692 r  wizard_migcam/clkout3_buf/O
-                         net (fo=573, unplaced)       0.584    -3.108    pixel_valid_ct/clk_camera
-                         FDRE                                         r  pixel_valid_ct/count_out_reg[8]/C
+                         net (fo=575, unplaced)       0.584    -3.108    crw/sccb_c/clk_camera
+                         FDRE                                         r  crw/sccb_c/bit_count_reg_reg[3]/C
   -------------------------------------------------------------------    -------------------
-                         FDRE (Prop_fdre_C_Q)         0.456    -2.652 f  pixel_valid_ct/count_out_reg[8]/Q
-                         net (fo=2, unplaced)         0.752    -1.900    pixel_valid_ct/count_out_reg_n_0_[8]
-                         LUT4 (Prop_lut4_I1_O)        0.295    -1.605 f  pixel_valid_ct/hit_max_out_i_5/O
-                         net (fo=1, unplaced)         0.449    -1.156    pixel_valid_ct/hit_max_out_i_5_n_0
-                         LUT5 (Prop_lut5_I4_O)        0.124    -1.032 f  pixel_valid_ct/hit_max_out_i_2__0/O
-                         net (fo=1, unplaced)         0.902    -0.130    pixel_valid_ct/hit_max_out_i_2__0_n_0
-                         LUT6 (Prop_lut6_I0_O)        0.124    -0.006 r  pixel_valid_ct/hit_max_out_i_1__1/O
-                         net (fo=2, unplaced)         0.460     0.454    pixel_valid_ct/hit_max_out_i_1__1_n_0
-                         LUT2 (Prop_lut2_I1_O)        0.124     0.578 r  pixel_valid_ct/count_out[0]_i_1__0/O
-                         net (fo=26, unplaced)        0.842     1.420    pixel_valid_ct/count_out[0]_i_1__0_n_0
-                         FDRE                                         r  pixel_valid_ct/count_out_reg[0]/R
+                         FDRE (Prop_fdre_C_Q)         0.456    -2.652 f  crw/sccb_c/bit_count_reg_reg[3]/Q
+                         net (fo=6, unplaced)         0.773    -1.879    crw/sccb_c/bit_count_reg_reg_n_0_[3]
+                         LUT3 (Prop_lut3_I0_O)        0.321    -1.558 f  crw/sccb_c/FSM_onehot_state_reg[2]_i_4/O
+                         net (fo=3, unplaced)         0.920    -0.638    crw/sccb_c/FSM_onehot_state_reg[2]_i_4_n_0
+                         LUT5 (Prop_lut5_I0_O)        0.150    -0.488 r  crw/sccb_c/sda_o_reg_i_4/O
+                         net (fo=3, unplaced)         0.467    -0.021    crw/sccb_c/phy_read_bit25_out__0
+                         LUT5 (Prop_lut5_I0_O)        0.124     0.103 r  crw/sccb_c/FSM_sequential_phy_state_reg[3]_i_4/O
+                         net (fo=3, unplaced)         0.467     0.570    crw/sccb_c/FSM_sequential_phy_state_reg[3]_i_4_n_0
+                         LUT3 (Prop_lut3_I0_O)        0.118     0.688 r  crw/sccb_c/sda_o_reg_i_3/O
+                         net (fo=2, unplaced)         0.430     1.118    crw/sccb_c/sda_o_reg_i_3_n_0
+                         LUT6 (Prop_lut6_I1_O)        0.124     1.242 r  crw/sccb_c/delay_reg[16]_i_1/O
+                         net (fo=17, unplaced)        0.529     1.771    crw/sccb_c/delay_reg[16]_i_1_n_0
+                         FDRE                                         r  crw/sccb_c/delay_reg_reg[0]/CE
   -------------------------------------------------------------------    -------------------
 
                          (clock clk_camera_cw_fast rise edge)
@@ -755,16 +759,16 @@ Slack (VIOLATED) :        -0.173ns  (required time - arrival time)
                                                      -5.893     0.916 r  wizard_migcam/plle2_adv_inst/CLKOUT2
                          net (fo=1, unplaced)         0.760     1.676    wizard_migcam/clk_camera_cw_fast
                          BUFG (Prop_bufg_I_O)         0.091     1.767 r  wizard_migcam/clkout3_buf/O
-                         net (fo=573, unplaced)       0.439     2.206    pixel_valid_ct/clk_camera
-                         FDRE                                         r  pixel_valid_ct/count_out_reg[0]/C
+                         net (fo=575, unplaced)       0.439     2.206    crw/sccb_c/clk_camera
+                         FDRE                                         r  crw/sccb_c/delay_reg_reg[0]/C
                          clock pessimism             -0.459     1.747    
                          clock uncertainty           -0.067     1.681    
-                         FDRE (Setup_fdre_C_R)       -0.433     1.248    pixel_valid_ct/count_out_reg[0]
+                         FDRE (Setup_fdre_C_CE)      -0.202     1.479    crw/sccb_c/delay_reg_reg[0]
   -------------------------------------------------------------------
-                         required time                          1.248    
-                         arrival time                          -1.420    
+                         required time                          1.479    
+                         arrival time                          -1.771    
   -------------------------------------------------------------------
-                         slack                                 -0.173    
+                         slack                                 -0.293    
 
 
 
@@ -799,7 +803,7 @@ Slack (MET) :             0.007ns  (arrival time - required time)
                                                      -1.719    -1.397 r  wizard_migcam/plle2_adv_inst/CLKOUT2
                          net (fo=1, unplaced)         0.337    -1.059    wizard_migcam/clk_camera_cw_fast
                          BUFG (Prop_bufg_I_O)         0.026    -1.033 r  wizard_migcam/clkout3_buf/O
-                         net (fo=573, unplaced)       0.114    -0.919    camera_data_fifo/xpm_fifo_axis_inst/gaxis_rst_sync.xpm_cdc_sync_rst_inst/dest_clk
+                         net (fo=575, unplaced)       0.114    -0.919    camera_data_fifo/xpm_fifo_axis_inst/gaxis_rst_sync.xpm_cdc_sync_rst_inst/dest_clk
                          FDRE                                         r  camera_data_fifo/xpm_fifo_axis_inst/gaxis_rst_sync.xpm_cdc_sync_rst_inst/syncstages_ff_reg[0]/C
   -------------------------------------------------------------------    -------------------
                          FDRE (Prop_fdre_C_Q)         0.141    -0.778 r  camera_data_fifo/xpm_fifo_axis_inst/gaxis_rst_sync.xpm_cdc_sync_rst_inst/syncstages_ff_reg[0]/Q
@@ -817,7 +821,7 @@ Slack (MET) :             0.007ns  (arrival time - required time)
                                                      -1.885    -1.230 r  wizard_migcam/plle2_adv_inst/CLKOUT2
                          net (fo=1, unplaced)         0.355    -0.875    wizard_migcam/clk_camera_cw_fast
                          BUFG (Prop_bufg_I_O)         0.029    -0.846 r  wizard_migcam/clkout3_buf/O
-                         net (fo=573, unplaced)       0.259    -0.587    camera_data_fifo/xpm_fifo_axis_inst/gaxis_rst_sync.xpm_cdc_sync_rst_inst/dest_clk
+                         net (fo=575, unplaced)       0.259    -0.587    camera_data_fifo/xpm_fifo_axis_inst/gaxis_rst_sync.xpm_cdc_sync_rst_inst/dest_clk
                          FDRE                                         r  camera_data_fifo/xpm_fifo_axis_inst/gaxis_rst_sync.xpm_cdc_sync_rst_inst/syncstages_ff_reg[1]/C
                          clock pessimism             -0.187    -0.774    
                          FDRE (Hold_fdre_C_D)         0.070    -0.704    camera_data_fifo/xpm_fifo_axis_inst/gaxis_rst_sync.xpm_cdc_sync_rst_inst/syncstages_ff_reg[1]
@@ -841,8 +845,8 @@ Sources:            { wizard_migcam/plle2_adv_inst/CLKOUT2 }
 Check Type        Corner  Lib Pin             Reference Pin  Required(ns)  Actual(ns)  Slack(ns)  Location  Pin
 Min Period        n/a     RAMB18E1/CLKARDCLK  n/a            2.944         5.000       2.056                registers/BRAM_reg/CLKARDCLK
 Max Period        n/a     PLLE2_ADV/CLKOUT2   n/a            160.000       5.000       155.000              wizard_migcam/plle2_adv_inst/CLKOUT2
-Low Pulse Width   Slow    FDRE/C              n/a            0.500         2.500       2.000                cr_init_valid_reg/C
-High Pulse Width  Slow    FDRE/C              n/a            0.500         2.500       2.000                cr_init_valid_reg/C
+Low Pulse Width   Slow    FDRE/C              n/a            0.500         2.500       2.000                cipo_buf_reg[0][0]/C
+High Pulse Width  Slow    FDRE/C              n/a            0.500         2.500       2.000                cipo_buf_reg[0][0]/C
 
 
 

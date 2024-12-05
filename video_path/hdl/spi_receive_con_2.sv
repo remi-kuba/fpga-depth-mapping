@@ -11,13 +11,13 @@ module spi_receive_con_2 # (
      output logic final_pixel_out,
      output logic [DATA_WIDTH-1:0] data_out, // data received
      output logic data_valid_out, //high when output data is present.
+     output logic half_pixel_ready, // FOR DEBUGGING
 
      input wire   [LINES-1:0] chip_data_in, // CIPO (data being received from peripheral SPI)
      input wire chip_clk_in, //(DCLK)
      input wire chip_sel_in // (CS)
     );
 
-    logic half_pixel_ready;
     logic final_pixel_ready;
     logic prev_chip_clk;
 
@@ -33,7 +33,7 @@ module spi_receive_con_2 # (
             prev_chip_clk <= chip_clk_in;
             if (~prev_chip_clk && chip_clk_in) begin// rising edge of DCLK (0 -> 1)
                 // read data coming from cipo
-                data_out <= {data_out[3:0], chip_data_in};
+                data_out <= (~half_pixel_ready)? {4'b0, chip_data_in} : {data_out[3:0], chip_data_in};
                 half_pixel_ready <= ~half_pixel_ready;
                 final_pixel_ready <= final_pixel_in;
                 final_pixel_out <= final_pixel_ready;
@@ -44,6 +44,7 @@ module spi_receive_con_2 # (
                 final_pixel_out <= 1'b0;
             end
         end else begin
+            data_out <= 8'b0;
             data_valid_out <= 1'b0;
             final_pixel_ready <= 1'b0;
             final_pixel_out <= 1'b0;
