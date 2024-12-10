@@ -1,6 +1,0 @@
-<testsuites name="results">
-  <testsuite name="all" package="all">
-    <property name="random_seed" value="1732858516" />
-    <testcase name="test_sad" classname="test_sad" file="/Users/remi/Desktop/fpga-depth-mapping/sad_testing/sim/test_sad.py" lineno="78" time="421.359904050827" sim_time_ns="10662455.001" ratio_time="25304.863843223746" />
-  </testsuite>
-</testsuites>
