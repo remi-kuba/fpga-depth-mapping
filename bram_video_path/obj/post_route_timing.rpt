@@ -1,8 +1,8 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2024.1 (lin64) Build 5076996 Wed May 22 18:36:09 MDT 2024
-| Date         : Mon Dec  9 21:34:46 2024
-| Host         : eecs-digital-14 running 64-bit Ubuntu 24.04.1 LTS
+| Date         : Tue Dec 10 16:26:01 2024
+| Host         : eecs-digital-18 running 64-bit Ubuntu 24.04.1 LTS
 | Command      : report_timing -file obj/post_route_timing.rpt
 | Design       : top_level
 | Device       : 7s50-csga324
@@ -12,20 +12,20 @@ Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanc
 
 Timing Report
 
-Slack (MET) :             0.337ns  (required time - arrival time)
-  Source:                 addra_onboard_reg[9]/C
+Slack (MET) :             0.459ns  (required time - arrival time)
+  Source:                 camera_mem_reg[3]/C
                             (rising edge-triggered cell FDRE clocked by clk_camera_cw_fast  {rise@0.000ns fall@2.500ns period=5.000ns})
-  Destination:            frame_buffer_onboard/U0/inst_blk_mem_gen/gnbram.gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[5].ram.r/prim_noinit.ram/DEVICE_7SERIES.NO_BMM_INFO.TRUE_DP.SIMPLE_PRIM36.ram/ADDRARDADDR[12]
+  Destination:            frame_buffer_onboard/U0/inst_blk_mem_gen/gnbram.gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/prim_noinit.ram/DEVICE_7SERIES.NO_BMM_INFO.TRUE_DP.SIMPLE_PRIM36.ram/DIADI[3]
                             (rising edge-triggered cell RAMB36E1 clocked by clk_camera_cw_fast  {rise@0.000ns fall@2.500ns period=5.000ns})
   Path Group:             clk_camera_cw_fast
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            5.000ns  (clk_camera_cw_fast rise@5.000ns - clk_camera_cw_fast rise@0.000ns)
-  Data Path Delay:        4.023ns  (logic 0.456ns (11.334%)  route 3.567ns (88.666%))
+  Data Path Delay:        3.675ns  (logic 0.456ns (12.409%)  route 3.219ns (87.591%))
   Logic Levels:           0  
-  Clock Path Skew:        -0.007ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    -2.048ns = ( 2.952 - 5.000 ) 
-    Source Clock Delay      (SCD):    -2.468ns
-    Clock Pessimism Removal (CPR):    -0.427ns
+  Clock Path Skew:        -0.063ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    -2.061ns = ( 2.939 - 5.000 ) 
+    Source Clock Delay      (SCD):    -2.498ns
+    Clock Pessimism Removal (CPR):    -0.500ns
   Clock Uncertainty:      0.067ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
     Total System Jitter     (TSJ):    0.071ns
     Discrete Jitter          (DJ):    0.113ns
@@ -43,12 +43,12 @@ Slack (MET) :             0.337ns  (required time - arrival time)
                                                      -8.486    -5.792 r  wizard_migcam/plle2_adv_inst/CLKOUT2
                          net (fo=1, routed)           1.660    -4.132    wizard_migcam/clk_camera_cw_fast
     BUFGCTRL_X0Y4        BUFG (Prop_bufg_I_O)         0.096    -4.036 r  wizard_migcam/clkout3_buf/O
-                         net (fo=204, routed)         1.568    -2.468    clk_camera
-    SLICE_X47Y48         FDRE                                         r  addra_onboard_reg[9]/C
+                         net (fo=204, routed)         1.538    -2.498    clk_camera
+    SLICE_X35Y71         FDRE                                         r  camera_mem_reg[3]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X47Y48         FDRE (Prop_fdre_C_Q)         0.456    -2.012 r  addra_onboard_reg[9]/Q
-                         net (fo=15, routed)          3.567     1.556    frame_buffer_onboard/U0/inst_blk_mem_gen/gnbram.gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[5].ram.r/prim_noinit.ram/addra[9]
-    RAMB36_X1Y6          RAMB36E1                                     r  frame_buffer_onboard/U0/inst_blk_mem_gen/gnbram.gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[5].ram.r/prim_noinit.ram/DEVICE_7SERIES.NO_BMM_INFO.TRUE_DP.SIMPLE_PRIM36.ram/ADDRARDADDR[12]
+    SLICE_X35Y71         FDRE (Prop_fdre_C_Q)         0.456    -2.042 r  camera_mem_reg[3]/Q
+                         net (fo=15, routed)          3.219     1.177    frame_buffer_onboard/U0/inst_blk_mem_gen/gnbram.gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/prim_noinit.ram/dina[3]
+    RAMB36_X2Y13         RAMB36E1                                     r  frame_buffer_onboard/U0/inst_blk_mem_gen/gnbram.gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/prim_noinit.ram/DEVICE_7SERIES.NO_BMM_INFO.TRUE_DP.SIMPLE_PRIM36.ram/DIADI[3]
   -------------------------------------------------------------------    -------------------
 
                          (clock clk_camera_cw_fast rise edge)
@@ -61,17 +61,17 @@ Slack (MET) :             0.337ns  (required time - arrival time)
                                                      -7.753    -0.202 r  wizard_migcam/plle2_adv_inst/CLKOUT2
                          net (fo=1, routed)           1.582     1.380    wizard_migcam/clk_camera_cw_fast
     BUFGCTRL_X0Y4        BUFG (Prop_bufg_I_O)         0.091     1.471 r  wizard_migcam/clkout3_buf/O
-                         net (fo=204, routed)         1.482     2.952    frame_buffer_onboard/U0/inst_blk_mem_gen/gnbram.gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[5].ram.r/prim_noinit.ram/clka
-    RAMB36_X1Y6          RAMB36E1                                     r  frame_buffer_onboard/U0/inst_blk_mem_gen/gnbram.gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[5].ram.r/prim_noinit.ram/DEVICE_7SERIES.NO_BMM_INFO.TRUE_DP.SIMPLE_PRIM36.ram/CLKARDCLK
-                         clock pessimism             -0.427     2.526    
-                         clock uncertainty           -0.067     2.459    
-    RAMB36_X1Y6          RAMB36E1 (Setup_ramb36e1_CLKARDCLK_ADDRARDADDR[12])
-                                                     -0.566     1.893    frame_buffer_onboard/U0/inst_blk_mem_gen/gnbram.gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[5].ram.r/prim_noinit.ram/DEVICE_7SERIES.NO_BMM_INFO.TRUE_DP.SIMPLE_PRIM36.ram
+                         net (fo=204, routed)         1.468     2.939    frame_buffer_onboard/U0/inst_blk_mem_gen/gnbram.gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/prim_noinit.ram/clka
+    RAMB36_X2Y13         RAMB36E1                                     r  frame_buffer_onboard/U0/inst_blk_mem_gen/gnbram.gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/prim_noinit.ram/DEVICE_7SERIES.NO_BMM_INFO.TRUE_DP.SIMPLE_PRIM36.ram/CLKARDCLK
+                         clock pessimism             -0.500     2.439    
+                         clock uncertainty           -0.067     2.372    
+    RAMB36_X2Y13         RAMB36E1 (Setup_ramb36e1_CLKARDCLK_DIADI[3])
+                                                     -0.737     1.635    frame_buffer_onboard/U0/inst_blk_mem_gen/gnbram.gnativebmg.native_blk_mem_gen/valid.cstr/ramloop[1].ram.r/prim_noinit.ram/DEVICE_7SERIES.NO_BMM_INFO.TRUE_DP.SIMPLE_PRIM36.ram
   -------------------------------------------------------------------
-                         required time                          1.893    
-                         arrival time                          -1.556    
+                         required time                          1.635    
+                         arrival time                          -1.177    
   -------------------------------------------------------------------
-                         slack                                  0.337    
+                         slack                                  0.459    
 
 
 

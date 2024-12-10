@@ -38,6 +38,8 @@ module sad #(
     logic [8:0] vcount_pl;
     logic calc_depth;
     logic [OFFSET:0][7:0] depth;
+    localparam HALF_KERNEL = KERNEL_SIZE / 2;
+
 
     
     // relative depth: 255 / OFFSET * best_offset
@@ -53,34 +55,6 @@ module sad #(
         8'd51,
         8'd25,
         8'd0};
-
-    // 12 offset
-    // assign depth = {
-    //     8'd255,
-    //     8'd234,
-    //     8'd213,
-    //     8'd191,
-    //     8'd170,
-    //     8'd149,
-    //     8'd128,
-    //     8'd106,
-    //     8'd85,
-    //     8'd64,
-    //     8'd42,
-    //     8'd21,
-    //     8'd0
-    // };
-    // assign depth = {
-    //     8'd255,
-    //     8'd223,
-    //     8'd191,
-    //     8'd159,
-    //     8'd128,
-    //     8'd96,
-    //     8'd64,
-    //     8'd32,
-    //     8'd0
-    // };
 
 
     // FOR TESTING PUPROSES
@@ -146,7 +120,7 @@ module sad #(
             vcount_out <= vcount_pl;
     
             if (~first_half && ((first_diff + diff) <= smallest_diff)) begin
-                smallest_diff <= diff;
+                smallest_diff <= first_diff + diff;
                 best_offset <= curr_offset;
             end
             recent_diff <= diff;

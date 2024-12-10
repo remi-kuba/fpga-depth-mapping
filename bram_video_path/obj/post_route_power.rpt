@@ -1,8 +1,8 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2024.1 (lin64) Build 5076996 Wed May 22 18:36:09 MDT 2024
-| Date             : Mon Dec  9 21:34:47 2024
-| Host             : eecs-digital-14 running 64-bit Ubuntu 24.04.1 LTS
+| Date             : Tue Dec 10 16:26:02 2024
+| Host             : eecs-digital-18 running 64-bit Ubuntu 24.04.1 LTS
 | Command          : report_power -file obj/post_route_power.rpt
 | Design           : top_level
 | Device           : xc7s50csga324-1
@@ -30,10 +30,10 @@ Table of Contents
 ----------
 
 +--------------------------+--------------+
-| Total On-Chip Power (W)  | 0.561        |
+| Total On-Chip Power (W)  | 0.560        |
 | Design Power Budget (W)  | Unspecified* |
 | Power Budget Margin (W)  | NA           |
-| Dynamic (W)              | 0.486        |
+| Dynamic (W)              | 0.485        |
 | Device Static (W)        | 0.075        |
 | Effective TJA (C/W)      | 4.9          |
 | Max Ambient (C)          | 82.2         |
@@ -52,10 +52,10 @@ Table of Contents
 +-------------------------+-----------+----------+-----------+-----------------+
 | On-Chip                 | Power (W) | Used     | Available | Utilization (%) |
 +-------------------------+-----------+----------+-----------+-----------------+
-| Clocks                  |     0.013 |       12 |       --- |             --- |
-| Slice Logic             |     0.004 |     3091 |       --- |             --- |
-|   LUT as Logic          |     0.003 |     1419 |     32600 |            4.35 |
-|   CARRY4                |    <0.001 |       69 |      8150 |            0.85 |
+| Clocks                  |     0.012 |       12 |       --- |             --- |
+| Slice Logic             |     0.004 |     3118 |       --- |             --- |
+|   LUT as Logic          |     0.004 |     1445 |     32600 |            4.43 |
+|   CARRY4                |    <0.001 |       72 |      8150 |            0.88 |
 |   Register              |    <0.001 |     1023 |     65200 |            1.57 |
 |   F7/F8 Muxes           |    <0.001 |       79 |     32600 |            0.24 |
 |   LUT as Shift Register |    <0.001 |       12 |      9600 |            0.13 |
@@ -67,7 +67,7 @@ Table of Contents
 | DSPs                    |    <0.001 |        1 |       120 |            0.83 |
 | I/O                     |     0.146 |       76 |       210 |           36.19 |
 | Static Power            |     0.075 |          |           |                 |
-| Total                   |     0.561 |          |           |                 |
+| Total                   |     0.560 |          |           |                 |
 +-------------------------+-----------+----------+-----------+-----------------+
 
 
@@ -77,7 +77,7 @@ Table of Contents
 +-----------+-------------+-----------+-------------+------------+-------------+-------------+------------+
 | Source    | Voltage (V) | Total (A) | Dynamic (A) | Static (A) | Powerup (A) | Budget (A)  | Margin (A) |
 +-----------+-------------+-----------+-------------+------------+-------------+-------------+------------+
-| Vccint    |       1.000 |     0.048 |       0.036 |      0.012 |       NA    | Unspecified | NA         |
+| Vccint    |       1.000 |     0.047 |       0.036 |      0.012 |       NA    | Unspecified | NA         |
 | Vccaux    |       1.800 |     0.183 |       0.170 |      0.013 |       NA    | Unspecified | NA         |
 | Vcco33    |       3.300 |     0.044 |       0.043 |      0.001 |       NA    | Unspecified | NA         |
 | Vcco25    |       2.500 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
@@ -153,9 +153,9 @@ Table of Contents
 +------------------------+-----------+
 | Name                   | Power (W) |
 +------------------------+-----------+
-| top_level              |     0.486 |
+| top_level              |     0.485 |
 |   IOBUF_sda            |     0.003 |
-|   crw                  |     0.004 |
+|   crw                  |     0.003 |
 |     sccb_c             |     0.002 |
 |   frame_buffer_onboard |     0.001 |
 |     U0                 |     0.001 |
@@ -169,7 +169,6 @@ Table of Contents
 |   lb_onboard           |     0.002 |
 |   lb_spi               |     0.002 |
 |   sad_module           |     0.005 |
-|   tmds_red             |     0.001 |
 |   wizard_hdmi          |     0.105 |
 |   wizard_migcam        |     0.102 |
 |   wizard_sad           |     0.106 |

@@ -22,7 +22,6 @@ module top_level
   input wire dclk,
   input wire [3:0] cipo,
   input wire spi_tlast,
-  input wire spi_vsync,
   // seven segment
   output logic [3:0]  ss0_an,//anode control for upper four digits of seven-seg display
   output logic [3:0]  ss1_an,//anode control for lower four digits of seven-seg display

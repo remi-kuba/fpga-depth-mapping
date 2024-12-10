@@ -38,6 +38,8 @@ module sad #(
     logic [8:0] vcount_pl;
     logic calc_depth;
     logic [OFFSET:0][7:0] depth;
+    localparam HALF_KERNEL = KERNEL_SIZE / 2;
+
 
     
     // relative depth: 255 / OFFSET * best_offset
@@ -62,34 +64,26 @@ module sad #(
     logic [8:0] val; // calculate a single |left[x][y] - right[x+offset][y]|
     logic first_half;
     logic [$clog2(KERNEL_SIZE)+7:0] first_diff;
-    integer j;
     always_comb begin
         if (busy_out && first_half) begin
             diff = 0;
-            j = block_offset;
             for (int i = 0; i < KERNEL_SIZE / 2; i++) begin
-                // val = left_cache[i] - right_cache[i+block_offset];
-                val = left_cache[i] - right_cache[j];
+                val = left_cache[i] - right_cache[i+block_offset];
                 val = (val[8] == 1)? ~val + 1 : val;
                 diff += val;
-                j += 1;
             end
         end else if (busy_out) begin
             diff = 0;
             for (int i = KERNEL_SIZE / 2; i < KERNEL_SIZE; i++) begin
-                // val = left_cache[i] - right_cache[i+block_offset];
-                val = left_cache[i] - right_cache[j];
+                val = left_cache[i] - right_cache[i+block_offset];
                 val = (val[8] == 1)? ~val + 1 : val;
                 diff += val;
-                j += 1;
             end
         end else if (data_valid_in) begin
             diff = ~0;
-            j = 0;
         end else begin
             val = 9'b0;
             diff = 0;
-            j = 0;
         end
     end
 
@@ -126,7 +120,7 @@ module sad #(
             vcount_out <= vcount_pl;
     
             if (~first_half && ((first_diff + diff) <= smallest_diff)) begin
-                smallest_diff <= diff;
+                smallest_diff <= first_diff + diff;
                 best_offset <= curr_offset;
             end
             recent_diff <= diff;

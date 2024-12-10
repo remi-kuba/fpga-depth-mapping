@@ -1,8 +1,8 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2024.1 (lin64) Build 5076996 Wed May 22 18:36:09 MDT 2024
-| Date         : Mon Dec  9 21:34:06 2024
-| Host         : eecs-digital-14 running 64-bit Ubuntu 24.04.1 LTS
+| Date         : Tue Dec 10 16:25:41 2024
+| Host         : eecs-digital-18 running 64-bit Ubuntu 24.04.1 LTS
 | Command      : report_utilization -file obj/post_synth_util.rpt -hierarchical -hierarchical_depth 4
 | Design       : top_level
 | Device       : xc7s50csga324-1
@@ -22,7 +22,7 @@ Table of Contents
 +----------------------------------------------+-------------------------------------------------+------------+------------+---------+------+------+--------+--------+------------+
 |                   Instance                   |                      Module                     | Total LUTs | Logic LUTs | LUTRAMs | SRLs |  FFs | RAMB36 | RAMB18 | DSP Blocks |
 +----------------------------------------------+-------------------------------------------------+------------+------------+---------+------+------+--------+--------+------------+
-| top_level                                    |                                           (top) |       1552 |       1536 |       0 |   16 | 1051 |     42 |     12 |          1 |
+| top_level                                    |                                           (top) |       1577 |       1561 |       0 |   16 | 1051 |     42 |     12 |          1 |
 |   (top_level)                                |                                           (top) |         18 |          2 |       0 |   16 |  144 |      0 |      0 |          1 |
 |   bc                                         |                                    bram_counter |          5 |          5 |       0 |    0 |    6 |      0 |      0 |          0 |
 |   blue_ser                                   |                                 tmds_serializer |          0 |          0 |       0 |    0 |    0 |      0 |      0 |          0 |
@@ -65,7 +65,7 @@ Table of Contents
 |   lr                                         |                           luminance_reconstruct |         28 |         28 |       0 |    0 |   30 |      0 |      0 |          0 |
 |   red_ser                                    |                               tmds_serializer_2 |          1 |          1 |       0 |    0 |    1 |      0 |      0 |          0 |
 |   registers                                  |               xilinx_single_port_ram_read_first |          6 |          6 |       0 |    0 |    0 |      0 |      1 |          0 |
-|   sad_module                                 |                                             sad |        692 |        692 |       0 |    0 |  473 |      0 |      0 |          0 |
+|   sad_module                                 |                                             sad |        717 |        717 |       0 |    0 |  473 |      0 |      0 |          0 |
 |   spi_address                                |                                    addr_counter |         24 |         24 |       0 |    0 |   18 |      0 |      0 |          0 |
 |     hcounter                                 |                                spec_evt_counter |         11 |         11 |       0 |    0 |   10 |      0 |      0 |          0 |
 |     vcounter                                 |                spec_evt_counter__parameterized0 |         13 |         13 |       0 |    0 |    8 |      0 |      0 |          0 |

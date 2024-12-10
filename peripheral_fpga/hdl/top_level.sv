@@ -30,8 +30,7 @@ module top_level
   output logic dclk, // data clock output of SPI controller
   output logic [3:0] cipo, // six parallel data outputs of SPI controller
   output logic cs, // chip select line for the SPI bus
-  output logic tlast,
-  output logic spi_vsync
+  output logic tlast
 );
 
   // Clock and Reset Signals: updated for a couple new clocks!
