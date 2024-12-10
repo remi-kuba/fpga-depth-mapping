@@ -1,0 +1,6 @@
+<testsuites name="results">
+  <testsuite name="all" package="all">
+    <property name="random_seed" value="1728495390" />
+    <testcase name="test_a" classname="test_pixel_reconstruct" file="/Users/remi/Desktop/lab05_partb/sim/test_pixel_reconstruct.py" lineno="62" time="0.21140694618225098" sim_time_ns="30120.001" ratio_time="142474.03665740465" />
+  </testsuite>
+</testsuites>

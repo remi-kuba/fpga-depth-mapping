@@ -1,0 +1,50 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2024.1 (lin64) Build 5076996 Wed May 22 18:36:09 MDT 2024
+| Date         : Sat Nov 30 23:15:34 2024
+| Host         : eecs-digital-44 running 64-bit Ubuntu 24.04.1 LTS
+| Command      : report_utilization -file obj/post_synth_util.rpt -hierarchical -hierarchical_depth 4
+| Design       : top_level
+| Device       : xc7s50csga324-1
+| Speed File   : -1
+| Design State : Synthesized
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Utilization Design Information
+
+Table of Contents
+-----------------
+1. Utilization by Hierarchy
+
+1. Utilization by Hierarchy
+---------------------------
+
++----------------------------------------------+---------------------------------------+------------+------------+---------+------+-----+--------+--------+------------+
+|                   Instance                   |                 Module                | Total LUTs | Logic LUTs | LUTRAMs | SRLs | FFs | RAMB36 | RAMB18 | DSP Blocks |
++----------------------------------------------+---------------------------------------+------------+------------+---------+------+-----+--------+--------+------------+
+| top_level                                    |                                 (top) |        557 |        553 |       0 |    4 | 289 |     24 |      9 |          1 |
+|   (top_level)                                |                                 (top) |          5 |          1 |       0 |    4 |  68 |      0 |      0 |          1 |
+|   blue_ser                                   |                       tmds_serializer |          0 |          0 |       0 |    0 |   0 |      0 |      0 |          0 |
+|   crw                                        |                      camera_registers |        105 |        105 |       0 |    0 | 104 |      0 |      0 |          0 |
+|     (crw)                                    |                      camera_registers |          8 |          8 |       0 |    0 |  42 |      0 |      0 |          0 |
+|     aia                                      |                        addr_increment |          8 |          8 |       0 |    0 |   9 |      0 |      0 |          0 |
+|     sccb_c                                   |                            i2c_master |         89 |         89 |       0 |    0 |  53 |      0 |      0 |          0 |
+|   frame_buffer                               |                         blk_mem_gen_0 |        122 |        122 |       0 |    0 |  20 |     24 |      8 |          0 |
+|     (frame_buffer)                           |                         blk_mem_gen_0 |          0 |          0 |       0 |    0 |   0 |      0 |      0 |          0 |
+|     U0                                       |       blk_mem_gen_0blk_mem_gen_v8_4_8 |        122 |        122 |       0 |    0 |  20 |     24 |      8 |          0 |
+|       (U0)                                   |       blk_mem_gen_0blk_mem_gen_v8_4_8 |          0 |          0 |       0 |    0 |   0 |      0 |      0 |          0 |
+|       inst_blk_mem_gen                       | blk_mem_gen_0blk_mem_gen_v8_4_8_synth |        122 |        122 |       0 |    0 |  20 |     24 |      8 |          0 |
+|         gnbram.gnativebmg.native_blk_mem_gen |          blk_mem_gen_0blk_mem_gen_top |        122 |        122 |       0 |    0 |  20 |     24 |      8 |          0 |
+|   green_ser                                  |                     tmds_serializer_0 |          0 |          0 |       0 |    0 |   0 |      0 |      0 |          0 |
+|   lr                                         |                 luminance_reconstruct |         28 |         28 |       0 |    0 |  30 |      0 |      0 |          0 |
+|   red_ser                                    |                     tmds_serializer_1 |          1 |          1 |       0 |    0 |   1 |      0 |      0 |          0 |
+|   registers                                  |     xilinx_single_port_ram_read_first |          6 |          6 |       0 |    0 |   0 |      0 |      1 |          0 |
+|   tmds_blue                                  |                          tmds_encoder |         84 |         84 |       0 |    0 |  14 |      0 |      0 |          0 |
+|   tmds_green                                 |                        tmds_encoder_2 |         87 |         87 |       0 |    0 |  14 |      0 |      0 |          0 |
+|   tmds_red                                   |                        tmds_encoder_3 |         72 |         72 |       0 |    0 |  14 |      0 |      0 |          0 |
+|   vsg                                        |                         video_sig_gen |         47 |         47 |       0 |    0 |  24 |      0 |      0 |          0 |
+|   wizard_hdmi                                |                       cw_hdmi_clk_wiz |          0 |          0 |       0 |    0 |   0 |      0 |      0 |          0 |
+|   wizard_migcam                              |                       cw_fast_clk_wiz |          0 |          0 |       0 |    0 |   0 |      0 |      0 |          0 |
++----------------------------------------------+---------------------------------------+------------+------------+---------+------+-----+--------+--------+------------+
+
+

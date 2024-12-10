@@ -1,0 +1,143 @@
+#! /opt/homebrew/Cellar/icarus-verilog/12.0/bin/vvp
+:ivl_version "12.0 (stable)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision - 12;
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/12.0/lib/ivl/system.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/12.0/lib/ivl/vhdl_sys.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/12.0/lib/ivl/vhdl_textio.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/12.0/lib/ivl/v2005_math.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/12.0/lib/ivl/va_math.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/12.0/lib/ivl/v2009.vpi";
+S_0x156f054c0 .scope package, "$unit" "$unit" 2 1;
+ .timescale -9 -12;
+S_0x156f05680 .scope module, "spi_receive_con_2" "spi_receive_con_2" 3 4;
+ .timescale -9 -12;
+    .port_info 0 /INPUT 1 "clk_in";
+    .port_info 1 /INPUT 1 "rst_in";
+    .port_info 2 /INPUT 1 "final_pixel_in";
+    .port_info 3 /OUTPUT 1 "final_pixel_out";
+    .port_info 4 /OUTPUT 8 "data_out";
+    .port_info 5 /OUTPUT 1 "data_valid_out";
+    .port_info 6 /INPUT 4 "chip_data_in";
+    .port_info 7 /INPUT 1 "chip_clk_in";
+    .port_info 8 /INPUT 1 "chip_sel_in";
+P_0x156f057f0 .param/l "DATA_WIDTH" 0 3 5, +C4<00000000000000000000000000001000>;
+P_0x156f05830 .param/l "LINES" 0 3 6, +C4<00000000000000000000000000000100>;
+o0x138008010 .functor BUFZ 1, C4<z>; HiZ drive
+v0x156f05c50_0 .net "chip_clk_in", 0 0, o0x138008010;  0 drivers
+o0x138008040 .functor BUFZ 4, C4<zzzz>; HiZ drive
+v0x156f15cb0_0 .net "chip_data_in", 3 0, o0x138008040;  0 drivers
+o0x138008070 .functor BUFZ 1, C4<z>; HiZ drive
+v0x156f15d50_0 .net "chip_sel_in", 0 0, o0x138008070;  0 drivers
+o0x1380080a0 .functor BUFZ 1, C4<z>; HiZ drive
+v0x156f15e00_0 .net "clk_in", 0 0, o0x1380080a0;  0 drivers
+v0x156f15e90_0 .var "data_out", 7 0;
+v0x156f15f80_0 .var "data_valid_out", 0 0;
+o0x138008130 .functor BUFZ 1, C4<z>; HiZ drive
+v0x156f16020_0 .net "final_pixel_in", 0 0, o0x138008130;  0 drivers
+v0x156f160c0_0 .var "final_pixel_out", 0 0;
+v0x156f16160_0 .var "final_pixel_ready", 0 0;
+v0x156f16270_0 .var "half_pixel_ready", 0 0;
+v0x156f16300_0 .var "prev_chip_clk", 0 0;
+o0x138008220 .functor BUFZ 1, C4<z>; HiZ drive
+v0x156f163a0_0 .net "rst_in", 0 0, o0x138008220;  0 drivers
+E_0x156f058b0 .event posedge, v0x156f15e00_0;
+S_0x156f05ad0 .scope module, "cocotb_iverilog_dump" "cocotb_iverilog_dump" 4 1;
+ .timescale -9 -12;
+    .scope S_0x156f05680;
+T_0 ;
+    %wait E_0x156f058b0;
+    %load/vec4 v0x156f163a0_0;
+    %flag_set/vec4 8;
+    %jmp/0xz  T_0.0, 8;
+    %pushi/vec4 0, 0, 8;
+    %assign/vec4 v0x156f15e90_0, 0;
+    %pushi/vec4 0, 0, 1;
+    %assign/vec4 v0x156f15f80_0, 0;
+    %pushi/vec4 0, 0, 1;
+    %assign/vec4 v0x156f16300_0, 0;
+    %pushi/vec4 0, 0, 1;
+    %assign/vec4 v0x156f16270_0, 0;
+    %pushi/vec4 0, 0, 1;
+    %assign/vec4 v0x156f160c0_0, 0;
+    %pushi/vec4 0, 0, 1;
+    %assign/vec4 v0x156f16160_0, 0;
+    %jmp T_0.1;
+T_0.0 ;
+    %load/vec4 v0x156f15d50_0;
+    %nor/r;
+    %flag_set/vec4 8;
+    %jmp/0xz  T_0.2, 8;
+    %load/vec4 v0x156f05c50_0;
+    %assign/vec4 v0x156f16300_0, 0;
+    %load/vec4 v0x156f16300_0;
+    %inv;
+    %flag_set/vec4 9;
+    %flag_get/vec4 9;
+    %jmp/0 T_0.6, 9;
+    %load/vec4 v0x156f05c50_0;
+    %and;
+T_0.6;
+    %flag_set/vec4 8;
+    %jmp/0xz  T_0.4, 8;
+    %load/vec4 v0x156f16270_0;
+    %nor/r;
+    %flag_set/vec4 8;
+    %jmp/0 T_0.7, 8;
+    %pushi/vec4 0, 0, 4;
+    %load/vec4 v0x156f15cb0_0;
+    %concat/vec4; draw_concat_vec4
+    %jmp/1 T_0.8, 8;
+T_0.7 ; End of true expr.
+    %load/vec4 v0x156f15e90_0;
+    %parti/s 4, 0, 2;
+    %load/vec4 v0x156f15cb0_0;
+    %concat/vec4; draw_concat_vec4
+    %jmp/0 T_0.8, 8;
+ ; End of false expr.
+    %blend;
+T_0.8;
+    %assign/vec4 v0x156f15e90_0, 0;
+    %load/vec4 v0x156f16270_0;
+    %inv;
+    %assign/vec4 v0x156f16270_0, 0;
+    %load/vec4 v0x156f16020_0;
+    %assign/vec4 v0x156f16160_0, 0;
+    %load/vec4 v0x156f16160_0;
+    %assign/vec4 v0x156f160c0_0, 0;
+    %load/vec4 v0x156f16270_0;
+    %assign/vec4 v0x156f15f80_0, 0;
+    %jmp T_0.5;
+T_0.4 ;
+    %pushi/vec4 0, 0, 1;
+    %assign/vec4 v0x156f15f80_0, 0;
+    %pushi/vec4 0, 0, 1;
+    %assign/vec4 v0x156f160c0_0, 0;
+T_0.5 ;
+    %jmp T_0.3;
+T_0.2 ;
+    %pushi/vec4 0, 0, 8;
+    %assign/vec4 v0x156f15e90_0, 0;
+    %pushi/vec4 0, 0, 1;
+    %assign/vec4 v0x156f15f80_0, 0;
+    %pushi/vec4 0, 0, 1;
+    %assign/vec4 v0x156f16160_0, 0;
+    %pushi/vec4 0, 0, 1;
+    %assign/vec4 v0x156f160c0_0, 0;
+T_0.3 ;
+T_0.1 ;
+    %jmp T_0;
+    .thread T_0;
+    .scope S_0x156f05ad0;
+T_1 ;
+    %vpi_call/w 4 3 "$dumpfile", "/Users/remi/Desktop/fpga-depth-mapping/receive_signal/sim/sim_build/spi_receive_con_2.fst" {0 0 0};
+    %vpi_call/w 4 4 "$dumpvars", 32'sb00000000000000000000000000000000, S_0x156f05680 {0 0 0};
+    %end;
+    .thread T_1;
+# The file index is used to find the file name in the following table.
+:file_names 5;
+    "N/A";
+    "<interactive>";
+    "-";
+    "/Users/remi/Desktop/fpga-depth-mapping/receive_signal/hdl/spi_receive_con_2.sv";
+    "/Users/remi/Desktop/fpga-depth-mapping/receive_signal/sim/sim_build/cocotb_iverilog_dump.v";

@@ -1,0 +1,6 @@
+<testsuites name="results">
+  <testsuite name="all" package="all">
+    <property name="random_seed" value="1733294259" />
+    <testcase name="test_spi_receive_con" classname="test_spi_receive_con" file="/Users/remi/Desktop/fpga-depth-mapping/receive_signal/sim/test_spi_receive_con.py" lineno="15" time="0.0036139488220214844" sim_time_ns="710.001" ratio_time="196461.27683757752" />
+  </testsuite>
+</testsuites>
