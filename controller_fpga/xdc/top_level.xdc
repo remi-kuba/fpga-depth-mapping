@@ -41,6 +41,11 @@ set_property -dict {PACKAGE_PIN C11 IOSTANDARD LVCMOS33} [get_ports "cam_vsync" 
 # jab[5]
 set_property -dict {PACKAGE_PIN G16 IOSTANDARD LVCMOS33 PULLTYPE PULLUP} [get_ports "i2c_scl" ]
 
+# new for week 6: avoid having Vivado freak out about clock domain crossing!
+set_max_delay -datapath_only 6 -from [get_clocks clk_camera_cw_fast] -to [get_clocks clk_pll_i]
+set_max_delay -datapath_only 6 -from  [get_clocks clk_pll_i] -to [get_clocks clk_pixel_cw_hdmi]
+set_max_delay -datapath_only 6 -from  [get_clocks clk_pixel_cw_hdmi] -to [get_clocks clk_pll_i]
+set_max_delay -datapath_only 6 -from  [get_clocks clk_pll_i] -to [get_clocks clk_camera_cw_fast]
 
 # USER GREEN LEDS
 
@@ -146,6 +151,15 @@ set_property -dict {PACKAGE_PIN E5  IOSTANDARD LVCMOS33} [ get_ports "ss1_c[6]"]
 ##set_property -dict {PACKAGE_PIN H17 IOSTANDARD LVCMOS33}  [ get_ports "pmodb[5]" ]
 ##set_property -dict {PACKAGE_PIN K16 IOSTANDARD LVCMOS33}  [ get_ports "pmodb[6]" ]
 
+set_property -dict {PACKAGE_PIN H18 IOSTANDARD LVCMOS33}  [ get_ports "cs" ]
+set_property -dict {PACKAGE_PIN G18 IOSTANDARD LVCMOS33}  [ get_ports "dclk" ]
+set_property -dict {PACKAGE_PIN K14 IOSTANDARD LVCMOS33}  [ get_ports "cipo[0]" ]
+set_property -dict {PACKAGE_PIN J15 IOSTANDARD LVCMOS33}  [ get_ports "cipo[1]" ]
+set_property -dict {PACKAGE_PIN H16 IOSTANDARD LVCMOS33}  [ get_ports "cipo[2]" ]
+set_property -dict {PACKAGE_PIN H17 IOSTANDARD LVCMOS33}  [ get_ports "cipo[3]" ]
+set_property -dict {PACKAGE_PIN K16 IOSTANDARD LVCMOS33}  [ get_ports "tlast" ]
+set_property -dict {PACKAGE_PIN J16 IOSTANDARD LVCMOS33}  [ get_ports "spi_vsync" ]
+
 ##set_property -dict {PACKAGE_PIN J16 IOSTANDARD LVCMOS33}  [ get_ports "pmodb[7]" ]
 
 #HDMI Signals
@@ -167,6 +181,6 @@ set_property BITSTREAM.CONFIG.UNUSEDPIN PULLUP [current_design]
 set_property BITSTREAM.GENERAL.COMPRESS TRUE [current_design]
 
 # uart pins for working with manta
-#set_property PACKAGE_PIN B16 [ get_ports "uart_rxd" ]
-#set_property PACKAGE_PIN A16 [ get_ports "uart_txd" ]
-#set_property IOSTANDARD LVCMOS33 [ get_ports "uart*" ]
+# set_property PACKAGE_PIN B16 [ get_ports "uart_rxd" ]
+# set_property PACKAGE_PIN A16 [ get_ports "uart_txd" ]
+# set_property IOSTANDARD LVCMOS33 [ get_ports "uart*" ]

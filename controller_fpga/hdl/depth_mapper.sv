@@ -63,8 +63,8 @@ module depth_mapper (
 
 
 sad #(.KERNEL_WIDTH(3), .OFFSET(10)) sadCalc(
-    .clk_in(clk_in), .rst_in(rst_in), .left_data_in(), .right_data_in(),
-    .hcount_in(hcount_in), .vcount_in(vcount_in), .data_valid_in(b_to_s_valid),
+    .clk_in(clk_in), .rst_in(rst_in), .left_data_in(Lbuffs), .right_data_in(Rbuffs),
+    .hcount_in(hcount_buff), .vcount_in(vcount_buff), .data_valid_in(b_to_s_valid),
     .data_valid_out(data_valid_out), 
     .busy_out(), // whether it is still calculating a module
     .hcount_out(hcount_out), .vcount_out(vcount_out), 
