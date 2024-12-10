@@ -1,8 +1,8 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2024.1 (lin64) Build 5076996 Wed May 22 18:36:09 MDT 2024
-| Date         : Wed Dec  4 16:44:01 2024
-| Host         : eecs-digital-34 running 64-bit Ubuntu 24.04.1 LTS
+| Date         : Sun Dec  8 14:32:49 2024
+| Host         : eecs-digital-25 running 64-bit Ubuntu 24.04.1 LTS
 | Command      : report_timing -file obj/post_synth_timing.rpt
 | Design       : top_level
 | Device       : 7s50-csga324
@@ -12,16 +12,16 @@ Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanc
 
 Timing Report
 
-Slack (MET) :             0.181ns  (required time - arrival time)
-  Source:                 lr/pixel_vcount_out_reg[0]/C
+Slack (MET) :             0.121ns  (required time - arrival time)
+  Source:                 crw/sccb_c/delay_reg_reg[12]/C
                             (rising edge-triggered cell FDRE clocked by clk_camera_cw_fast  {rise@0.000ns fall@2.500ns period=5.000ns})
-  Destination:            counter/count_out_reg[0]/R
+  Destination:            crw/sccb_c/delay_reg_reg[0]/CE
                             (rising edge-triggered cell FDRE clocked by clk_camera_cw_fast  {rise@0.000ns fall@2.500ns period=5.000ns})
   Path Group:             clk_camera_cw_fast
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            5.000ns  (clk_camera_cw_fast rise@5.000ns - clk_camera_cw_fast rise@0.000ns)
-  Data Path Delay:        4.174ns  (logic 0.999ns (23.934%)  route 3.175ns (76.066%))
-  Logic Levels:           3  (LUT3=1 LUT4=1 LUT5=1)
+  Data Path Delay:        4.465ns  (logic 1.123ns (25.151%)  route 3.342ns (74.849%))
+  Logic Levels:           4  (LUT6=4)
   Clock Path Skew:        -0.145ns (DCD - SCD + CPR)
     Destination Clock Delay (DCD):    -2.794ns = ( 2.206 - 5.000 ) 
     Source Clock Delay      (SCD):    -3.108ns
@@ -43,18 +43,20 @@ Slack (MET) :             0.181ns  (required time - arrival time)
                                                      -6.612    -4.587 r  wizard_migcam/plle2_adv_inst/CLKOUT2
                          net (fo=1, unplaced)         0.800    -3.788    wizard_migcam/clk_camera_cw_fast
                          BUFG (Prop_bufg_I_O)         0.096    -3.692 r  wizard_migcam/clkout3_buf/O
-                         net (fo=243, unplaced)       0.584    -3.108    lr/clk_camera
-                         FDRE                                         r  lr/pixel_vcount_out_reg[0]/C
+                         net (fo=258, unplaced)       0.584    -3.108    crw/sccb_c/clk_camera
+                         FDRE                                         r  crw/sccb_c/delay_reg_reg[12]/C
   -------------------------------------------------------------------    -------------------
-                         FDRE (Prop_fdre_C_Q)         0.456    -2.652 f  lr/pixel_vcount_out_reg[0]/Q
-                         net (fo=11, unplaced)        0.787    -1.865    lr/camera_vcount[0]
-                         LUT4 (Prop_lut4_I1_O)        0.295    -1.570 f  lr/hit_max_out_i_3__0/O
-                         net (fo=1, unplaced)         1.111    -0.459    lr/hit_max_out_i_3__0_n_0
-                         LUT5 (Prop_lut5_I0_O)        0.124    -0.335 f  lr/hit_max_out_i_2__0/O
-                         net (fo=4, unplaced)         0.473     0.138    lr/pixel_vcount_out_reg[1]_0
-                         LUT3 (Prop_lut3_I1_O)        0.124     0.262 r  lr/count_out[4]_i_1__0/O
-                         net (fo=5, unplaced)         0.804     1.066    counter/SR[0]
-                         FDRE                                         r  counter/count_out_reg[0]/R
+                         FDRE (Prop_fdre_C_Q)         0.456    -2.652 r  crw/sccb_c/delay_reg_reg[12]/Q
+                         net (fo=3, unplaced)         0.983    -1.669    crw/sccb_c/delay_reg[12]
+                         LUT6 (Prop_lut6_I0_O)        0.295    -1.374 f  crw/sccb_c/FSM_sequential_phy_state_reg[3]_i_6/O
+                         net (fo=1, unplaced)         0.902    -0.472    crw/sccb_c/FSM_sequential_phy_state_reg[3]_i_6_n_0
+                         LUT6 (Prop_lut6_I0_O)        0.124    -0.348 f  crw/sccb_c/FSM_sequential_phy_state_reg[3]_i_3/O
+                         net (fo=20, unplaced)        0.509     0.161    crw/sccb_c/FSM_sequential_phy_state_reg[3]_i_3_n_0
+                         LUT6 (Prop_lut6_I0_O)        0.124     0.285 r  crw/sccb_c/delay_reg[16]_i_3/O
+                         net (fo=1, unplaced)         0.419     0.704    crw/sccb_c/delay_reg[16]_i_3_n_0
+                         LUT6 (Prop_lut6_I1_O)        0.124     0.828 r  crw/sccb_c/delay_reg[16]_i_1/O
+                         net (fo=17, unplaced)        0.529     1.357    crw/sccb_c/delay_reg[16]_i_1_n_0
+                         FDRE                                         r  crw/sccb_c/delay_reg_reg[0]/CE
   -------------------------------------------------------------------    -------------------
 
                          (clock clk_camera_cw_fast rise edge)
@@ -67,16 +69,16 @@ Slack (MET) :             0.181ns  (required time - arrival time)
                                                      -5.893     0.916 r  wizard_migcam/plle2_adv_inst/CLKOUT2
                          net (fo=1, unplaced)         0.760     1.676    wizard_migcam/clk_camera_cw_fast
                          BUFG (Prop_bufg_I_O)         0.091     1.767 r  wizard_migcam/clkout3_buf/O
-                         net (fo=243, unplaced)       0.439     2.206    counter/clk_camera
-                         FDRE                                         r  counter/count_out_reg[0]/C
+                         net (fo=258, unplaced)       0.439     2.206    crw/sccb_c/clk_camera
+                         FDRE                                         r  crw/sccb_c/delay_reg_reg[0]/C
                          clock pessimism             -0.459     1.747    
                          clock uncertainty           -0.067     1.681    
-                         FDRE (Setup_fdre_C_R)       -0.433     1.248    counter/count_out_reg[0]
+                         FDRE (Setup_fdre_C_CE)      -0.202     1.479    crw/sccb_c/delay_reg_reg[0]
   -------------------------------------------------------------------
-                         required time                          1.248    
-                         arrival time                          -1.066    
+                         required time                          1.479    
+                         arrival time                          -1.357    
   -------------------------------------------------------------------
-                         slack                                  0.181    
+                         slack                                  0.121    
 
 
 

@@ -43,7 +43,7 @@ module spi_send_con_2
         chip_data_out <= (turn_off_cipo_in)? 4'b0 : data_in[7:4];
         half_pixel <= (turn_off_cipo_in)? 4'b0 : data_in[3:0];
         half_pixel_ready <= 1'b1;
-        final_pixel_out <= (hcount_in == 636) && (vcount_in == 356);
+        final_pixel_out <= (hcount_in == 319) && (vcount_in == 179);
         // Reset 
         clk_count <= 0;
     end else begin

@@ -3,7 +3,7 @@
 
 module camera_registers
   #(
-    parameter RAM_DEPTH = 256,
+    parameter RAM_DEPTH = 512,
     parameter PRESCALE = 500)
   (
    input wire 				clk_in,

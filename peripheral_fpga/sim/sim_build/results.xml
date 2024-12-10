@@ -1,6 +1,6 @@
 <testsuites name="results">
   <testsuite name="all" package="all">
-    <property name="random_seed" value="1733204574" />
-    <testcase name="test_spi_send_con_2" classname="test_spi_con_2" file="/Users/remi/Desktop/fpga-depth-mapping/peripheral_fpga/sim/test_spi_con_2.py" lineno="15" time="0.002568960189819336" sim_time_ns="570.001" ratio_time="221880.0440189327" />
+    <property name="random_seed" value="1733690003" />
+    <testcase name="test_addr_counter" classname="test_addr_counter" file="/Users/remi/Desktop/fpga-depth-mapping/peripheral_fpga/sim/test_addr_counter.py" lineno="14" time="0.015479087829589844" sim_time_ns="3030.001" ratio_time="195748.0333051568" />
   </testsuite>
 </testsuites>
