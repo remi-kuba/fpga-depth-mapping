@@ -1,8 +1,8 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2024.1 (lin64) Build 5076996 Wed May 22 18:36:09 MDT 2024
-| Date         : Mon Dec  9 16:57:05 2024
-| Host         : eecs-digital-25 running 64-bit Ubuntu 24.04.1 LTS
+| Date         : Mon Dec  9 22:01:11 2024
+| Host         : eecs-digital-33 running 64-bit Ubuntu 24.04.1 LTS
 | Command      : report_utilization -file obj/post_synth_util.rpt -hierarchical -hierarchical_depth 4
 | Design       : top_level
 | Device       : xc7s50csga324-1
@@ -22,7 +22,7 @@ Table of Contents
 +--------------------------------------------+-------------------------------------------------+------------+------------+---------+------+------+--------+--------+------------+
 |                  Instance                  |                      Module                     | Total LUTs | Logic LUTs | LUTRAMs | SRLs |  FFs | RAMB36 | RAMB18 | DSP Blocks |
 +--------------------------------------------+-------------------------------------------------+------------+------------+---------+------+------+--------+--------+------------+
-| top_level                                  |                                           (top) |       8483 |       8022 |     444 |   17 | 8177 |     13 |     15 |          0 |
+| top_level                                  |                                           (top) |       8236 |       7775 |     444 |   17 | 8190 |     13 |     15 |          0 |
 |   (top_level)                              |                                           (top) |          0 |          0 |       0 |    0 |   24 |      0 |      0 |          0 |
 |   blue_ser                                 |                                 tmds_serializer |          0 |          0 |       0 |    0 |    0 |      0 |      0 |          0 |
 |   cam1_stacker                             |                                         stacker |          7 |          7 |       0 |    0 |  269 |      0 |      0 |          0 |
@@ -128,9 +128,9 @@ Table of Contents
 |     write_counter                          |                                  evt_counter_38 |         23 |         23 |       0 |    0 |   16 |      0 |      0 |          0 |
 |   red_ser                                  |                               tmds_serializer_4 |          1 |          1 |       0 |    0 |    1 |      0 |      0 |          0 |
 |   registers                                |               xilinx_single_port_ram_read_first |          6 |          6 |       0 |    0 |    0 |      0 |      1 |          0 |
-|   sad_calculator                           |                                    depth_mapper |        994 |        994 |       0 |    0 |  582 |      0 |      8 |          0 |
-|     left_lbuff                             |                                     line_buffer |         67 |         67 |       0 |    0 |   88 |      0 |      4 |          0 |
-|       (left_lbuff)                         |                                     line_buffer |         63 |         63 |       0 |    0 |   88 |      0 |      0 |          0 |
+|   sad_calculator                           |                                    depth_mapper |        747 |        747 |       0 |    0 |  595 |      0 |      8 |          0 |
+|     left_lbuff                             |                                     line_buffer |         31 |         31 |       0 |    0 |   88 |      0 |      4 |          0 |
+|       (left_lbuff)                         |                                     line_buffer |         27 |         27 |       0 |    0 |   88 |      0 |      0 |          0 |
 |       genblk1[0].line_buffer_ram           | xilinx_true_dual_port_read_first_1_clock_ram_33 |          1 |          1 |       0 |    0 |    0 |      0 |      1 |          0 |
 |       genblk1[1].line_buffer_ram           | xilinx_true_dual_port_read_first_1_clock_ram_34 |          1 |          1 |       0 |    0 |    0 |      0 |      1 |          0 |
 |       genblk1[2].line_buffer_ram           | xilinx_true_dual_port_read_first_1_clock_ram_35 |          1 |          1 |       0 |    0 |    0 |      0 |      1 |          0 |
@@ -141,7 +141,7 @@ Table of Contents
 |       genblk1[1].line_buffer_ram           | xilinx_true_dual_port_read_first_1_clock_ram_30 |          1 |          1 |       0 |    0 |    0 |      0 |      1 |          0 |
 |       genblk1[2].line_buffer_ram           | xilinx_true_dual_port_read_first_1_clock_ram_31 |          1 |          1 |       0 |    0 |    0 |      0 |      1 |          0 |
 |       genblk1[3].line_buffer_ram           | xilinx_true_dual_port_read_first_1_clock_ram_32 |          1 |          1 |       0 |    0 |    0 |      0 |      1 |          0 |
-|     sadCalc                                |                                             sad |        898 |        898 |       0 |    0 |  462 |      0 |      0 |          0 |
+|     sadCalc                                |                                             sad |        687 |        687 |       0 |    0 |  475 |      0 |      0 |          0 |
 |   sad_data_fifo                            |                        ddr_fifo_wrap__xdcDup__3 |        145 |        145 |       0 |    0 |  234 |      2 |      1 |          0 |
 |     (sad_data_fifo)                        |                        ddr_fifo_wrap__xdcDup__3 |          1 |          1 |       0 |    0 |    0 |      0 |      0 |          0 |
 |     xpm_fifo_axis_inst                     |                        xpm_fifo_axis__xdcDup__3 |        144 |        144 |       0 |    0 |  234 |      2 |      1 |          0 |
@@ -173,6 +173,7 @@ Table of Contents
 |     mtm                                    |                                       tm_choice |          1 |          1 |       0 |    0 |    0 |      0 |      0 |          0 |
 |   vcounter1                                |                     evt_counter__parameterized1 |         17 |         17 |       0 |    0 |    9 |      0 |      0 |          0 |
 |   vsg                                      |                                   video_sig_gen |         39 |         39 |       0 |    0 |   24 |      0 |      0 |          0 |
+|   wizard_cam                               |                            clk_wiz_half_clk_wiz |          0 |          0 |       0 |    0 |    0 |      0 |      0 |          0 |
 |   wizard_hdmi                              |                                 cw_hdmi_clk_wiz |          0 |          0 |       0 |    0 |    0 |      0 |      0 |          0 |
 |   wizard_migcam                            |                                 cw_fast_clk_wiz |          0 |          0 |       0 |    0 |    0 |      0 |      0 |          0 |
 |   wr_cam1_data_fifo                        |                        ddr_fifo_wrap__xdcDup__1 |        145 |        145 |       0 |    0 |  234 |      2 |      1 |          0 |

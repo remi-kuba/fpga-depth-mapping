@@ -66,6 +66,7 @@ module top_level(
   logic clk_pixel; // 74.25 MHz
   // Middle clocks
   logic clk_100_passthrough;
+  logic clk_50_half;
   logic clk_5x;
   logic clk_xc;
   //MIG clocks
@@ -82,6 +83,14 @@ module top_level(
      .clk_100(clk_100_passthrough),
      .locked(1'b0),
      .reset(0));
+
+  clk_wiz_half_clk_wiz wizard_cam (
+  .clk_out1(clk_50_half),
+  .reset(0), 
+  .locked(1'b0),
+  .clk_in1(clk_100_passthrough)
+ );
+
 
   cw_hdmi_clk_wiz wizard_hdmi
     (.sysclk(clk_100_passthrough),
@@ -261,7 +270,7 @@ luminance_reconstruct #(
 
 //OUTPUT OF SAD from depth_mapper
   stacker sad_stacker(
-    .clk_in(clk_100_passthrough),
+    .clk_in(clk_50_half),
     .rst_in(sys_rst),
     .pixel_tvalid(sad_valid_out),
     .pixel_tready(),
@@ -329,7 +338,7 @@ luminance_reconstruct #(
   //SAD FIFO
   ddr_fifo_wrap sad_data_fifo(
     .sender_rst(sys_rst),
-    .sender_clk(clk_100_passthrough),
+    .sender_clk(clk_50_half),
     .sender_axis_tvalid(wr_sad_axis_tvalid),
     .sender_axis_tready(wr_sad_axis_tready),
     .sender_axis_tdata(wr_sad_axis_tdata),
@@ -523,7 +532,7 @@ luminance_reconstruct #(
     .sender_axis_tdata(r_cam1_ui_axis_tdata),
     .sender_axis_tlast(r_cam1_ui_axis_tlast),
     .sender_axis_prog_full(r_cam1_ui_axis_prog_full),
-    .receiver_clk(clk_100_passthrough),
+    .receiver_clk(clk_50_half),
     .receiver_axis_tvalid(r_cam1_axis_tvalid),
     .receiver_axis_tready(r_cam1_axis_tready),
     .receiver_axis_tdata(r_cam1_axis_tdata),
@@ -539,7 +548,7 @@ luminance_reconstruct #(
     .sender_axis_tdata(r_cam2_ui_axis_tdata),
     .sender_axis_tlast(r_cam2_ui_axis_tlast),
     .sender_axis_prog_full(r_cam2_ui_axis_prog_full),
-    .receiver_clk(clk_100_passthrough),
+    .receiver_clk(clk_50_half),
     .receiver_axis_tvalid(r_cam2_axis_tvalid),
     .receiver_axis_tready(r_cam2_axis_tready),
     .receiver_axis_tdata(r_cam2_axis_tdata),
@@ -580,7 +589,7 @@ luminance_reconstruct #(
   
   //SAD input 1 from CAM1
   unstacker r_cam1_unstacker(
-    .clk_in(clk_100_passthrough),
+    .clk_in(clk_50_half),
     .rst_in(sys_rst),
     .chunk_tvalid(r_cam1_axis_tvalid),
     .chunk_tready(r_cam1_axis_tready),
@@ -593,7 +602,7 @@ luminance_reconstruct #(
 
 //SAD input 2 from CAM2
   unstacker r_cam2_unstacker(
-    .clk_in(clk_100_passthrough),
+    .clk_in(clk_50_half),
     .rst_in(sys_rst),
     .chunk_tvalid(r_cam2_axis_tvalid),
     .chunk_tready(r_cam2_axis_tready),
@@ -628,14 +637,14 @@ luminance_reconstruct #(
   logic end_of_column;
 
   evt_counter #(.MAX_COUNT(640)) hcounter1
-  ( .clk_in(clk_100_passthrough),
+  ( .clk_in(clk_50_half),
     .rst_in(sys_rst),
     .evt_in(sad_input_tready),
     .count_out(hcount_sad_in),
     .hit_max(end_of_row)
   );
   evt_counter #(.MAX_COUNT(360)) vcounter1
-  ( .clk_in(clk_100_passthrough),
+  ( .clk_in(clk_50_half),
     .rst_in(sys_rst),
     .evt_in(end_of_row),
     .count_out(vcount_sad_in),
@@ -653,8 +662,8 @@ luminance_reconstruct #(
   logic [9:0]   vcount_sad_out;
 
 depth_mapper sad_calculator(
-  .clk_in(clk_100_passthrough), //100 MHz
-  .rst_in(sys_rst),
+  .clk_in(clk_50_half), //50 MHz
+  .rst_in(sys_rst_camera),
   //Inputs from cam1 and cam2 data
   .data_cam1_valid(sad_input_tready), //same handshake for both (ready depends on tvalid)
   .data_cam2_valid(sad_input_tready),

@@ -1,8 +1,8 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2024.1 (lin64) Build 5076996 Wed May 22 18:36:09 MDT 2024
-| Date         : Mon Dec  9 16:59:26 2024
-| Host         : eecs-digital-25 running 64-bit Ubuntu 24.04.1 LTS
+| Date         : Mon Dec  9 22:02:02 2024
+| Host         : eecs-digital-33 running 64-bit Ubuntu 24.04.1 LTS
 | Command      : report_drc -file obj/post_imp_drc.rpt
 | Design       : top_level
 | Device       : xc7s50csga324-1
@@ -49,11 +49,11 @@ rd_cam2_fifo/xpm_fifo_axis_inst/xpm_fifo_base_inst/gen_sdpram.xpm_memory_base_in
 rd_cam2_fifo/xpm_fifo_axis_inst/xpm_fifo_base_inst/gen_sdpram.xpm_memory_base_inst/doutb[130],
 rd_hdmi_fifo/xpm_fifo_axis_inst/xpm_fifo_base_inst/gen_sdpram.xpm_memory_base_inst/doutb[128],
 rd_hdmi_fifo/xpm_fifo_axis_inst/xpm_fifo_base_inst/gen_sdpram.xpm_memory_base_inst/doutb[129],
+rd_hdmi_fifo/xpm_fifo_axis_inst/xpm_fifo_base_inst/gen_sdpram.xpm_memory_base_inst/doutb[130],
 sad_data_fifo/xpm_fifo_axis_inst/xpm_fifo_base_inst/gen_sdpram.xpm_memory_base_inst/doutb[128],
 sad_data_fifo/xpm_fifo_axis_inst/xpm_fifo_base_inst/gen_sdpram.xpm_memory_base_inst/doutb[129],
 wr_cam1_data_fifo/xpm_fifo_axis_inst/xpm_fifo_base_inst/gen_sdpram.xpm_memory_base_inst/doutb[128],
 wr_cam1_data_fifo/xpm_fifo_axis_inst/xpm_fifo_base_inst/gen_sdpram.xpm_memory_base_inst/doutb[129],
-wr_cam1_data_fifo/xpm_fifo_axis_inst/xpm_fifo_base_inst/gen_sdpram.xpm_memory_base_inst/doutb[130],
 wr_cam2_data_fifo/xpm_fifo_axis_inst/xpm_fifo_base_inst/gen_sdpram.xpm_memory_base_inst/doutb[128],
 wr_cam2_data_fifo/xpm_fifo_axis_inst/xpm_fifo_base_inst/gen_sdpram.xpm_memory_base_inst/doutb[129]
  (the first 15 of 214 listed nets/buses).

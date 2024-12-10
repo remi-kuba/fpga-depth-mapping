@@ -1,108 +1,82 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2024.1 (lin64) Build 5076996 Wed May 22 18:36:09 MDT 2024
-| Date         : Mon Dec  9 16:57:50 2024
-| Host         : eecs-digital-25 running 64-bit Ubuntu 24.04.1 LTS
+| Date         : Mon Dec  9 22:01:36 2024
+| Host         : eecs-digital-33 running 64-bit Ubuntu 24.04.1 LTS
 | Command      : report_timing -file obj/post_place_timing.rpt
 | Design       : top_level
 | Device       : 7s50-csga324
 | Speed File   : -1  PRODUCTION 1.23 2018-06-13
-| Design State : Physopt postPlace
+| Design State : Fully Placed
 ---------------------------------------------------------------------------------------------------------------------------------------------
 
 Timing Report
 
-Slack (VIOLATED) :        -3.315ns  (required time - arrival time)
-  Source:                 sad_calculator/sadCalc/right_cache_reg[17][0]/C
-                            (rising edge-triggered cell FDRE clocked by clk_100_cw_fast  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            sad_calculator/sadCalc/smallest_diff_reg[4]/CE
-                            (rising edge-triggered cell FDSE clocked by clk_100_cw_fast  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Path Group:             clk_100_cw_fast
+Slack (MET) :             0.539ns  (required time - arrival time)
+  Source:                 lr/pixel_hcount_out_reg[3]/C
+                            (rising edge-triggered cell FDSE clocked by clk_camera_cw_fast  {rise@0.000ns fall@2.500ns period=5.000ns})
+  Destination:            cam2_stacker/tlast_recent_reg[14]/CE
+                            (rising edge-triggered cell FDRE clocked by clk_camera_cw_fast  {rise@0.000ns fall@2.500ns period=5.000ns})
+  Path Group:             clk_camera_cw_fast
   Path Type:              Setup (Max at Slow Process Corner)
-  Requirement:            10.000ns  (clk_100_cw_fast rise@10.000ns - clk_100_cw_fast rise@0.000ns)
-  Data Path Delay:        13.022ns  (logic 4.202ns (32.268%)  route 8.820ns (67.732%))
-  Logic Levels:           14  (CARRY4=4 LUT3=2 LUT4=3 LUT6=5)
-  Clock Path Skew:        -0.050ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    -2.119ns = ( 7.881 - 10.000 ) 
-    Source Clock Delay      (SCD):    -2.505ns
-    Clock Pessimism Removal (CPR):    -0.435ns
-  Clock Uncertainty:      0.074ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+  Requirement:            5.000ns  (clk_camera_cw_fast rise@5.000ns - clk_camera_cw_fast rise@0.000ns)
+  Data Path Delay:        4.185ns  (logic 1.027ns (24.540%)  route 3.158ns (75.460%))
+  Logic Levels:           3  (LUT4=2 LUT6=1)
+  Clock Path Skew:        -0.040ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    -2.131ns = ( 2.869 - 5.000 ) 
+    Source Clock Delay      (SCD):    -2.526ns
+    Clock Pessimism Removal (CPR):    -0.434ns
+  Clock Uncertainty:      0.067ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
     Total System Jitter     (TSJ):    0.071ns
-    Discrete Jitter          (DJ):    0.129ns
+    Discrete Jitter          (DJ):    0.113ns
     Phase Error              (PE):    0.000ns
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
   -------------------------------------------------------------------    -------------------
-                         (clock clk_100_cw_fast rise edge)
+                         (clock clk_camera_cw_fast rise edge)
                                                       0.000     0.000 r  
     N15                                               0.000     0.000 r  clk_100mhz (IN)
                          net (fo=0)                   0.000     0.000    wizard_migcam/clk_100mhz
     N15                  IBUF (Prop_ibuf_I_O)         1.440     1.440 r  wizard_migcam/clkin1_ibufg/O
                          net (fo=1, estimated)        1.253     2.693    wizard_migcam/clk_in1_cw_fast
-    PLLE2_ADV_X0Y0       PLLE2_ADV (Prop_plle2_adv_CLKIN1_CLKOUT0)
-                                                     -8.525    -5.832 r  wizard_migcam/plle2_adv_inst/CLKOUT0
-                         net (fo=1, estimated)        1.660    -4.172    wizard_migcam/clk_100_cw_fast
-    BUFGCTRL_X0Y5        BUFG (Prop_bufg_I_O)         0.096    -4.076 r  wizard_migcam/clkout1_buf/O
-                         net (fo=1455, estimated)     1.571    -2.505    sad_calculator/sadCalc/clk_100
-    SLICE_X11Y3          FDRE                                         r  sad_calculator/sadCalc/right_cache_reg[17][0]/C
+    PLLE2_ADV_X0Y0       PLLE2_ADV (Prop_plle2_adv_CLKIN1_CLKOUT2)
+                                                     -8.525    -5.832 r  wizard_migcam/plle2_adv_inst/CLKOUT2
+                         net (fo=1, estimated)        1.660    -4.172    wizard_migcam/clk_camera_cw_fast
+    BUFGCTRL_X0Y5        BUFG (Prop_bufg_I_O)         0.096    -4.076 r  wizard_migcam/clkout3_buf/O
+                         net (fo=914, estimated)      1.550    -2.526    lr/clk_camera
+    SLICE_X46Y59         FDSE                                         r  lr/pixel_hcount_out_reg[3]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X11Y3          FDRE (Prop_fdre_C_Q)         0.456    -2.049 f  sad_calculator/sadCalc/right_cache_reg[17][0]/Q
-                         net (fo=3, estimated)        0.866    -1.183    sad_calculator/sadCalc/right_cache_reg[17]_18[0]
-    SLICE_X11Y3          LUT6 (Prop_lut6_I1_O)        0.124    -1.059 r  sad_calculator/sadCalc/i__carry_i_37__0/O
-                         net (fo=2, estimated)        0.831    -0.228    sad_calculator/sadCalc/i__carry_i_37__0_n_0
-    SLICE_X9Y0           LUT6 (Prop_lut6_I0_O)        0.124    -0.104 r  sad_calculator/sadCalc/i__carry_i_11/O
-                         net (fo=1, estimated)        0.959     0.855    sad_calculator/sadCalc/i__carry_i_11_n_0
-    SLICE_X9Y8           LUT4 (Prop_lut4_I1_O)        0.124     0.979 r  sad_calculator/sadCalc/i__carry_i_4__1/O
-                         net (fo=1, routed)           0.000     0.979    sad_calculator/sadCalc/i__carry_i_4__1_n_0
-    SLICE_X9Y8           CARRY4 (Prop_carry4_S[0]_O[1])
-                                                      0.424     1.403 r  sad_calculator/sadCalc/diff8_inferred__3/i__carry/O[1]
-                         net (fo=7, estimated)        1.043     2.446    sad_calculator/sadCalc/diff8[1]
-    SLICE_X10Y8          LUT6 (Prop_lut6_I3_O)        0.303     2.749 r  sad_calculator/sadCalc/i___58_carry__0_i_21/O
-                         net (fo=3, estimated)        0.302     3.051    sad_calculator/sadCalc/i___58_carry__0_i_21_n_0
-    SLICE_X10Y8          LUT4 (Prop_lut4_I2_O)        0.124     3.175 f  sad_calculator/sadCalc/i___58_carry__0_i_19/O
-                         net (fo=2, estimated)        0.833     4.008    sad_calculator/sadCalc/i___58_carry__0_i_19_n_0
-    SLICE_X8Y2           LUT6 (Prop_lut6_I0_O)        0.124     4.132 r  sad_calculator/sadCalc/i___58_carry__1_i_1/O
-                         net (fo=2, estimated)        0.762     4.894    sad_calculator/sadCalc/i___58_carry__1_i_1_n_0
-    SLICE_X8Y11          LUT4 (Prop_lut4_I0_O)        0.124     5.018 r  sad_calculator/sadCalc/i___58_carry__1_i_3/O
-                         net (fo=1, routed)           0.000     5.018    sad_calculator/sadCalc/i___58_carry__1_i_3_n_0
-    SLICE_X8Y11          CARRY4 (Prop_carry4_S[0]_O[1])
-                                                      0.427     5.445 r  sad_calculator/sadCalc/diff0_inferred__0/i___58_carry__1/O[1]
-                         net (fo=3, estimated)        0.898     6.343    sad_calculator/sadCalc/diff0_inferred__0/i___58_carry__1_n_6
-    SLICE_X8Y15          LUT3 (Prop_lut3_I0_O)        0.306     6.649 r  sad_calculator/sadCalc/i___87_carry__1_i_1/O
-                         net (fo=1, estimated)        0.331     6.980    sad_calculator/sadCalc/i___87_carry__1_i_1_n_0
-    SLICE_X8Y14          CARRY4 (Prop_carry4_DI[2]_O[3])
-                                                      0.447     7.427 f  sad_calculator/sadCalc/diff0_inferred__0/i___87_carry__1/O[3]
-                         net (fo=3, estimated)        0.568     7.995    sad_calculator/sadCalc/diff0[11]
-    SLICE_X9Y15          LUT6 (Prop_lut6_I4_O)        0.307     8.302 r  sad_calculator/sadCalc/best_offset0_carry__0_i_1_comp/O
-                         net (fo=1, estimated)        0.491     8.793    sad_calculator/sadCalc/best_offset0_carry__0_i_1_n_0
-    SLICE_X12Y15         CARRY4 (Prop_carry4_DI[1]_CO[1])
-                                                      0.456     9.249 r  sad_calculator/sadCalc/best_offset0_carry__0/CO[1]
-                         net (fo=2, estimated)        0.422     9.671    sad_calculator/sadCalc/best_offset0_carry__0_n_2
-    SLICE_X13Y17         LUT3 (Prop_lut3_I1_O)        0.332    10.003 r  sad_calculator/sadCalc/smallest_diff[11]_i_1/O
-                         net (fo=12, estimated)       0.514    10.517    sad_calculator/sadCalc/smallest_diff[11]_i_1_n_0
-    SLICE_X14Y19         FDSE                                         r  sad_calculator/sadCalc/smallest_diff_reg[4]/CE
+    SLICE_X46Y59         FDSE (Prop_fdse_C_Q)         0.478    -2.048 f  lr/pixel_hcount_out_reg[3]/Q
+                         net (fo=5, estimated)        0.663    -1.385    lr/Q[3]
+    SLICE_X45Y59         LUT4 (Prop_lut4_I0_O)        0.301    -1.084 f  lr/tlast_recent[15]_i_2__0/O
+                         net (fo=1, estimated)        0.650    -0.434    lr/tlast_recent[15]_i_2__0_n_0
+    SLICE_X47Y60         LUT6 (Prop_lut6_I0_O)        0.124    -0.310 f  lr/tlast_recent[15]_i_1__0/O
+                         net (fo=10, estimated)       1.071     0.761    lr/pixel_tlast0
+    SLICE_X41Y58         LUT4 (Prop_lut4_I1_O)        0.124     0.885 r  lr/data_recent[127]_i_1__0/O
+                         net (fo=139, estimated)      0.774     1.659    cam2_stacker/data_recent_reg[127]_0[0]
+    SLICE_X42Y61         FDRE                                         r  cam2_stacker/tlast_recent_reg[14]/CE
   -------------------------------------------------------------------    -------------------
 
-                         (clock clk_100_cw_fast rise edge)
-                                                     10.000    10.000 r  
-    N15                                               0.000    10.000 r  clk_100mhz (IN)
-                         net (fo=0)                   0.000    10.000    wizard_migcam/clk_100mhz
-    N15                  IBUF (Prop_ibuf_I_O)         1.370    11.370 r  wizard_migcam/clkin1_ibufg/O
-                         net (fo=1, estimated)        1.190    12.561    wizard_migcam/clk_in1_cw_fast
-    PLLE2_ADV_X0Y0       PLLE2_ADV (Prop_plle2_adv_CLKIN1_CLKOUT0)
-                                                     -7.790     4.771 r  wizard_migcam/plle2_adv_inst/CLKOUT0
-                         net (fo=1, estimated)        1.577     6.348    wizard_migcam/clk_100_cw_fast
-    BUFGCTRL_X0Y5        BUFG (Prop_bufg_I_O)         0.091     6.439 r  wizard_migcam/clkout1_buf/O
-                         net (fo=1455, estimated)     1.442     7.881    sad_calculator/sadCalc/clk_100
-    SLICE_X14Y19         FDSE                                         r  sad_calculator/sadCalc/smallest_diff_reg[4]/C
-                         clock pessimism             -0.435     7.445    
-                         clock uncertainty           -0.074     7.372    
-    SLICE_X14Y19         FDSE (Setup_fdse_C_CE)      -0.169     7.203    sad_calculator/sadCalc/smallest_diff_reg[4]
+                         (clock clk_camera_cw_fast rise edge)
+                                                      5.000     5.000 r  
+    N15                                               0.000     5.000 r  clk_100mhz (IN)
+                         net (fo=0)                   0.000     5.000    wizard_migcam/clk_100mhz
+    N15                  IBUF (Prop_ibuf_I_O)         1.370     6.370 r  wizard_migcam/clkin1_ibufg/O
+                         net (fo=1, estimated)        1.190     7.561    wizard_migcam/clk_in1_cw_fast
+    PLLE2_ADV_X0Y0       PLLE2_ADV (Prop_plle2_adv_CLKIN1_CLKOUT2)
+                                                     -7.790    -0.229 r  wizard_migcam/plle2_adv_inst/CLKOUT2
+                         net (fo=1, estimated)        1.577     1.348    wizard_migcam/clk_camera_cw_fast
+    BUFGCTRL_X0Y5        BUFG (Prop_bufg_I_O)         0.091     1.439 r  wizard_migcam/clkout3_buf/O
+                         net (fo=914, estimated)      1.430     2.869    cam2_stacker/clk_camera
+    SLICE_X42Y61         FDRE                                         r  cam2_stacker/tlast_recent_reg[14]/C
+                         clock pessimism             -0.434     2.434    
+                         clock uncertainty           -0.067     2.368    
+    SLICE_X42Y61         FDRE (Setup_fdre_C_CE)      -0.169     2.199    cam2_stacker/tlast_recent_reg[14]
   -------------------------------------------------------------------
-                         required time                          7.203    
-                         arrival time                         -10.517    
+                         required time                          2.199    
+                         arrival time                          -1.659    
   -------------------------------------------------------------------
-                         slack                                 -3.315    
+                         slack                                  0.539    
 
 
 

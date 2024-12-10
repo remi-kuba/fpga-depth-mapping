@@ -1,8 +1,8 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2024.1 (lin64) Build 5076996 Wed May 22 18:36:09 MDT 2024
-| Date             : Mon Dec  9 16:59:25 2024
-| Host             : eecs-digital-25 running 64-bit Ubuntu 24.04.1 LTS
+| Date             : Mon Dec  9 22:02:01 2024
+| Host             : eecs-digital-33 running 64-bit Ubuntu 24.04.1 LTS
 | Command          : report_power -file obj/post_route_power.rpt
 | Design           : top_level
 | Device           : xc7s50csga324-1
@@ -30,14 +30,14 @@ Table of Contents
 ----------
 
 +--------------------------+--------------+
-| Total On-Chip Power (W)  | 1.123        |
+| Total On-Chip Power (W)  | 1.201        |
 | Design Power Budget (W)  | Unspecified* |
 | Power Budget Margin (W)  | NA           |
-| Dynamic (W)              | 1.047        |
+| Dynamic (W)              | 1.124        |
 | Device Static (W)        | 0.077        |
 | Effective TJA (C/W)      | 4.9          |
-| Max Ambient (C)          | 79.5         |
-| Junction Temperature (C) | 30.5         |
+| Max Ambient (C)          | 79.1         |
+| Junction Temperature (C) | 30.9         |
 | Confidence Level         | Low          |
 | Setting File             | ---          |
 | Simulation Activity File | ---          |
@@ -52,25 +52,25 @@ Table of Contents
 +--------------------------+-----------+----------+-----------+-----------------+
 | On-Chip                  | Power (W) | Used     | Available | Utilization (%) |
 +--------------------------+-----------+----------+-----------+-----------------+
-| Clocks                   |     0.040 |       29 |       --- |             --- |
-| Slice Logic              |     0.026 |    17873 |       --- |             --- |
-|   LUT as Logic           |     0.024 |     7246 |     32600 |           22.23 |
-|   Register               |     0.001 |     7459 |     65200 |           11.44 |
-|   CARRY4                 |    <0.001 |      248 |      8150 |            3.04 |
+| Clocks                   |     0.038 |       31 |       --- |             --- |
+| Slice Logic              |     0.019 |    17578 |       --- |             --- |
+|   LUT as Logic           |     0.017 |     6945 |     32600 |           21.30 |
+|   Register               |    <0.001 |     7470 |     65200 |           11.46 |
 |   LUT as Distributed RAM |    <0.001 |      444 |      9600 |            4.63 |
+|   CARRY4                 |    <0.001 |      209 |      8150 |            2.56 |
 |   BUFG                   |    <0.001 |        2 |        32 |            6.25 |
 |   F7/F8 Muxes            |    <0.001 |       13 |     32600 |            0.04 |
 |   LUT as Shift Register  |    <0.001 |       17 |      9600 |            0.18 |
-|   Others                 |     0.000 |      378 |       --- |             --- |
-| Signals                  |     0.036 |    14849 |       --- |             --- |
-| Block RAM                |     0.022 |     19.5 |        75 |           26.00 |
-| MMCM                     |     0.192 |        2 |         5 |           40.00 |
+|   Others                 |     0.000 |      379 |       --- |             --- |
+| Signals                  |     0.025 |    14665 |       --- |             --- |
+| Block RAM                |     0.015 |     19.5 |        75 |           26.00 |
+| MMCM                     |     0.297 |        3 |         5 |           60.00 |
 | PLL                      |     0.216 |        2 |         5 |           40.00 |
 | I/O                      |     0.401 |      114 |       210 |           54.29 |
 | PHASER                   |     0.110 |       14 |       --- |             --- |
 | XADC                     |     0.004 |        1 |       --- |             --- |
 | Static Power             |     0.077 |          |           |                 |
-| Total                    |     1.123 |          |           |                 |
+| Total                    |     1.201 |          |           |                 |
 +--------------------------+-----------+----------+-----------+-----------------+
 
 
@@ -80,8 +80,8 @@ Table of Contents
 +-----------+-------------+-----------+-------------+------------+-------------+-------------+------------+
 | Source    | Voltage (V) | Total (A) | Dynamic (A) | Static (A) | Powerup (A) | Budget (A)  | Margin (A) |
 +-----------+-------------+-----------+-------------+------------+-------------+-------------+------------+
-| Vccint    |       1.000 |     0.179 |       0.167 |      0.012 |       NA    | Unspecified | NA         |
-| Vccaux    |       1.800 |     0.335 |       0.322 |      0.013 |       NA    | Unspecified | NA         |
+| Vccint    |       1.000 |     0.152 |       0.139 |      0.012 |       NA    | Unspecified | NA         |
+| Vccaux    |       1.800 |     0.394 |       0.381 |      0.013 |       NA    | Unspecified | NA         |
 | Vcco33    |       3.300 |     0.044 |       0.043 |      0.001 |       NA    | Unspecified | NA         |
 | Vcco25    |       2.500 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
 | Vcco18    |       1.800 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
@@ -89,7 +89,7 @@ Table of Contents
 | Vcco135   |       1.350 |     0.116 |       0.115 |      0.001 |       NA    | Unspecified | NA         |
 | Vcco12    |       1.200 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
 | Vccaux_io |       1.800 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
-| Vccbram   |       1.000 |     0.002 |       0.001 |      0.001 |       NA    | Unspecified | NA         |
+| Vccbram   |       1.000 |     0.001 |       0.001 |      0.001 |       NA    | Unspecified | NA         |
 | Vccadc    |       1.800 |     0.022 |       0.002 |      0.020 |       NA    | Unspecified | NA         |
 +-----------+-------------+-----------+-------------+------------+-------------+-------------+------------+
 
@@ -137,10 +137,12 @@ Table of Contents
 | clk_100_cw_fast                                                                                                                                           | wizard_migcam/clk_100_cw_fast                                                                                                                                                                        |            10.0 |
 | clk_camera_cw_fast                                                                                                                                        | wizard_migcam/clk_camera_cw_fast                                                                                                                                                                     |             5.0 |
 | clk_mig_cw_fast                                                                                                                                           | wizard_migcam/clk_mig_cw_fast                                                                                                                                                                        |             5.0 |
+| clk_out1_clk_wiz_half                                                                                                                                     | wizard_cam/clk_out1_clk_wiz_half                                                                                                                                                                     |            20.0 |
 | clk_pixel_cw_hdmi                                                                                                                                         | wizard_hdmi/clk_pixel_cw_hdmi                                                                                                                                                                        |            13.5 |
 | clk_pll_i                                                                                                                                                 | ddr3_mig_inst/u_ddr3_mig_mig/u_ddr3_infrastructure/clk_pll_i                                                                                                                                         |            12.3 |
 | clk_tmds_cw_hdmi                                                                                                                                          | wizard_hdmi/clk_tmds_cw_hdmi                                                                                                                                                                         |             2.7 |
 | clk_xc_cw_fast                                                                                                                                            | wizard_migcam/clk_xc_cw_fast                                                                                                                                                                         |            40.0 |
+| clkfbout_clk_wiz_half                                                                                                                                     | wizard_cam/clkfbout_clk_wiz_half                                                                                                                                                                     |            10.0 |
 | clkfbout_cw_fast                                                                                                                                          | wizard_migcam/clkfbout_cw_fast                                                                                                                                                                       |            10.0 |
 | clkfbout_cw_hdmi                                                                                                                                          | wizard_hdmi/clkfbout_cw_hdmi                                                                                                                                                                         |            50.0 |
 | freq_refclk                                                                                                                                               | ddr3_mig_inst/u_ddr3_mig_mig/u_ddr3_infrastructure/freq_refclk                                                                                                                                       |             1.5 |
@@ -173,46 +175,39 @@ Table of Contents
 +----------------------------------+-----------+
 | Name                             | Power (W) |
 +----------------------------------+-----------+
-| top_level                        |     1.047 |
+| top_level                        |     1.124 |
 |   IOBUF_sda                      |     0.003 |
 |   cam1_stacker                   |     0.002 |
 |   cam2_stacker                   |     0.002 |
+|   cdc_fifo_camera                |     0.001 |
+|     U0                           |     0.001 |
+|       inst_fifo_gen              |     0.001 |
 |   crw                            |     0.002 |
 |     sccb_c                       |     0.002 |
 |   ddr3_mig_inst                  |     0.614 |
-|     u_ddr3_mig_mig               |     0.613 |
+|     u_ddr3_mig_mig               |     0.612 |
 |       temp_mon_enabled.u_tempmon |     0.007 |
 |       u_ddr3_infrastructure      |     0.202 |
 |       u_memc_ui_top_std          |     0.403 |
-|   r_cam1_unstacker               |     0.002 |
-|   r_cam2_unstacker               |     0.002 |
 |   r_hdmi_unstacker               |     0.002 |
-|   rd_cam1_fifo                   |     0.004 |
-|     xpm_fifo_axis_inst           |     0.004 |
-|       xpm_fifo_base_inst         |     0.004 |
-|   rd_cam2_fifo                   |     0.004 |
-|     xpm_fifo_axis_inst           |     0.004 |
-|       xpm_fifo_base_inst         |     0.004 |
+|   rd_cam1_fifo                   |     0.002 |
+|     xpm_fifo_axis_inst           |     0.002 |
+|       xpm_fifo_base_inst         |     0.002 |
+|   rd_cam2_fifo                   |     0.002 |
+|     xpm_fifo_axis_inst           |     0.002 |
+|       xpm_fifo_base_inst         |     0.002 |
 |   rd_hdmi_fifo                   |     0.003 |
 |     xpm_fifo_axis_inst           |     0.003 |
 |       xpm_fifo_base_inst         |     0.003 |
 |   readwrite_looper               |     0.006 |
-|   sad_calculator                 |     0.036 |
-|     left_lbuff                   |     0.008 |
-|       genblk1[0].line_buffer_ram |     0.002 |
-|       genblk1[1].line_buffer_ram |     0.002 |
-|       genblk1[2].line_buffer_ram |     0.002 |
-|       genblk1[3].line_buffer_ram |     0.002 |
-|     right_lbuff                  |     0.007 |
-|       genblk1[0].line_buffer_ram |     0.002 |
-|       genblk1[1].line_buffer_ram |     0.001 |
-|       genblk1[2].line_buffer_ram |     0.002 |
-|       genblk1[3].line_buffer_ram |     0.001 |
-|     sadCalc                      |     0.022 |
+|   sad_calculator                 |     0.014 |
+|     left_lbuff                   |     0.003 |
+|     right_lbuff                  |     0.003 |
+|     sadCalc                      |     0.007 |
 |   sad_data_fifo                  |     0.003 |
 |     xpm_fifo_axis_inst           |     0.003 |
 |       xpm_fifo_base_inst         |     0.003 |
-|   sad_stacker                    |     0.001 |
+|   wizard_cam                     |     0.106 |
 |   wizard_hdmi                    |     0.105 |
 |   wizard_migcam                  |     0.102 |
 |   wr_cam1_data_fifo              |     0.003 |
@@ -220,7 +215,7 @@ Table of Contents
 |       xpm_fifo_base_inst         |     0.003 |
 |   wr_cam2_data_fifo              |     0.004 |
 |     xpm_fifo_axis_inst           |     0.004 |
-|       xpm_fifo_base_inst         |     0.004 |
+|       xpm_fifo_base_inst         |     0.003 |
 +----------------------------------+-----------+
 
 
