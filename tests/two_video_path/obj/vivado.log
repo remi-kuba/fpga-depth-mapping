@@ -1,0 +1,1521 @@
+#-----------------------------------------------------------
+# Vivado v2024.1 (64-bit)
+# SW Build 5076996 on Wed May 22 18:36:09 MDT 2024
+# IP Build 5075265 on Wed May 22 21:45:21 MDT 2024
+# SharedData Build 5076995 on Wed May 22 18:29:18 MDT 2024
+# Start of session at: Sun Dec  8 16:40:16 2024
+# Process ID: 60477
+# Current directory: /home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e
+# Command line: vivado -mode batch -source build.tcl
+# Log file: /home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/vivado.log
+# Journal file: /home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/vivado.jou
+# Running On        :eecs-digital-25
+# Platform          :Ubuntu
+# Operating System  :Ubuntu 24.04.1 LTS
+# Processor Detail  :13th Gen Intel(R) Core(TM) i7-13700
+# CPU Frequency     :2615.720 MHz
+# CPU Physical cores:16
+# CPU Logical cores :24
+# Host memory       :33325 MB
+# Swap memory       :8589 MB
+# Total Virtual     :41915 MB
+# Available Virtual :37141 MB
+#-----------------------------------------------------------
+source build.tcl
+# set_param general.maxThreads 2
+# set partNum xc7s50csga324-1
+# set outputDir obj
+# file mkdir $outputDir
+# set files [glob -nocomplain "$outputDir/*"]
+# if {[llength $files] != 0} {
+#     # clear folder contents
+#     puts "deleting contents of $outputDir"
+#     file delete -force {*}[glob -directory $outputDir *];
+# } else {
+#     puts "$outputDir is empty"
+# }
+obj is empty
+# set sources_sv [ glob ./hdl/*.sv ]
+# read_verilog -sv $sources_sv
+# set sources_v [ glob -nocomplain ./hdl/*.v ]
+# if {[llength $sources_v] > 0 } {
+#     read_verilog $sources_v
+# }
+# read_xdc [ glob ./xdc/*.xdc ]
+# set sources_mem [ glob -nocomplain ./data/*.mem ]
+# if {[llength $sources_mem] > 0} {
+#     read_mem $sources_mem
+# }
+# set_part $partNum
+INFO: [Coretcl 2-1500] The part has been set to 'xc7s50csga324-1' for the current project only. Run set_part -help for more details. To evaluate different speed grades in the current design, use the set_speed_grade command, or use the open_checkpoint -part command to change the part used by an existing checkpoint design.
+# set sources_ip [ glob -nocomplain -directory ./ip -tails * ]
+# puts $sources_ip
+blk_mem_gen_0 blk_mem_gen_1
+# foreach ip_source $sources_ip {
+#     if {[file isdirectory ./ip/$ip_source]} {
+# 	read_ip ./ip/$ip_source/$ip_source.xci
+#     }
+# }
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/tools/Xilinx/Vivado/2024.1/data/ip'.
+WARNING: [Vivado 12-13650] The IP file '/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/ip/blk_mem_gen_0/blk_mem_gen_0.xci' has been moved from its original location, as a result the outputs for this IP will now be generated in '/home/fpga/worker_place/project_1.gen/sources_1/ip/blk_mem_gen_0'. Alternatively a copy of the IP can be imported into the project using one of the 'import_ip' or 'import_files' commands.
+WARNING: [Vivado 12-13650] The IP file '/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/ip/blk_mem_gen_1/blk_mem_gen_1.xci' has been moved from its original location, as a result the outputs for this IP will now be generated in '/home/fpga/worker_place/project_1.gen/sources_1/ip/blk_mem_gen_1'. Alternatively a copy of the IP can be imported into the project using one of the 'import_ip' or 'import_files' commands.
+# generate_target all [get_ips]
+# synth_ip [get_ips]
+INFO: [Vivado 12-3435] The given sub-design is up-to-date, no action was taken.  If a regeneration is desired, use the '-force' option: /home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/ip/blk_mem_gen_0/blk_mem_gen_0.xci
+INFO: [Vivado 12-3435] The given sub-design is up-to-date, no action was taken.  If a regeneration is desired, use the '-force' option: /home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/ip/blk_mem_gen_1/blk_mem_gen_1.xci
+INFO: [Vivado 12-3441] generate_netlist_ip - operation complete
+# synth_design -top top_level -part $partNum -verbose
+Command: synth_design -top top_level -part xc7s50csga324-1 -verbose
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7s50'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7s50'
+INFO: [Device 21-403] Loading part xc7s50csga324-1
+INFO: [Device 21-9227] Part: xc7s50csga324-1 does not have CEAM library.
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 2 processes.
+INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
+INFO: [Synth 8-7075] Helper process launched with PID 60517
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:02 ; elapsed = 00:00:02 . Memory (MB): peak = 2176.559 ; gain = 404.711 ; free physical = 20725 ; free virtual = 34001
+---------------------------------------------------------------------------------
+WARNING: [Synth 8-6901] identifier 'TOTAL_COLS' is used before its declaration [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/video_sig_gen.sv:17]
+WARNING: [Synth 8-6901] identifier 'TOTAL_LINES' is used before its declaration [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/video_sig_gen.sv:18]
+WARNING: [Synth 8-6901] identifier 'FB_SIZE' is used before its declaration [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/top_level.sv:122]
+WARNING: [Synth 8-6901] identifier 'FB_SIZE' is used before its declaration [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/top_level.sv:144]
+WARNING: [Synth 8-6901] identifier 'hcount_hdmi_pl' is used before its declaration [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/top_level.sv:148]
+WARNING: [Synth 8-6901] identifier 'vcount_hdmi_pl' is used before its declaration [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/top_level.sv:148]
+WARNING: [Synth 8-6901] identifier 'hcount_hdmi_pl' is used before its declaration [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/top_level.sv:149]
+WARNING: [Synth 8-6901] identifier 'hcount_hdmi_pl' is used before its declaration [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/top_level.sv:149]
+WARNING: [Synth 8-6901] identifier 'vcount_hdmi_pl' is used before its declaration [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/top_level.sv:149]
+WARNING: [Synth 8-6901] identifier 'hcount_hdmi_pl' is used before its declaration [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/top_level.sv:231]
+WARNING: [Synth 8-6901] identifier 'vcount_hdmi_pl' is used before its declaration [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/top_level.sv:231]
+WARNING: [Synth 8-6901] identifier 'hcount_hdmi_pl' is used before its declaration [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/top_level.sv:232]
+WARNING: [Synth 8-6901] identifier 'vcount_hdmi_pl' is used before its declaration [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/top_level.sv:232]
+CRITICAL WARNING: [Synth 8-9873] overwriting previous definition of module 'bto7s' [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/lab05_ssc.sv:143]
+INFO: [Synth 8-9937] previous definition of design element 'bto7s' is here [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/seven_segment_controller.sv:85]
+WARNING: [Synth 8-9661] initial value of parameter 'MAX_COUNT' is omitted [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/evt_counter.sv:4]
+INFO: [Synth 8-6157] synthesizing module 'top_level' [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/top_level.sv:4]
+INFO: [Synth 8-6157] synthesizing module 'cw_hdmi_clk_wiz' [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/cw_hdmi_clk_wiz.v:69]
+INFO: [Synth 8-6157] synthesizing module 'IBUF' [/tools/Xilinx/Vivado/2024.1/scripts/rt/data/unisim_comp.v:73643]
+INFO: [Synth 8-6155] done synthesizing module 'IBUF' (0#1) [/tools/Xilinx/Vivado/2024.1/scripts/rt/data/unisim_comp.v:73643]
+INFO: [Synth 8-6157] synthesizing module 'MMCME2_ADV' [/tools/Xilinx/Vivado/2024.1/scripts/rt/data/unisim_comp.v:82388]
+	Parameter BANDWIDTH bound to: OPTIMIZED - type: string 
+	Parameter CLKFBOUT_MULT_F bound to: 37.125000 - type: double 
+	Parameter CLKFBOUT_PHASE bound to: 0.000000 - type: double 
+	Parameter CLKFBOUT_USE_FINE_PS bound to: FALSE - type: string 
+	Parameter CLKIN1_PERIOD bound to: 10.000000 - type: double 
+	Parameter CLKOUT0_DIVIDE_F bound to: 10.000000 - type: double 
+	Parameter CLKOUT0_DUTY_CYCLE bound to: 0.500000 - type: double 
+	Parameter CLKOUT0_PHASE bound to: 0.000000 - type: double 
+	Parameter CLKOUT0_USE_FINE_PS bound to: FALSE - type: string 
+	Parameter CLKOUT1_DIVIDE bound to: 2 - type: integer 
+	Parameter CLKOUT1_DUTY_CYCLE bound to: 0.500000 - type: double 
+	Parameter CLKOUT1_PHASE bound to: 0.000000 - type: double 
+	Parameter CLKOUT1_USE_FINE_PS bound to: FALSE - type: string 
+	Parameter CLKOUT4_CASCADE bound to: FALSE - type: string 
+	Parameter COMPENSATION bound to: ZHOLD - type: string 
+	Parameter DIVCLK_DIVIDE bound to: 5 - type: integer 
+	Parameter STARTUP_WAIT bound to: FALSE - type: string 
+INFO: [Synth 8-6155] done synthesizing module 'MMCME2_ADV' (0#1) [/tools/Xilinx/Vivado/2024.1/scripts/rt/data/unisim_comp.v:82388]
+INFO: [Synth 8-6157] synthesizing module 'BUFG' [/tools/Xilinx/Vivado/2024.1/scripts/rt/data/unisim_comp.v:1951]
+INFO: [Synth 8-6155] done synthesizing module 'BUFG' (0#1) [/tools/Xilinx/Vivado/2024.1/scripts/rt/data/unisim_comp.v:1951]
+INFO: [Synth 8-6155] done synthesizing module 'cw_hdmi_clk_wiz' (0#1) [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/cw_hdmi_clk_wiz.v:69]
+WARNING: [Synth 8-7071] port 'locked' of module 'cw_hdmi_clk_wiz' is unconnected for instance 'wizard_hdmi' [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/top_level.sv:61]
+WARNING: [Synth 8-7023] instance 'wizard_hdmi' of module 'cw_hdmi_clk_wiz' has 5 connections declared, but only 4 given [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/top_level.sv:61]
+INFO: [Synth 8-6157] synthesizing module 'cw_fast_clk_wiz' [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/cw_fast_clk_wiz.v:71]
+INFO: [Synth 8-6157] synthesizing module 'PLLE2_ADV' [/tools/Xilinx/Vivado/2024.1/scripts/rt/data/unisim_comp.v:114750]
+	Parameter BANDWIDTH bound to: OPTIMIZED - type: string 
+	Parameter CLKFBOUT_MULT bound to: 10 - type: integer 
+	Parameter CLKFBOUT_PHASE bound to: 0.000000 - type: double 
+	Parameter CLKIN1_PERIOD bound to: 10.000000 - type: double 
+	Parameter CLKOUT0_DIVIDE bound to: 10 - type: integer 
+	Parameter CLKOUT0_DUTY_CYCLE bound to: 0.500000 - type: double 
+	Parameter CLKOUT0_PHASE bound to: 0.000000 - type: double 
+	Parameter CLKOUT1_DIVIDE bound to: 5 - type: integer 
+	Parameter CLKOUT1_DUTY_CYCLE bound to: 0.500000 - type: double 
+	Parameter CLKOUT1_PHASE bound to: 0.000000 - type: double 
+	Parameter CLKOUT2_DIVIDE bound to: 5 - type: integer 
+	Parameter CLKOUT2_DUTY_CYCLE bound to: 0.500000 - type: double 
+	Parameter CLKOUT2_PHASE bound to: 0.000000 - type: double 
+	Parameter CLKOUT3_DIVIDE bound to: 40 - type: integer 
+	Parameter CLKOUT3_DUTY_CYCLE bound to: 0.500000 - type: double 
+	Parameter CLKOUT3_PHASE bound to: 0.000000 - type: double 
+	Parameter COMPENSATION bound to: ZHOLD - type: string 
+	Parameter DIVCLK_DIVIDE bound to: 1 - type: integer 
+	Parameter STARTUP_WAIT bound to: FALSE - type: string 
+INFO: [Synth 8-6155] done synthesizing module 'PLLE2_ADV' (0#1) [/tools/Xilinx/Vivado/2024.1/scripts/rt/data/unisim_comp.v:114750]
+INFO: [Synth 8-6155] done synthesizing module 'cw_fast_clk_wiz' (0#1) [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/cw_fast_clk_wiz.v:71]
+WARNING: [Synth 8-7071] port 'locked' of module 'cw_fast_clk_wiz' is unconnected for instance 'wizard_migcam' [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/top_level.sv:67]
+WARNING: [Synth 8-7023] instance 'wizard_migcam' of module 'cw_fast_clk_wiz' has 7 connections declared, but only 6 given [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/top_level.sv:67]
+INFO: [Synth 8-6157] synthesizing module 'luminance_reconstruct' [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/luminance_reconstruct.sv:4]
+	Parameter HCOUNT_WIDTH bound to: 10 - type: integer 
+	Parameter VCOUNT_WIDTH bound to: 9 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'luminance_reconstruct' (0#1) [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/luminance_reconstruct.sv:4]
+INFO: [Synth 8-6157] synthesizing module 'blk_mem_gen_1' [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/.Xil/Vivado-60477-eecs-digital-25/realtime/blk_mem_gen_1_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'blk_mem_gen_1' (0#1) [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/.Xil/Vivado-60477-eecs-digital-25/realtime/blk_mem_gen_1_stub.v:6]
+INFO: [Synth 8-6157] synthesizing module 'spi_receive_con_2' [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/spi_receive_con_2.sv:4]
+	Parameter DATA_WIDTH bound to: 8 - type: integer 
+	Parameter LINES bound to: 4 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'spi_receive_con_2' (0#1) [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/spi_receive_con_2.sv:4]
+WARNING: [Synth 8-7071] port 'half_pixel_ready' of module 'spi_receive_con_2' is unconnected for instance 'spi_receive' [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/top_level.sv:184]
+WARNING: [Synth 8-7023] instance 'spi_receive' of module 'spi_receive_con_2' has 10 connections declared, but only 9 given [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/top_level.sv:184]
+INFO: [Synth 8-6157] synthesizing module 'addr_counter' [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/addr_counter.sv:2]
+	Parameter HCOUNT bound to: 320 - type: integer 
+	Parameter VCOUNT bound to: 180 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'spec_evt_counter' [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/spec_evt_counter.sv:2]
+	Parameter MAX_COUNT bound to: 320 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'spec_evt_counter' (0#1) [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/spec_evt_counter.sv:2]
+INFO: [Synth 8-6157] synthesizing module 'spec_evt_counter__parameterized0' [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/spec_evt_counter.sv:2]
+	Parameter MAX_COUNT bound to: 180 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'spec_evt_counter__parameterized0' (0#1) [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/spec_evt_counter.sv:2]
+WARNING: [Synth 8-7071] port 'hit_max_out_almost' of module 'spec_evt_counter' is unconnected for instance 'vcounter' [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/addr_counter.sv:25]
+WARNING: [Synth 8-7023] instance 'vcounter' of module 'spec_evt_counter' has 5 connections declared, but only 4 given [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/addr_counter.sv:25]
+INFO: [Synth 8-6155] done synthesizing module 'addr_counter' (0#1) [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/addr_counter.sv:2]
+INFO: [Synth 8-6157] synthesizing module 'video_sig_gen' [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/video_sig_gen.sv:3]
+INFO: [Synth 8-6155] done synthesizing module 'video_sig_gen' (0#1) [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/video_sig_gen.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'tmds_encoder' [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/tmds_encoder.sv:4]
+INFO: [Synth 8-6157] synthesizing module 'tm_choice' [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/tm_choice.sv:2]
+INFO: [Synth 8-6155] done synthesizing module 'tm_choice' (0#1) [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/tm_choice.sv:2]
+INFO: [Synth 8-6155] done synthesizing module 'tmds_encoder' (0#1) [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/tmds_encoder.sv:4]
+INFO: [Synth 8-6157] synthesizing module 'tmds_serializer' [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/tmds_serializer.sv:4]
+INFO: [Synth 8-6157] synthesizing module 'OSERDESE2' [/tools/Xilinx/Vivado/2024.1/scripts/rt/data/unisim_comp.v:100709]
+	Parameter DATA_RATE_OQ bound to: DDR - type: string 
+	Parameter DATA_RATE_TQ bound to: SDR - type: string 
+	Parameter DATA_WIDTH bound to: 10 - type: integer 
+	Parameter SERDES_MODE bound to: MASTER - type: string 
+	Parameter TBYTE_CTL bound to: FALSE - type: string 
+	Parameter TBYTE_SRC bound to: FALSE - type: string 
+	Parameter TRISTATE_WIDTH bound to: 1 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'OSERDESE2' (0#1) [/tools/Xilinx/Vivado/2024.1/scripts/rt/data/unisim_comp.v:100709]
+INFO: [Synth 8-6157] synthesizing module 'OSERDESE2__parameterized0' [/tools/Xilinx/Vivado/2024.1/scripts/rt/data/unisim_comp.v:100709]
+	Parameter DATA_RATE_OQ bound to: DDR - type: string 
+	Parameter DATA_RATE_TQ bound to: SDR - type: string 
+	Parameter DATA_WIDTH bound to: 10 - type: integer 
+	Parameter SERDES_MODE bound to: SLAVE - type: string 
+	Parameter TBYTE_CTL bound to: FALSE - type: string 
+	Parameter TBYTE_SRC bound to: FALSE - type: string 
+	Parameter TRISTATE_WIDTH bound to: 1 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'OSERDESE2__parameterized0' (0#1) [/tools/Xilinx/Vivado/2024.1/scripts/rt/data/unisim_comp.v:100709]
+INFO: [Synth 8-6155] done synthesizing module 'tmds_serializer' (0#1) [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/tmds_serializer.sv:4]
+INFO: [Synth 8-6157] synthesizing module 'OBUFDS' [/tools/Xilinx/Vivado/2024.1/scripts/rt/data/unisim_comp.v:96472]
+INFO: [Synth 8-6155] done synthesizing module 'OBUFDS' (0#1) [/tools/Xilinx/Vivado/2024.1/scripts/rt/data/unisim_comp.v:96472]
+INFO: [Synth 8-6157] synthesizing module 'xilinx_single_port_ram_read_first' [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/xilinx_single_port_ram_read_first.sv:10]
+	Parameter RAM_WIDTH bound to: 24 - type: integer 
+	Parameter RAM_DEPTH bound to: 512 - type: integer 
+	Parameter RAM_PERFORMANCE bound to: HIGH_PERFORMANCE - type: string 
+	Parameter INIT_FILE bound to: rom_640_360_new.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'rom_640_360_new.mem' is read successfully [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/xilinx_single_port_ram_read_first.sv:33]
+INFO: [Synth 8-6155] done synthesizing module 'xilinx_single_port_ram_read_first' (0#1) [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/xilinx_single_port_ram_read_first.sv:10]
+INFO: [Synth 8-6157] synthesizing module 'IOBUF' [/tools/Xilinx/Vivado/2024.1/scripts/rt/data/unisim_comp.v:78209]
+INFO: [Synth 8-6155] done synthesizing module 'IOBUF' (0#1) [/tools/Xilinx/Vivado/2024.1/scripts/rt/data/unisim_comp.v:78209]
+INFO: [Synth 8-6157] synthesizing module 'camera_registers' [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/camera_registers.sv:4]
+INFO: [Synth 8-6157] synthesizing module 'addr_increment' [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/camera_registers.sv:233]
+	Parameter ROLLOVER bound to: 512 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'addr_increment' (0#1) [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/camera_registers.sv:233]
+WARNING: [Synth 8-7071] port 'rollover_out' of module 'addr_increment' is unconnected for instance 'aia' [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/camera_registers.sv:63]
+WARNING: [Synth 8-7023] instance 'aia' of module 'addr_increment' has 6 connections declared, but only 5 given [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/camera_registers.sv:63]
+INFO: [Synth 8-155] case statement is not full and has no default [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/camera_registers.sv:78]
+INFO: [Synth 8-6157] synthesizing module 'i2c_master' [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/i2c_master.v:32]
+INFO: [Synth 8-155] case statement is not full and has no default [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/i2c_master.v:329]
+INFO: [Synth 8-155] case statement is not full and has no default [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/i2c_master.v:634]
+INFO: [Synth 8-6155] done synthesizing module 'i2c_master' (0#1) [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/i2c_master.v:32]
+WARNING: [Synth 8-7071] port 'm_axis_data_tdata' of module 'i2c_master' is unconnected for instance 'sccb_c' [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/camera_registers.sv:197]
+WARNING: [Synth 8-7071] port 'm_axis_data_tvalid' of module 'i2c_master' is unconnected for instance 'sccb_c' [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/camera_registers.sv:197]
+WARNING: [Synth 8-7071] port 'm_axis_data_tlast' of module 'i2c_master' is unconnected for instance 'sccb_c' [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/camera_registers.sv:197]
+WARNING: [Synth 8-7071] port 'stop_on_idle' of module 'i2c_master' is unconnected for instance 'sccb_c' [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/camera_registers.sv:197]
+WARNING: [Synth 8-7023] instance 'sccb_c' of module 'i2c_master' has 30 connections declared, but only 26 given [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/camera_registers.sv:197]
+INFO: [Synth 8-6155] done synthesizing module 'camera_registers' (0#1) [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/camera_registers.sv:4]
+INFO: [Synth 8-6155] done synthesizing module 'top_level' (0#1) [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/top_level.sv:4]
+WARNING: [Synth 8-6014] Unused sequential element last_sampled_data_reg was removed.  [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/luminance_reconstruct.sv:46]
+WARNING: [Synth 8-6014] Unused sequential element last_scl_i_reg_reg was removed.  [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/i2c_master.v:285]
+WARNING: [Synth 8-6014] Unused sequential element hcount_hdmi_pl_reg[4] was removed.  [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/top_level.sv:241]
+WARNING: [Synth 8-6014] Unused sequential element hcount_hdmi_pl_reg[3] was removed.  [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/top_level.sv:241]
+WARNING: [Synth 8-6014] Unused sequential element hcount_hdmi_pl_reg[2] was removed.  [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/top_level.sv:241]
+WARNING: [Synth 8-6014] Unused sequential element hcount_hdmi_pl_reg[1] was removed.  [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/top_level.sv:241]
+WARNING: [Synth 8-6014] Unused sequential element vcount_hdmi_pl_reg[4] was removed.  [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/top_level.sv:242]
+WARNING: [Synth 8-6014] Unused sequential element vcount_hdmi_pl_reg[3] was removed.  [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/top_level.sv:242]
+WARNING: [Synth 8-6014] Unused sequential element vcount_hdmi_pl_reg[2] was removed.  [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/top_level.sv:242]
+WARNING: [Synth 8-6014] Unused sequential element vcount_hdmi_pl_reg[1] was removed.  [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/top_level.sv:242]
+WARNING: [Synth 8-6014] Unused sequential element nf_hdmi_pl_reg[4] was removed.  [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/top_level.sv:245]
+WARNING: [Synth 8-6014] Unused sequential element nf_hdmi_pl_reg[3] was removed.  [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/top_level.sv:245]
+WARNING: [Synth 8-6014] Unused sequential element nf_hdmi_pl_reg[2] was removed.  [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/top_level.sv:245]
+WARNING: [Synth 8-6014] Unused sequential element nf_hdmi_pl_reg[1] was removed.  [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/top_level.sv:245]
+WARNING: [Synth 8-3848] Net rgb0 in module/entity top_level does not have driver. [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/top_level.sv:18]
+WARNING: [Synth 8-3848] Net rgb1 in module/entity top_level does not have driver. [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/top_level.sv:19]
+WARNING: [Synth 8-3848] Net ss0_an in module/entity top_level does not have driver. [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/top_level.sv:27]
+WARNING: [Synth 8-3848] Net ss1_an in module/entity top_level does not have driver. [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/top_level.sv:28]
+WARNING: [Synth 8-3848] Net ss0_c in module/entity top_level does not have driver. [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/top_level.sv:29]
+WARNING: [Synth 8-3848] Net ss1_c in module/entity top_level does not have driver. [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/hdl/top_level.sv:30]
+WARNING: [Synth 8-3917] design top_level has port led[15] driven by constant 0
+WARNING: [Synth 8-3917] design top_level has port led[14] driven by constant 0
+WARNING: [Synth 8-3917] design top_level has port led[13] driven by constant 0
+WARNING: [Synth 8-3917] design top_level has port led[12] driven by constant 0
+WARNING: [Synth 8-3917] design top_level has port led[11] driven by constant 0
+WARNING: [Synth 8-3917] design top_level has port led[10] driven by constant 0
+WARNING: [Synth 8-3917] design top_level has port led[9] driven by constant 0
+WARNING: [Synth 8-3917] design top_level has port led[8] driven by constant 0
+WARNING: [Synth 8-3917] design top_level has port led[7] driven by constant 0
+WARNING: [Synth 8-3917] design top_level has port led[6] driven by constant 0
+WARNING: [Synth 8-3917] design top_level has port led[5] driven by constant 0
+WARNING: [Synth 8-3917] design top_level has port led[4] driven by constant 0
+WARNING: [Synth 8-3917] design top_level has port led[3] driven by constant 0
+WARNING: [Synth 8-3917] design top_level has port led[0] driven by constant 0
+WARNING: [Synth 8-7129] Port rgb0[2] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rgb0[1] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rgb0[0] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rgb1[2] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rgb1[1] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rgb1[0] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ss0_an[3] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ss0_an[2] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ss0_an[1] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ss0_an[0] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ss1_an[3] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ss1_an[2] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ss1_an[1] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ss1_an[0] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ss0_c[6] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ss0_c[5] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ss0_c[4] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ss0_c[3] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ss0_c[2] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ss0_c[1] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ss0_c[0] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ss1_c[6] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ss1_c[5] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ss1_c[4] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ss1_c[3] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ss1_c[2] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ss1_c[1] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ss1_c[0] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port sw[15] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port sw[14] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port sw[13] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port sw[12] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port sw[11] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port sw[10] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port sw[9] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port sw[8] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port sw[7] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port sw[6] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port sw[5] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port sw[4] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port sw[3] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port sw[2] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port sw[1] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port sw[0] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port btn[3] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port btn[2] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port btn[1] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port spi_vsync in module top_level is either unconnected or has no load
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 2274.496 ; gain = 502.648 ; free physical = 20607 ; free virtual = 33885
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 2289.340 ; gain = 517.492 ; free physical = 20607 ; free virtual = 33885
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 2289.340 ; gain = 517.492 ; free physical = 20607 ; free virtual = 33885
+---------------------------------------------------------------------------------
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2295.277 ; gain = 0.000 ; free physical = 20607 ; free virtual = 33885
+INFO: [Netlist 29-17] Analyzing 8 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Parsing XDC File [/home/fpga/worker_place/project_1.gen/sources_1/ip/blk_mem_gen_1/blk_mem_gen_1/blk_mem_gen_1_in_context.xdc] for cell 'frame_buffer_onboard'
+Finished Parsing XDC File [/home/fpga/worker_place/project_1.gen/sources_1/ip/blk_mem_gen_1/blk_mem_gen_1/blk_mem_gen_1_in_context.xdc] for cell 'frame_buffer_onboard'
+Parsing XDC File [/home/fpga/worker_place/project_1.gen/sources_1/ip/blk_mem_gen_1/blk_mem_gen_1/blk_mem_gen_1_in_context.xdc] for cell 'frame_buffer_spi'
+Finished Parsing XDC File [/home/fpga/worker_place/project_1.gen/sources_1/ip/blk_mem_gen_1/blk_mem_gen_1/blk_mem_gen_1_in_context.xdc] for cell 'frame_buffer_spi'
+Parsing XDC File [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/xdc/top_level.xdc]
+Finished Parsing XDC File [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/xdc/top_level.xdc]
+INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/xdc/top_level.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/top_level_propImpl.xdc].
+Resolution: To avoid this warning, move constraints listed in [.Xil/top_level_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
+INFO: [Timing 38-2] Deriving generated clocks
+Completed Processing XDC Constraints
+
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2395.070 ; gain = 0.000 ; free physical = 20599 ; free virtual = 33877
+INFO: [Project 1-111] Unisim Transformation Summary:
+  A total of 6 instances were transformed.
+  IOBUF => IOBUF (IBUF, OBUFT): 2 instances
+  OBUFDS => OBUFDS_DUAL_BUF (INV, OBUFDS(x2)): 4 instances
+
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2395.070 ; gain = 0.000 ; free physical = 20599 ; free virtual = 33877
+WARNING: [Timing 38-316] Clock period '20.000' specified during out-of-context synthesis of instance 'frame_buffer_onboard' at clock pin 'clka' is different from the actual clock period '5.000', this can lead to different synthesis results.
+WARNING: [Timing 38-316] Clock period '20.000' specified during out-of-context synthesis of instance 'frame_buffer_spi' at clock pin 'clka' is different from the actual clock period '10.000', this can lead to different synthesis results.
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:06 ; elapsed = 00:00:06 . Memory (MB): peak = 2395.070 ; gain = 623.223 ; free physical = 20598 ; free virtual = 33875
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xc7s50csga324-1
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:06 ; elapsed = 00:00:06 . Memory (MB): peak = 2395.070 ; gain = 623.223 ; free physical = 20598 ; free virtual = 33875
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying 'set_property' XDC Constraints
+---------------------------------------------------------------------------------
+Applied set_property KEEP_HIERARCHY = SOFT for frame_buffer_onboard. (constraint file  auto generated constraint).
+Applied set_property KEEP_HIERARCHY = SOFT for frame_buffer_spi. (constraint file  auto generated constraint).
+---------------------------------------------------------------------------------
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:06 ; elapsed = 00:00:06 . Memory (MB): peak = 2395.070 ; gain = 623.223 ; free physical = 20598 ; free virtual = 33875
+---------------------------------------------------------------------------------
+INFO: [Synth 8-802] inferred FSM for state register 'state_reg_reg' in module 'i2c_master'
+INFO: [Synth 8-802] inferred FSM for state register 'phy_state_reg_reg' in module 'i2c_master'
+INFO: [Synth 8-802] inferred FSM for state register 'state_reg' in module 'camera_registers'
+DSP Debug: swapped A/B pins for adder 0x1f80c1e0
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+              STATE_IDLE |                     000000000001 |                            00000
+        STATE_START_WAIT |                     000000000010 |                            00011
+         STATE_ADDRESS_1 |                     000000000100 |                            00101
+         STATE_ADDRESS_2 |                     000000001000 |                            00110
+              STATE_READ |                     000000010000 |                            01010
+       STATE_ACTIVE_READ |                     000000100000 |                            00010
+             STATE_START |                     000001000000 |                            00100
+              STATE_STOP |                     000010000000 |                            01011
+           STATE_WRITE_1 |                     000100000000 |                            00111
+           STATE_WRITE_2 |                     001000000000 |                            01000
+           STATE_WRITE_3 |                     010000000000 |                            01001
+      STATE_ACTIVE_WRITE |                     100000000000 |                            00001
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'state_reg_reg' using encoding 'one-hot' in module 'i2c_master'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+          PHY_STATE_IDLE |                             0000 |                            00000
+       PHY_STATE_START_1 |                             0001 |                            00100
+       PHY_STATE_START_2 |                             0010 |                            00101
+        PHY_STATE_ACTIVE |                             0011 |                            00001
+PHY_STATE_REPEATED_START_1 |                             0100 |                            00010
+PHY_STATE_REPEATED_START_2 |                             0101 |                            00011
+   PHY_STATE_WRITE_BIT_1 |                             0110 |                            00110
+   PHY_STATE_WRITE_BIT_2 |                             0111 |                            00111
+   PHY_STATE_WRITE_BIT_3 |                             1000 |                            01000
+    PHY_STATE_READ_BIT_1 |                             1001 |                            01001
+    PHY_STATE_READ_BIT_2 |                             1010 |                            01010
+    PHY_STATE_READ_BIT_3 |                             1011 |                            01011
+    PHY_STATE_READ_BIT_4 |                             1100 |                            01100
+        PHY_STATE_STOP_1 |                             1101 |                            01101
+        PHY_STATE_STOP_2 |                             1110 |                            01110
+        PHY_STATE_STOP_3 |                             1111 |                            01111
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'phy_state_reg_reg' using encoding 'sequential' in module 'i2c_master'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                     RST |                        000000001 | 00000000000000000000000000000000
+               WAIT_INIT |                        000000010 | 00000000000000000000000000000001
+             GET_REGPAIR |                        000000100 | 00000000000000000000000000000010
+            WAIT_REGPAIR |                        000001000 | 00000000000000000000000000000011
+           WRITE_REGPAIR |                        000010000 | 00000000000000000000000000000100
+               ISSUE_CMD |                        000100000 | 00000000000000000000000000000101
+        WRITE_REGADDR_HI |                        001000000 | 00000000000000000000000000000110
+        WRITE_REGADDR_LO |                        010000000 | 00000000000000000000000000000111
+           WRITE_REGDATA |                        100000000 | 00000000000000000000000000001000
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'state_reg' using encoding 'one-hot' in module 'camera_registers'
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:06 ; elapsed = 00:00:06 . Memory (MB): peak = 2395.070 ; gain = 623.223 ; free physical = 20597 ; free virtual = 33876
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input   17 Bit       Adders := 1     
+	   2 Input   12 Bit       Adders := 1     
+	   2 Input   11 Bit       Adders := 3     
+	   2 Input   10 Bit       Adders := 3     
+	   2 Input    9 Bit       Adders := 2     
+	   2 Input    8 Bit       Adders := 1     
+	   2 Input    7 Bit       Adders := 1     
+	   2 Input    6 Bit       Adders := 1     
+	  12 Input    5 Bit       Adders := 3     
+	   5 Input    5 Bit       Adders := 3     
+	  11 Input    5 Bit       Adders := 3     
+	   8 Input    4 Bit       Adders := 6     
+	   9 Input    4 Bit       Adders := 3     
+	   2 Input    4 Bit       Adders := 1     
+	   2 Input    3 Bit       Adders := 1     
++---XORs : 
+	   2 Input      1 Bit         XORs := 22    
++---Registers : 
+	               24 Bit    Registers := 3     
+	               17 Bit    Registers := 1     
+	               16 Bit    Registers := 2     
+	               11 Bit    Registers := 1     
+	               10 Bit    Registers := 6     
+	                9 Bit    Registers := 3     
+	                8 Bit    Registers := 11    
+	                7 Bit    Registers := 1     
+	                6 Bit    Registers := 1     
+	                5 Bit    Registers := 3     
+	                4 Bit    Registers := 3     
+	                2 Bit    Registers := 3     
+	                1 Bit    Registers := 66    
++---RAMs : 
+	              12K Bit	(512 X 24 bit)          RAMs := 1     
++---Muxes : 
+	   9 Input   24 Bit        Muxes := 1     
+	   2 Input   17 Bit        Muxes := 1     
+	  16 Input   17 Bit        Muxes := 1     
+	   2 Input   16 Bit        Muxes := 3     
+	  12 Input   12 Bit        Muxes := 1     
+	   2 Input   12 Bit        Muxes := 23    
+	   5 Input   10 Bit        Muxes := 3     
+	   2 Input   10 Bit        Muxes := 10    
+	   4 Input   10 Bit        Muxes := 1     
+	   2 Input    9 Bit        Muxes := 12    
+	   9 Input    9 Bit        Muxes := 1     
+	   2 Input    8 Bit        Muxes := 15    
+	   3 Input    8 Bit        Muxes := 1     
+	  12 Input    8 Bit        Muxes := 1     
+	   6 Input    8 Bit        Muxes := 1     
+	   3 Input    7 Bit        Muxes := 1     
+	   2 Input    5 Bit        Muxes := 12    
+	  12 Input    4 Bit        Muxes := 1     
+	  22 Input    4 Bit        Muxes := 1     
+	   2 Input    2 Bit        Muxes := 3     
+	   2 Input    1 Bit        Muxes := 73    
+	  12 Input    1 Bit        Muxes := 16    
+	  16 Input    1 Bit        Muxes := 9     
+	   6 Input    1 Bit        Muxes := 2     
+	   9 Input    1 Bit        Muxes := 4     
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 120 (col length:60)
+BRAMs: 150 (col length: RAMB18 60 RAMB36 30)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
+DSP Report: Generating DSP addrb_onboard1, operation Mode is: A*(B:0x140).
+DSP Report: operator addrb_onboard1 is absorbed into DSP addrb_onboard1.
+DSP Report: Generating DSP addrb_onboard_reg, operation Mode is: PCIN+(A:0x0):B+(C:0xfffffffffec0).
+DSP Report: register addrb_onboard_reg is absorbed into DSP addrb_onboard_reg.
+DSP Report: operator addrb_onboard0 is absorbed into DSP addrb_onboard_reg.
+DSP Report: Generating DSP addrb_spi_reg, operation Mode is: C+A*(B:0x140).
+DSP Report: register addrb_spi_reg is absorbed into DSP addrb_spi_reg.
+DSP Report: operator addrb_spi0 is absorbed into DSP addrb_spi_reg.
+DSP Report: operator addrb_onboard1 is absorbed into DSP addrb_spi_reg.
+WARNING: [Synth 8-3917] design top_level has port led[15] driven by constant 0
+WARNING: [Synth 8-3917] design top_level has port led[14] driven by constant 0
+WARNING: [Synth 8-3917] design top_level has port led[13] driven by constant 0
+WARNING: [Synth 8-3917] design top_level has port led[12] driven by constant 0
+WARNING: [Synth 8-3917] design top_level has port led[11] driven by constant 0
+WARNING: [Synth 8-3917] design top_level has port led[10] driven by constant 0
+WARNING: [Synth 8-3917] design top_level has port led[9] driven by constant 0
+WARNING: [Synth 8-3917] design top_level has port led[8] driven by constant 0
+WARNING: [Synth 8-3917] design top_level has port led[7] driven by constant 0
+WARNING: [Synth 8-3917] design top_level has port led[6] driven by constant 0
+WARNING: [Synth 8-3917] design top_level has port led[5] driven by constant 0
+WARNING: [Synth 8-3917] design top_level has port led[4] driven by constant 0
+WARNING: [Synth 8-3917] design top_level has port led[3] driven by constant 0
+WARNING: [Synth 8-3917] design top_level has port led[0] driven by constant 0
+WARNING: [Synth 8-7129] Port rgb0[2] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rgb0[1] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rgb0[0] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rgb1[2] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rgb1[1] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rgb1[0] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ss0_an[3] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ss0_an[2] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ss0_an[1] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ss0_an[0] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ss1_an[3] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ss1_an[2] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ss1_an[1] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ss1_an[0] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ss0_c[6] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ss0_c[5] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ss0_c[4] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ss0_c[3] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ss0_c[2] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ss0_c[1] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ss0_c[0] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ss1_c[6] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ss1_c[5] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ss1_c[4] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ss1_c[3] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ss1_c[2] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ss1_c[1] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ss1_c[0] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port sw[15] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port sw[14] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port sw[13] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port sw[12] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port sw[11] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port sw[10] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port sw[9] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port sw[8] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port sw[7] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port sw[6] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port sw[5] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port sw[4] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port sw[3] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port sw[2] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port sw[1] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port sw[0] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port btn[3] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port btn[2] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port btn[1] in module top_level is either unconnected or has no load
+WARNING: [Synth 8-7129] Port spi_vsync in module top_level is either unconnected or has no load
+WARNING: [Synth 8-3332] Sequential element (crw/sccb_c/FSM_onehot_state_reg_reg[6]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (crw/sccb_c/FSM_onehot_state_reg_reg[5]) is unused and will be removed from module top_level.
+WARNING: [Synth 8-3332] Sequential element (crw/sccb_c/FSM_onehot_state_reg_reg[4]) is unused and will be removed from module top_level.
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:10 ; elapsed = 00:00:10 . Memory (MB): peak = 2395.070 ; gain = 623.223 ; free physical = 20572 ; free virtual = 33855
+---------------------------------------------------------------------------------
+ Sort Area is  addrb_onboard1_0 : 0 0 : 112 192 : Used 1 time 0
+ Sort Area is  addrb_onboard1_0 : 0 1 : 80 192 : Used 1 time 0
+ Sort Area is  addrb_spi_reg_3 : 0 0 : 175 175 : Used 1 time 0
+---------------------------------------------------------------------------------
+Start ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+
+Block RAM: Preliminary Mapping Report (see note below)
++-----------------------------------+------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
+|Module Name                        | RTL Object | PORT A (Depth x Width) | W | R | PORT B (Depth x Width) | W | R | Ports driving FF | RAMB18 | RAMB36 | 
++-----------------------------------+------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
+|xilinx_single_port_ram_read_first: | BRAM_reg   | 512 x 24(READ_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
++-----------------------------------+------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
+
+Note: The table above is a preliminary report that shows the Block RAMs at the current stage of the synthesis flow. Some Block RAMs may be reimplemented as non Block RAM primitives later in the synthesis flow. Multiple instantiated Block RAMs are reported only once. 
+
+DSP: Preliminary Mapping Report (see note below. The ' indicates corresponding REG is set)
++------------+-----------------------------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|Module Name | DSP Mapping                       | A Size | B Size | C Size | D Size | P Size | AREG | BREG | CREG | DREG | ADREG | MREG | PREG | 
++------------+-----------------------------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|top_level   | A*(B:0x140)                       | 10     | 9      | -      | -      | 19     | 0    | 0    | -    | -    | -     | 0    | 0    | 
+|top_level   | PCIN+(A:0x0):B+(C:0xfffffffffec0) | 30     | 11     | 10     | -      | -1     | 0    | 0    | 0    | -    | -     | 0    | 1    | 
+|top_level   | C+A*(B:0x140)                     | 10     | 9      | 11     | -      | 16     | 0    | 0    | 0    | -    | -     | 0    | 1    | 
++------------+-----------------------------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+
+Note: The table above is a preliminary report that shows the DSPs inferred at the current stage of the synthesis flow. Some DSP may be reimplemented as non DSP primitives later in the synthesis flow. Multiple instantiated DSPs are reported only once.
+---------------------------------------------------------------------------------
+Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying XDC Timing Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:13 ; elapsed = 00:00:13 . Memory (MB): peak = 2395.070 ; gain = 623.223 ; free physical = 20575 ; free virtual = 33859
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:00:13 ; elapsed = 00:00:13 . Memory (MB): peak = 2395.070 ; gain = 623.223 ; free physical = 20575 ; free virtual = 33859
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+
+Block RAM: Final Mapping Report
++-----------------------------------+------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
+|Module Name                        | RTL Object | PORT A (Depth x Width) | W | R | PORT B (Depth x Width) | W | R | Ports driving FF | RAMB18 | RAMB36 | 
++-----------------------------------+------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
+|xilinx_single_port_ram_read_first: | BRAM_reg   | 512 x 24(READ_FIRST)   | W | R |                        |   |   | Port A           | 1      | 0      | 
++-----------------------------------+------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
+
+---------------------------------------------------------------------------------
+Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:00:13 ; elapsed = 00:00:13 . Memory (MB): peak = 2395.070 ; gain = 623.223 ; free physical = 20575 ; free virtual = 33859
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:00:14 ; elapsed = 00:00:15 . Memory (MB): peak = 2395.070 ; gain = 623.223 ; free physical = 20577 ; free virtual = 33860
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:14 ; elapsed = 00:00:15 . Memory (MB): peak = 2395.070 ; gain = 623.223 ; free physical = 20577 ; free virtual = 33860
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:14 ; elapsed = 00:00:15 . Memory (MB): peak = 2395.070 ; gain = 623.223 ; free physical = 20577 ; free virtual = 33860
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:14 ; elapsed = 00:00:15 . Memory (MB): peak = 2395.070 ; gain = 623.223 ; free physical = 20577 ; free virtual = 33860
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:14 ; elapsed = 00:00:15 . Memory (MB): peak = 2395.070 ; gain = 623.223 ; free physical = 20577 ; free virtual = 33860
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:14 ; elapsed = 00:00:15 . Memory (MB): peak = 2395.070 ; gain = 623.223 ; free physical = 20577 ; free virtual = 33860
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+
+Static Shift Register Report:
++------------+------------------------------+--------+-------+--------------+--------------------+-------------------+--------+---------+
+|Module Name | RTL Name                     | Length | Width | Reset Signal | Pull out first Reg | Pull out last Reg | SRL16E | SRLC32E | 
++------------+------------------------------+--------+-------+--------------+--------------------+-------------------+--------+---------+
+|top_level   | good_addrb_pl_onboard_reg[2] | 3      | 1     | NO           | NO                 | YES               | 1      | 0       | 
+|top_level   | good_addrb_pl_spi_reg[2]     | 3      | 1     | NO           | NO                 | YES               | 1      | 0       | 
+|top_level   | hsync_hdmi_pl_reg[4]         | 4      | 1     | NO           | NO                 | YES               | 1      | 0       | 
+|top_level   | vsync_hdmi_pl_reg[4]         | 4      | 1     | NO           | NO                 | YES               | 1      | 0       | 
+|top_level   | active_draw_hdmi_pl_reg[4]   | 4      | 1     | NO           | NO                 | YES               | 1      | 0       | 
++------------+------------------------------+--------+-------+--------------+--------------------+-------------------+--------+---------+
+
+---------------------------------------------------------------------------------
+Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+DSP Final Report (the ' indicates corresponding REG is set)
++------------+-----------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|Module Name | DSP Mapping     | A Size | B Size | C Size | D Size | P Size | AREG | BREG | CREG | DREG | ADREG | MREG | PREG | 
++------------+-----------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|top_level   | A'*B            | 10     | 9      | -      | -      | 19     | 1    | 0    | -    | -    | -     | 0    | 0    | 
+|top_level   | (PCIN+A':B'+C)' | 0      | 11     | -      | -      | 16     | 1    | 1    | -    | -    | -     | 0    | 1    | 
+|top_level   | (C'+A'*B)'      | 10     | 9      | 11     | -      | 16     | 1    | 0    | 0    | -    | -     | 0    | 1    | 
++------------+-----------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+
+
+Report BlackBoxes: 
++------+--------------+----------+
+|      |BlackBox name |Instances |
++------+--------------+----------+
+|1     |blk_mem_gen_1 |         2|
++------+--------------+----------+
+
+Report Cell Usage: 
++------+--------------+------+
+|      |Cell          |Count |
++------+--------------+------+
+|1     |blk_mem_gen   |     1|
+|2     |blk_mem_gen_1 |     1|
+|3     |BUFG          |     8|
+|4     |CARRY4        |    16|
+|5     |DSP48E1       |     3|
+|8     |LUT1          |    20|
+|9     |LUT2          |    76|
+|10    |LUT3          |    66|
+|11    |LUT4          |    91|
+|12    |LUT5          |   113|
+|13    |LUT6          |   210|
+|14    |MMCME2_ADV    |     1|
+|15    |MUXF7         |     8|
+|16    |OSERDESE2     |     6|
+|18    |PLLE2_ADV     |     1|
+|19    |RAMB18E1      |     1|
+|20    |SRL16E        |     5|
+|21    |FDRE          |   302|
+|22    |FDSE          |    15|
+|23    |IBUF          |    21|
+|24    |IOBUF         |     2|
+|25    |OBUF          |    17|
+|26    |OBUFDS        |     4|
+|27    |OBUFT         |    28|
++------+--------------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:14 ; elapsed = 00:00:15 . Memory (MB): peak = 2395.070 ; gain = 623.223 ; free physical = 20577 ; free virtual = 33860
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 0 critical warnings and 66 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:14 ; elapsed = 00:00:14 . Memory (MB): peak = 2395.070 ; gain = 517.492 ; free physical = 20577 ; free virtual = 33860
+Synthesis Optimization Complete : Time (s): cpu = 00:00:15 ; elapsed = 00:00:15 . Memory (MB): peak = 2395.078 ; gain = 623.223 ; free physical = 20577 ; free virtual = 33860
+INFO: [Project 1-571] Translating synthesized netlist
+INFO: [Project 1-454] Reading design checkpoint '/home/fpga/worker_place/project_1.gen/sources_1/ip/blk_mem_gen_1/blk_mem_gen_1.dcp' for cell 'frame_buffer_onboard'
+Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2395.078 ; gain = 0.000 ; free physical = 20874 ; free virtual = 34158
+INFO: [Netlist 29-17] Analyzing 162 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-479] Netlist was created with Vivado 2024.1
+INFO: [Project 1-570] Preparing netlist for logic optimization
+WARNING: [Opt 31-32] Removing redundant IBUF since it is not being driven by a top-level port. wizard_hdmi/clkin1_ibufg 
+Resolution: The tool has removed redundant IBUF. To resolve this warning, check for redundant IBUF in the input design.
+Parsing XDC File [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/xdc/top_level.xdc]
+CRITICAL WARNING: [Common 17-69] Command failed: Illegal DRIVE value '24' for standard 'LVCMOS33'.  4, 8, 12, 16 [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/xdc/top_level.xdc:32]
+INFO: [Timing 38-35] Done setting XDC timing constraints. [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/xdc/top_level.xdc:45]
+INFO: [Timing 38-2] Deriving generated clocks [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/xdc/top_level.xdc:45]
+WARNING: [Vivado 12-627] No clocks matched 'clk_pll_i'. [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/xdc/top_level.xdc:45]
+INFO: [Vivado 12-626] No clocks found. Please use 'create_clock' or 'create_generated_clock' command to create clocks. [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/xdc/top_level.xdc:45]
+CRITICAL WARNING: [Vivado 12-4739] set_max_delay:No valid object(s) found for '-to [get_clocks clk_pll_i]'. [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/xdc/top_level.xdc:45]
+Resolution: Check if the specified object(s) exists in the current design. If it does, ensure that the correct design hierarchy was specified for the object. If you are working with clocks, make sure create_clock was used to create the clock object before it is referenced.
+WARNING: [Vivado 12-627] No clocks matched 'clk_pll_i'. [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/xdc/top_level.xdc:46]
+INFO: [Vivado 12-626] No clocks found. Please use 'create_clock' or 'create_generated_clock' command to create clocks. [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/xdc/top_level.xdc:46]
+CRITICAL WARNING: [Vivado 12-4739] set_max_delay:No valid object(s) found for '-from [get_clocks clk_pll_i]'. [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/xdc/top_level.xdc:46]
+Resolution: Check if the specified object(s) exists in the current design. If it does, ensure that the correct design hierarchy was specified for the object. If you are working with clocks, make sure create_clock was used to create the clock object before it is referenced.
+WARNING: [Vivado 12-627] No clocks matched 'clk_pll_i'. [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/xdc/top_level.xdc:47]
+INFO: [Vivado 12-626] No clocks found. Please use 'create_clock' or 'create_generated_clock' command to create clocks. [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/xdc/top_level.xdc:47]
+CRITICAL WARNING: [Vivado 12-4739] set_max_delay:No valid object(s) found for '-to [get_clocks clk_pll_i]'. [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/xdc/top_level.xdc:47]
+Resolution: Check if the specified object(s) exists in the current design. If it does, ensure that the correct design hierarchy was specified for the object. If you are working with clocks, make sure create_clock was used to create the clock object before it is referenced.
+WARNING: [Vivado 12-627] No clocks matched 'clk_pll_i'. [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/xdc/top_level.xdc:48]
+INFO: [Vivado 12-626] No clocks found. Please use 'create_clock' or 'create_generated_clock' command to create clocks. [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/xdc/top_level.xdc:48]
+CRITICAL WARNING: [Vivado 12-4739] set_max_delay:No valid object(s) found for '-from [get_clocks clk_pll_i]'. [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/xdc/top_level.xdc:48]
+Resolution: Check if the specified object(s) exists in the current design. If it does, ensure that the correct design hierarchy was specified for the object. If you are working with clocks, make sure create_clock was used to create the clock object before it is referenced.
+Finished Parsing XDC File [/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/xdc/top_level.xdc]
+INFO: [Project 1-538] Using original IP XDC constraints instead of the XDC constraints in dcp '/home/fpga/worker_place/project_1.gen/sources_1/ip/blk_mem_gen_1/blk_mem_gen_1.dcp'
+INFO: [Project 1-538] Using original IP XDC constraints instead of the XDC constraints in dcp '/home/fpga/worker_place/project_1.gen/sources_1/ip/blk_mem_gen_1/blk_mem_gen_1.dcp'
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2646.969 ; gain = 0.000 ; free physical = 20629 ; free virtual = 33913
+INFO: [Project 1-111] Unisim Transformation Summary:
+  A total of 6 instances were transformed.
+  IOBUF => IOBUF (IBUF, OBUFT): 2 instances
+  OBUFDS => OBUFDS: 4 instances
+
+Synth Design complete | Checksum: ae98b864
+INFO: [Common 17-83] Releasing license: Synthesis
+90 Infos, 184 Warnings, 6 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:00:22 ; elapsed = 00:00:20 . Memory (MB): peak = 2646.969 ; gain = 1223.074 ; free physical = 20629 ; free virtual = 33913
+INFO: [Common 17-2834] synth_design peak Physical Memory [PSS] (MB): overall = 1962.287; main = 1865.415; forked = 397.095
+INFO: [Common 17-2834] synth_design peak Virtual Memory [VSS] (MB): overall = 3431.008; main = 2646.973; forked = 1035.934
+# write_checkpoint -force $outputDir/post_synth.dcp
+INFO: [Timing 38-480] Writing timing data to binary archive.
+Write ShapeDB Complete: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2662.977 ; gain = 0.000 ; free physical = 20629 ; free virtual = 33913
+Wrote PlaceDB: Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 2662.977 ; gain = 0.000 ; free physical = 20629 ; free virtual = 33913
+Wrote PulsedLatchDB: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2662.977 ; gain = 0.000 ; free physical = 20629 ; free virtual = 33913
+Writing XDEF routing.
+Writing XDEF routing logical nets.
+Writing XDEF routing special nets.
+Wrote RouteStorage: Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2662.977 ; gain = 0.000 ; free physical = 20626 ; free virtual = 33909
+Wrote Netlist Cache: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2662.977 ; gain = 0.000 ; free physical = 20626 ; free virtual = 33909
+Wrote Device Cache: Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 2662.977 ; gain = 0.000 ; free physical = 20618 ; free virtual = 33902
+Write Physdb Complete: Time (s): cpu = 00:00:00.04 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2662.977 ; gain = 0.000 ; free physical = 20618 ; free virtual = 33902
+INFO: [Common 17-1381] The checkpoint '/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/obj/post_synth.dcp' has been generated.
+# report_timing_summary -file $outputDir/post_synth_timing_summary.rpt
+INFO: [Timing 38-35] Done setting XDC timing constraints.
+INFO: [Timing 38-91] UpdateTimingParams: Speed grade: -1, Delay Type: min_max.
+INFO: [Timing 38-191] Multithreading enabled for timing update using a maximum of 2 CPUs
+# report_utilization -file $outputDir/post_synth_util.rpt -hierarchical -hierarchical_depth 4
+# report_timing -file $outputDir/post_synth_timing.rpt
+INFO: [Timing 38-91] UpdateTimingParams: Speed grade: -1, Delay Type: max.
+INFO: [Timing 38-191] Multithreading enabled for timing update using a maximum of 2 CPUs
+INFO: [Timing 38-78] ReportTimingParams: -max_paths 1 -nworst 1 -delay_type max -sort_by slack.
+# opt_design
+Command: opt_design
+Attempting to get a license for feature 'Implementation' and/or device 'xc7s50'
+INFO: [Common 17-349] Got license for feature 'Implementation' and/or device 'xc7s50'
+Running DRC as a precondition to command opt_design
+
+Starting DRC Task
+INFO: [DRC 23-27] Running DRC with 2 threads
+INFO: [Project 1-461] DRC finished with 0 Errors
+INFO: [Project 1-462] Please refer to the DRC report (report_drc) for more information.
+
+Time (s): cpu = 00:00:00.66 ; elapsed = 00:00:00.37 . Memory (MB): peak = 2662.977 ; gain = 0.000 ; free physical = 20609 ; free virtual = 33893
+
+Starting Cache Timing Information Task
+Ending Cache Timing Information Task | Checksum: 2121f7639
+
+Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2662.977 ; gain = 0.000 ; free physical = 20609 ; free virtual = 33893
+
+Starting Logic Optimization Task
+
+Phase 1 Initialization
+
+Phase 1.1 Core Generation And Design Setup
+Phase 1.1 Core Generation And Design Setup | Checksum: 2121f7639
+
+Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2692.789 ; gain = 0.000 ; free physical = 20556 ; free virtual = 33840
+
+Phase 1.2 Setup Constraints And Sort Netlist
+Phase 1.2 Setup Constraints And Sort Netlist | Checksum: 2121f7639
+
+Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2692.789 ; gain = 0.000 ; free physical = 20556 ; free virtual = 33840
+Phase 1 Initialization | Checksum: 2121f7639
+
+Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2692.789 ; gain = 0.000 ; free physical = 20556 ; free virtual = 33840
+
+Phase 2 Timer Update And Timing Data Collection
+
+Phase 2.1 Timer Update
+Phase 2.1 Timer Update | Checksum: 2121f7639
+
+Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00.02 . Memory (MB): peak = 2692.789 ; gain = 0.000 ; free physical = 20556 ; free virtual = 33840
+
+Phase 2.2 Timing Data Collection
+Phase 2.2 Timing Data Collection | Checksum: 2121f7639
+
+Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00.02 . Memory (MB): peak = 2692.789 ; gain = 0.000 ; free physical = 20556 ; free virtual = 33840
+Phase 2 Timer Update And Timing Data Collection | Checksum: 2121f7639
+
+Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00.02 . Memory (MB): peak = 2692.789 ; gain = 0.000 ; free physical = 20556 ; free virtual = 33840
+
+Phase 3 Retarget
+INFO: [Opt 31-1834] Total Chains To Be Transformed Were: 0 AND Number of Transformed insts Created are: 0
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+INFO: [Opt 31-49] Retargeted 0 cell(s).
+Phase 3 Retarget | Checksum: 2c18c4ac8
+
+Time (s): cpu = 00:00:00.05 ; elapsed = 00:00:00.05 . Memory (MB): peak = 2692.789 ; gain = 0.000 ; free physical = 20556 ; free virtual = 33840
+Retarget | Checksum: 2c18c4ac8
+INFO: [Opt 31-389] Phase Retarget created 60 cells and removed 60 cells
+INFO: [Opt 31-1021] In phase Retarget, 1 netlist objects are constrained preventing optimization. Please run opt_design with -debug_log to get more detail. 
+
+Phase 4 Constant propagation
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Phase 4 Constant propagation | Checksum: 2ba1da9b6
+
+Time (s): cpu = 00:00:00.06 ; elapsed = 00:00:00.06 . Memory (MB): peak = 2692.789 ; gain = 0.000 ; free physical = 20556 ; free virtual = 33840
+Constant propagation | Checksum: 2ba1da9b6
+INFO: [Opt 31-389] Phase Constant propagation created 0 cells and removed 0 cells
+
+Phase 5 Sweep
+Phase 5 Sweep | Checksum: 2bdd5f517
+
+Time (s): cpu = 00:00:00.07 ; elapsed = 00:00:00.07 . Memory (MB): peak = 2692.789 ; gain = 0.000 ; free physical = 20556 ; free virtual = 33840
+Sweep | Checksum: 2bdd5f517
+INFO: [Opt 31-389] Phase Sweep created 0 cells and removed 135 cells
+
+Phase 6 BUFG optimization
+Phase 6 BUFG optimization | Checksum: 2bdd5f517
+
+Time (s): cpu = 00:00:00.09 ; elapsed = 00:00:00.08 . Memory (MB): peak = 2692.789 ; gain = 0.000 ; free physical = 20556 ; free virtual = 33840
+BUFG optimization | Checksum: 2bdd5f517
+INFO: [Opt 31-662] Phase BUFG optimization created 0 cells of which 0 are BUFGs and removed 0 cells.
+
+Phase 7 Shift Register Optimization
+INFO: [Opt 31-1064] SRL Remap converted 0 SRLs to 0 registers and converted 0 registers of register chains to 0 SRLs
+Phase 7 Shift Register Optimization | Checksum: 2bdd5f517
+
+Time (s): cpu = 00:00:00.09 ; elapsed = 00:00:00.08 . Memory (MB): peak = 2692.789 ; gain = 0.000 ; free physical = 20556 ; free virtual = 33840
+Shift Register Optimization | Checksum: 2bdd5f517
+INFO: [Opt 31-389] Phase Shift Register Optimization created 0 cells and removed 0 cells
+
+Phase 8 Post Processing Netlist
+Phase 8 Post Processing Netlist | Checksum: 2bdd5f517
+
+Time (s): cpu = 00:00:00.1 ; elapsed = 00:00:00.09 . Memory (MB): peak = 2692.789 ; gain = 0.000 ; free physical = 20556 ; free virtual = 33840
+Post Processing Netlist | Checksum: 2bdd5f517
+INFO: [Opt 31-389] Phase Post Processing Netlist created 0 cells and removed 0 cells
+
+Phase 9 Finalization
+
+Phase 9.1 Finalizing Design Cores and Updating Shapes
+Phase 9.1 Finalizing Design Cores and Updating Shapes | Checksum: 25e64a511
+
+Time (s): cpu = 00:00:00.11 ; elapsed = 00:00:00.1 . Memory (MB): peak = 2692.789 ; gain = 0.000 ; free physical = 20557 ; free virtual = 33841
+
+Phase 9.2 Verifying Netlist Connectivity
+
+Starting Connectivity Check Task
+
+Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2692.789 ; gain = 0.000 ; free physical = 20557 ; free virtual = 33841
+Phase 9.2 Verifying Netlist Connectivity | Checksum: 25e64a511
+
+Time (s): cpu = 00:00:00.11 ; elapsed = 00:00:00.1 . Memory (MB): peak = 2692.789 ; gain = 0.000 ; free physical = 20557 ; free virtual = 33841
+Phase 9 Finalization | Checksum: 25e64a511
+
+Time (s): cpu = 00:00:00.11 ; elapsed = 00:00:00.1 . Memory (MB): peak = 2692.789 ; gain = 0.000 ; free physical = 20557 ; free virtual = 33841
+Opt_design Change Summary
+=========================
+
+
+-------------------------------------------------------------------------------------------------------------------------
+|  Phase                        |  #Cells created  |  #Cells Removed  |  #Constrained objects preventing optimizations  |
+-------------------------------------------------------------------------------------------------------------------------
+|  Retarget                     |              60  |              60  |                                              1  |
+|  Constant propagation         |               0  |               0  |                                              0  |
+|  Sweep                        |               0  |             135  |                                              0  |
+|  BUFG optimization            |               0  |               0  |                                              0  |
+|  Shift Register Optimization  |               0  |               0  |                                              0  |
+|  Post Processing Netlist      |               0  |               0  |                                              0  |
+-------------------------------------------------------------------------------------------------------------------------
+
+
+Ending Logic Optimization Task | Checksum: 25e64a511
+
+Time (s): cpu = 00:00:00.11 ; elapsed = 00:00:00.1 . Memory (MB): peak = 2692.789 ; gain = 0.000 ; free physical = 20557 ; free virtual = 33841
+
+Starting Power Optimization Task
+INFO: [Pwropt 34-132] Skipping clock gating for clocks with a period < 2.00 ns.
+INFO: [Timing 38-35] Done setting XDC timing constraints.
+Running Vector-less Activity Propagation...
+
+Finished Running Vector-less Activity Propagation
+INFO: [Pwropt 34-9] Applying IDT optimizations ...
+INFO: [Pwropt 34-10] Applying ODC optimizations ...
+
+
+Starting PowerOpt Patch Enables Task
+INFO: [Pwropt 34-162] WRITE_MODE attribute of 30 BRAM(s) out of a total of 31 has been updated to save power. Run report_power_opt to get a complete listing of the BRAMs updated.
+INFO: [Pwropt 34-201] Structural ODC has moved 0 WE to EN ports
+Number of BRAM Ports augmented: 30 newly gated: 62 Total Ports: 62
+Number of Flops added for Enable Generation: 2
+
+Ending PowerOpt Patch Enables Task | Checksum: 25d341d59
+
+Time (s): cpu = 00:00:00.07 ; elapsed = 00:00:00.07 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20536 ; free virtual = 33820
+Ending Power Optimization Task | Checksum: 25d341d59
+
+Time (s): cpu = 00:00:02 ; elapsed = 00:00:01 . Memory (MB): peak = 2795.887 ; gain = 103.098 ; free physical = 20536 ; free virtual = 33820
+
+Starting Final Cleanup Task
+
+Starting Logic Optimization Task
+INFO: [Timing 38-35] Done setting XDC timing constraints.
+Ending Logic Optimization Task | Checksum: 21d1eece7
+
+Time (s): cpu = 00:00:00.12 ; elapsed = 00:00:00.09 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20535 ; free virtual = 33819
+Ending Final Cleanup Task | Checksum: 21d1eece7
+
+Time (s): cpu = 00:00:01 ; elapsed = 00:00:01 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20538 ; free virtual = 33822
+
+Starting Netlist Obfuscation Task
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20538 ; free virtual = 33822
+Ending Netlist Obfuscation Task | Checksum: 21d1eece7
+
+Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20538 ; free virtual = 33822
+INFO: [Common 17-83] Releasing license: Implementation
+24 Infos, 0 Warnings, 0 Critical Warnings and 0 Errors encountered.
+opt_design completed successfully
+# place_design
+Command: place_design
+Attempting to get a license for feature 'Implementation' and/or device 'xc7s50'
+INFO: [Common 17-349] Got license for feature 'Implementation' and/or device 'xc7s50'
+INFO: [Common 17-83] Releasing license: Implementation
+INFO: [DRC 23-27] Running DRC with 2 threads
+INFO: [Vivado_Tcl 4-198] DRC finished with 0 Errors
+INFO: [Vivado_Tcl 4-199] Please refer to the DRC report (report_drc) for more information.
+Running DRC as a precondition to command place_design
+INFO: [DRC 23-27] Running DRC with 2 threads
+INFO: [Vivado_Tcl 4-198] DRC finished with 0 Errors
+INFO: [Vivado_Tcl 4-199] Please refer to the DRC report (report_drc) for more information.
+INFO: [Place 30-611] Multithreading enabled for place_design using a maximum of 2 CPUs
+
+Starting Placer Task
+
+Phase 1 Placer Initialization
+
+Phase 1.1 Placer Initialization Netlist Sorting
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20539 ; free virtual = 33823
+Phase 1.1 Placer Initialization Netlist Sorting | Checksum: 14ba4322d
+
+Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20539 ; free virtual = 33823
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20539 ; free virtual = 33823
+
+Phase 1.2 IO Placement/ Clock Placement/ Build Placer Device
+INFO: [Timing 38-35] Done setting XDC timing constraints.
+Phase 1.2 IO Placement/ Clock Placement/ Build Placer Device | Checksum: 1c2727dea
+
+Time (s): cpu = 00:00:00.15 ; elapsed = 00:00:00.11 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20540 ; free virtual = 33825
+
+Phase 1.3 Build Placer Netlist Model
+Phase 1.3 Build Placer Netlist Model | Checksum: 2a05838ef
+
+Time (s): cpu = 00:00:00.33 ; elapsed = 00:00:00.23 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20540 ; free virtual = 33825
+
+Phase 1.4 Constrain Clocks/Macros
+Phase 1.4 Constrain Clocks/Macros | Checksum: 2a05838ef
+
+Time (s): cpu = 00:00:00.33 ; elapsed = 00:00:00.23 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20540 ; free virtual = 33825
+Phase 1 Placer Initialization | Checksum: 2a05838ef
+
+Time (s): cpu = 00:00:00.34 ; elapsed = 00:00:00.23 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20540 ; free virtual = 33825
+
+Phase 2 Global Placement
+
+Phase 2.1 Floorplanning
+Phase 2.1 Floorplanning | Checksum: 25861aa74
+
+Time (s): cpu = 00:00:00.39 ; elapsed = 00:00:00.26 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20540 ; free virtual = 33825
+
+Phase 2.2 Update Timing before SLR Path Opt
+Phase 2.2 Update Timing before SLR Path Opt | Checksum: 1e7c2b675
+
+Time (s): cpu = 00:00:00.43 ; elapsed = 00:00:00.28 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20540 ; free virtual = 33825
+
+Phase 2.3 Post-Processing in Floorplanning
+Phase 2.3 Post-Processing in Floorplanning | Checksum: 1e7c2b675
+
+Time (s): cpu = 00:00:00.44 ; elapsed = 00:00:00.29 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20540 ; free virtual = 33825
+
+Phase 2.4 Global Placement Core
+
+Phase 2.4.1 UpdateTiming Before Physical Synthesis
+Phase 2.4.1 UpdateTiming Before Physical Synthesis | Checksum: 19c783588
+
+Time (s): cpu = 00:00:01 ; elapsed = 00:00:00.69 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20539 ; free virtual = 33823
+
+Phase 2.4.2 Physical Synthesis In Placer
+INFO: [Physopt 32-1035] Found 2 LUTNM shape to break, 136 LUT instances to create LUTNM shape
+INFO: [Physopt 32-1044] Break lutnm for timing: one critical 2, two critical 0, total 2, new lutff created 0
+INFO: [Physopt 32-1138] End 1 Pass. Optimized 62 nets or LUTs. Breaked 2 LUTs, combined 60 existing LUTs and moved 0 existing LUT
+INFO: [Physopt 32-65] No nets found for high-fanout optimization.
+INFO: [Physopt 32-232] Optimized 0 net. Created 0 new instance.
+INFO: [Physopt 32-775] End 1 Pass. Optimized 0 net or cell. Created 0 new cell, deleted 0 existing cell and moved 0 existing cell
+INFO: [Physopt 32-456] No candidate cells for DSP register optimization found in the design.
+INFO: [Physopt 32-775] End 2 Pass. Optimized 0 net or cell. Created 0 new cell, deleted 0 existing cell and moved 0 existing cell
+INFO: [Physopt 32-1123] No candidate cells found for Shift Register to Pipeline optimization
+INFO: [Physopt 32-775] End 2 Pass. Optimized 0 net or cell. Created 0 new cell, deleted 0 existing cell and moved 0 existing cell
+INFO: [Physopt 32-1401] No candidate cells found for Shift Register optimization.
+INFO: [Physopt 32-677] No candidate cells for Shift Register optimization found in the design
+INFO: [Physopt 32-775] End 1 Pass. Optimized 0 net or cell. Created 0 new cell, deleted 0 existing cell and moved 0 existing cell
+INFO: [Physopt 32-526] No candidate cells for BRAM register optimization found in the design
+INFO: [Physopt 32-775] End 1 Pass. Optimized 0 net or cell. Created 0 new cell, deleted 0 existing cell and moved 0 existing cell
+INFO: [Physopt 32-846] No candidate cells for URAM register optimization found in the design
+INFO: [Physopt 32-775] End 1 Pass. Optimized 0 net or cell. Created 0 new cell, deleted 0 existing cell and moved 0 existing cell
+INFO: [Physopt 32-846] No candidate cells for URAM register optimization found in the design
+INFO: [Physopt 32-775] End 1 Pass. Optimized 0 net or cell. Created 0 new cell, deleted 0 existing cell and moved 0 existing cell
+INFO: [Physopt 32-949] No candidate nets found for dynamic/static region interface net replication
+INFO: [Physopt 32-775] End 1 Pass. Optimized 0 net or cell. Created 0 new cell, deleted 0 existing cell and moved 0 existing cell
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20539 ; free virtual = 33823
+
+Summary of Physical Synthesis Optimizations
+============================================
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+|  Optimization                                     |  Added Cells  |  Removed Cells  |  Optimized Cells/Nets  |  Dont Touch  |  Iterations  |  Elapsed   |
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+|  LUT Combining                                    |            2  |             60  |                    62  |           0  |           1  |  00:00:00  |
+|  Retime                                           |            0  |              0  |                     0  |           0  |           1  |  00:00:00  |
+|  Very High Fanout                                 |            0  |              0  |                     0  |           0  |           1  |  00:00:00  |
+|  DSP Register                                     |            0  |              0  |                     0  |           0  |           1  |  00:00:00  |
+|  Shift Register to Pipeline                       |            0  |              0  |                     0  |           0  |           1  |  00:00:00  |
+|  Shift Register                                   |            0  |              0  |                     0  |           0  |           1  |  00:00:00  |
+|  BRAM Register                                    |            0  |              0  |                     0  |           0  |           1  |  00:00:00  |
+|  URAM Register                                    |            0  |              0  |                     0  |           0  |           1  |  00:00:00  |
+|  Dynamic/Static Region Interface Net Replication  |            0  |              0  |                     0  |           0  |           1  |  00:00:00  |
+|  Total                                            |            2  |             60  |                    62  |           0  |           9  |  00:00:00  |
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+Phase 2.4.2 Physical Synthesis In Placer | Checksum: fc07032c
+
+Time (s): cpu = 00:00:01 ; elapsed = 00:00:00.95 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20539 ; free virtual = 33823
+Phase 2.4 Global Placement Core | Checksum: 1a9d84ebd
+
+Time (s): cpu = 00:00:01 ; elapsed = 00:00:01 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20538 ; free virtual = 33822
+Phase 2 Global Placement | Checksum: 1a9d84ebd
+
+Time (s): cpu = 00:00:01 ; elapsed = 00:00:01 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20538 ; free virtual = 33822
+
+Phase 3 Detail Placement
+
+Phase 3.1 Commit Multi Column Macros
+Phase 3.1 Commit Multi Column Macros | Checksum: 118c77b58
+
+Time (s): cpu = 00:00:02 ; elapsed = 00:00:01 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20538 ; free virtual = 33822
+
+Phase 3.2 Commit Most Macros & LUTRAMs
+Phase 3.2 Commit Most Macros & LUTRAMs | Checksum: 1ae28fdda
+
+Time (s): cpu = 00:00:02 ; elapsed = 00:00:01 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20539 ; free virtual = 33823
+
+Phase 3.3 Area Swap Optimization
+Phase 3.3 Area Swap Optimization | Checksum: 19bc61948
+
+Time (s): cpu = 00:00:02 ; elapsed = 00:00:01 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20541 ; free virtual = 33825
+
+Phase 3.4 Pipeline Register Optimization
+Phase 3.4 Pipeline Register Optimization | Checksum: 2023747ff
+
+Time (s): cpu = 00:00:02 ; elapsed = 00:00:01 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20541 ; free virtual = 33825
+
+Phase 3.5 Fast Optimization
+Phase 3.5 Fast Optimization | Checksum: 231d1f313
+
+Time (s): cpu = 00:00:02 ; elapsed = 00:00:01 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20541 ; free virtual = 33825
+
+Phase 3.6 Small Shape Detail Placement
+Phase 3.6 Small Shape Detail Placement | Checksum: 1b9028c4f
+
+Time (s): cpu = 00:00:02 ; elapsed = 00:00:01 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20541 ; free virtual = 33825
+
+Phase 3.7 Re-assign LUT pins
+Phase 3.7 Re-assign LUT pins | Checksum: 16b100720
+
+Time (s): cpu = 00:00:02 ; elapsed = 00:00:01 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20541 ; free virtual = 33825
+
+Phase 3.8 Pipeline Register Optimization
+Phase 3.8 Pipeline Register Optimization | Checksum: 161a6fd36
+
+Time (s): cpu = 00:00:02 ; elapsed = 00:00:01 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20541 ; free virtual = 33825
+Phase 3 Detail Placement | Checksum: 161a6fd36
+
+Time (s): cpu = 00:00:02 ; elapsed = 00:00:01 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20541 ; free virtual = 33825
+
+Phase 4 Post Placement Optimization and Clean-Up
+
+Phase 4.1 Post Commit Optimization
+INFO: [Timing 38-35] Done setting XDC timing constraints.
+
+Phase 4.1.1 Post Placement Optimization
+Post Placement Optimization Initialization | Checksum: 24f9a281e
+
+Phase 4.1.1.1 BUFG Insertion
+
+Starting Physical Synthesis Task
+
+Phase 1 Physical Synthesis Initialization
+INFO: [Physopt 32-721] Multithreading enabled for phys_opt_design using a maximum of 2 CPUs
+INFO: [Physopt 32-619] Estimated Timing Summary | WNS=0.214 | TNS=0.000 |
+Phase 1 Physical Synthesis Initialization | Checksum: 227ce7eea
+
+Time (s): cpu = 00:00:00.05 ; elapsed = 00:00:00.03 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20541 ; free virtual = 33825
+INFO: [Place 46-56] BUFG insertion identified 0 candidate nets. Inserted BUFG: 0, Replicated BUFG Driver: 0, Skipped due to Placement/Routing Conflicts: 0, Skipped due to Timing Degradation: 0, Skipped due to netlist editing failed: 0.
+Ending Physical Synthesis Task | Checksum: 2c63af531
+
+Time (s): cpu = 00:00:00.06 ; elapsed = 00:00:00.04 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20541 ; free virtual = 33825
+Phase 4.1.1.1 BUFG Insertion | Checksum: 24f9a281e
+
+Time (s): cpu = 00:00:02 ; elapsed = 00:00:02 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20541 ; free virtual = 33825
+
+Phase 4.1.1.2 Post Placement Timing Optimization
+INFO: [Place 30-746] Post Placement Timing Summary WNS=0.516. For the most accurate timing information please run report_timing.
+Phase 4.1.1.2 Post Placement Timing Optimization | Checksum: 27d796b2c
+
+Time (s): cpu = 00:00:03 ; elapsed = 00:00:02 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20541 ; free virtual = 33825
+
+Time (s): cpu = 00:00:03 ; elapsed = 00:00:02 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20541 ; free virtual = 33825
+Phase 4.1 Post Commit Optimization | Checksum: 27d796b2c
+
+Time (s): cpu = 00:00:03 ; elapsed = 00:00:02 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20541 ; free virtual = 33825
+
+Phase 4.2 Post Placement Cleanup
+Phase 4.2 Post Placement Cleanup | Checksum: 27d796b2c
+
+Time (s): cpu = 00:00:03 ; elapsed = 00:00:02 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20541 ; free virtual = 33825
+
+Phase 4.3 Placer Reporting
+
+Phase 4.3.1 Print Estimated Congestion
+INFO: [Place 30-612] Post-Placement Estimated Congestion 
+ ____________________________________________________
+|           | Global Congestion | Short Congestion  |
+| Direction | Region Size       | Region Size       |
+|___________|___________________|___________________|
+|      North|                1x1|                1x1|
+|___________|___________________|___________________|
+|      South|                1x1|                1x1|
+|___________|___________________|___________________|
+|       East|                1x1|                1x1|
+|___________|___________________|___________________|
+|       West|                1x1|                1x1|
+|___________|___________________|___________________|
+
+Phase 4.3.1 Print Estimated Congestion | Checksum: 27d796b2c
+
+Time (s): cpu = 00:00:03 ; elapsed = 00:00:02 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20541 ; free virtual = 33825
+Phase 4.3 Placer Reporting | Checksum: 27d796b2c
+
+Time (s): cpu = 00:00:03 ; elapsed = 00:00:02 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20541 ; free virtual = 33825
+
+Phase 4.4 Final Placement Cleanup
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20541 ; free virtual = 33825
+
+Time (s): cpu = 00:00:03 ; elapsed = 00:00:02 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20541 ; free virtual = 33825
+Phase 4 Post Placement Optimization and Clean-Up | Checksum: 1c67b50c1
+
+Time (s): cpu = 00:00:03 ; elapsed = 00:00:02 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20541 ; free virtual = 33825
+Ending Placer Task | Checksum: 194a14288
+
+Time (s): cpu = 00:00:03 ; elapsed = 00:00:02 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20541 ; free virtual = 33825
+37 Infos, 0 Warnings, 0 Critical Warnings and 0 Errors encountered.
+place_design completed successfully
+# report_clock_utilization -file $outputDir/clock_util.rpt
+WARNING: [Device 21-9320] Failed to find the Oracle tile group with name 'HSR_BOUNDARY_TOP'. This is required for Clock regions and Virtual grid.
+WARNING: [Device 21-2174] Failed to initialize Virtual grid.
+# if {[get_property SLACK [get_timing_paths -max_paths 1 -nworst 1 -setup]] < 0} {
+#  puts "Found setup timing violations => running physical optimization"
+#  phys_opt_design
+# }
+# write_checkpoint -force $outputDir/post_place.dcp
+INFO: [Timing 38-480] Writing timing data to binary archive.
+Write ShapeDB Complete: Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20546 ; free virtual = 33830
+Wrote PlaceDB: Time (s): cpu = 00:00:00.17 ; elapsed = 00:00:00.05 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20544 ; free virtual = 33830
+Wrote PulsedLatchDB: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20544 ; free virtual = 33830
+Writing XDEF routing.
+Writing XDEF routing logical nets.
+Writing XDEF routing special nets.
+Wrote RouteStorage: Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20544 ; free virtual = 33830
+Wrote Netlist Cache: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20543 ; free virtual = 33829
+Wrote Device Cache: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20543 ; free virtual = 33830
+Write Physdb Complete: Time (s): cpu = 00:00:00.18 ; elapsed = 00:00:00.06 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20543 ; free virtual = 33830
+INFO: [Common 17-1381] The checkpoint '/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/obj/post_place.dcp' has been generated.
+# report_utilization -file $outputDir/post_place_util.rpt
+# report_timing_summary -file $outputDir/post_place_timing_summary.rpt
+# report_timing -file $outputDir/post_place_timing.rpt
+INFO: [Timing 38-78] ReportTimingParams: -max_paths 1 -nworst 1 -delay_type max -sort_by slack.
+# route_design -directive Explore
+Command: route_design -directive Explore
+Attempting to get a license for feature 'Implementation' and/or device 'xc7s50'
+INFO: [Common 17-349] Got license for feature 'Implementation' and/or device 'xc7s50'
+Running DRC as a precondition to command route_design
+INFO: [DRC 23-27] Running DRC with 2 threads
+INFO: [Vivado_Tcl 4-198] DRC finished with 0 Errors
+INFO: [Vivado_Tcl 4-199] Please refer to the DRC report (report_drc) for more information.
+
+
+Starting Routing Task
+INFO: [Route 35-270] Using Router directive 'Explore'.
+INFO: [Route 35-254] Multithreading enabled for route_design using a maximum of 2 CPUs
+
+Phase 1 Build RT Design
+Checksum: PlaceDB: a5945334 ConstDB: 0 ShapeSum: 447bbc1e RouteDB: aa913336
+Post Restoration Checksum: NetGraph: 3ee528f2 | NumContArr: f576491e | Constraints: c2a8fa9d | Timing: c2a8fa9d
+Phase 1 Build RT Design | Checksum: 2b9ad674a
+
+Time (s): cpu = 00:00:06 ; elapsed = 00:00:05 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20521 ; free virtual = 33806
+
+Phase 2 Router Initialization
+
+Phase 2.1 Fix Topology Constraints
+Phase 2.1 Fix Topology Constraints | Checksum: 2b9ad674a
+
+Time (s): cpu = 00:00:06 ; elapsed = 00:00:05 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20521 ; free virtual = 33806
+
+Phase 2.2 Pre Route Cleanup
+Phase 2.2 Pre Route Cleanup | Checksum: 2b9ad674a
+
+Time (s): cpu = 00:00:06 ; elapsed = 00:00:05 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20521 ; free virtual = 33806
+ Number of Nodes with overlaps = 0
+
+Phase 2.3 Update Timing
+Phase 2.3 Update Timing | Checksum: 2b1287300
+
+Time (s): cpu = 00:00:06 ; elapsed = 00:00:05 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20522 ; free virtual = 33807
+INFO: [Route 35-416] Intermediate Timing Summary | WNS=0.542  | TNS=0.000  | WHS=-0.345 | THS=-29.673|
+
+
+Router Utilization Summary
+  Global Vertical Routing Utilization    = 0 %
+  Global Horizontal Routing Utilization  = 0 %
+  Routable Net Status*
+  *Does not include unroutable nets such as driverless and loadless.
+  Run report_route_status for detailed report.
+  Number of Failed Nets               = 1265
+    (Failed Nets is the sum of unrouted and partially routed nets)
+  Number of Unrouted Nets             = 1265
+  Number of Partially Routed Nets     = 0
+  Number of Node Overlaps             = 0
+
+Phase 2 Router Initialization | Checksum: 2c7bb568c
+
+Time (s): cpu = 00:00:07 ; elapsed = 00:00:06 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20522 ; free virtual = 33807
+
+Phase 3 Global Routing
+Phase 3 Global Routing | Checksum: 2c7bb568c
+
+Time (s): cpu = 00:00:07 ; elapsed = 00:00:06 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20522 ; free virtual = 33807
+
+Phase 4 Initial Routing
+
+Phase 4.1 Initial Net Routing Pass
+Phase 4.1 Initial Net Routing Pass | Checksum: 135a1648b
+
+Time (s): cpu = 00:00:07 ; elapsed = 00:00:06 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20523 ; free virtual = 33808
+Phase 4 Initial Routing | Checksum: 135a1648b
+
+Time (s): cpu = 00:00:07 ; elapsed = 00:00:06 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20523 ; free virtual = 33808
+
+Phase 5 Rip-up And Reroute
+
+Phase 5.1 Global Iteration 0
+ Number of Nodes with overlaps = 199
+ Number of Nodes with overlaps = 48
+ Number of Nodes with overlaps = 27
+ Number of Nodes with overlaps = 21
+ Number of Nodes with overlaps = 8
+ Number of Nodes with overlaps = 4
+ Number of Nodes with overlaps = 3
+ Number of Nodes with overlaps = 0
+INFO: [Route 35-416] Intermediate Timing Summary | WNS=0.456  | TNS=0.000  | WHS=N/A    | THS=N/A    |
+
+Phase 5.1 Global Iteration 0 | Checksum: 238ea61e0
+
+Time (s): cpu = 00:00:08 ; elapsed = 00:00:06 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20525 ; free virtual = 33810
+Phase 5 Rip-up And Reroute | Checksum: 238ea61e0
+
+Time (s): cpu = 00:00:08 ; elapsed = 00:00:06 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20525 ; free virtual = 33810
+
+Phase 6 Delay and Skew Optimization
+
+Phase 6.1 Delay CleanUp
+
+Phase 6.1.1 Update Timing
+Phase 6.1.1 Update Timing | Checksum: 27df00005
+
+Time (s): cpu = 00:00:08 ; elapsed = 00:00:06 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20525 ; free virtual = 33810
+INFO: [Route 35-416] Intermediate Timing Summary | WNS=0.535  | TNS=0.000  | WHS=N/A    | THS=N/A    |
+
+Phase 6.1 Delay CleanUp | Checksum: 27df00005
+
+Time (s): cpu = 00:00:08 ; elapsed = 00:00:06 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20525 ; free virtual = 33810
+
+Phase 6.2 Clock Skew Optimization
+Phase 6.2 Clock Skew Optimization | Checksum: 27df00005
+
+Time (s): cpu = 00:00:08 ; elapsed = 00:00:06 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20525 ; free virtual = 33810
+Phase 6 Delay and Skew Optimization | Checksum: 27df00005
+
+Time (s): cpu = 00:00:08 ; elapsed = 00:00:06 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20525 ; free virtual = 33810
+
+Phase 7 Post Hold Fix
+
+Phase 7.1 Hold Fix Iter
+INFO: [Route 35-416] Intermediate Timing Summary | WNS=0.535  | TNS=0.000  | WHS=0.044  | THS=0.000  |
+
+Phase 7.1 Hold Fix Iter | Checksum: 262bc1e06
+
+Time (s): cpu = 00:00:08 ; elapsed = 00:00:06 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20525 ; free virtual = 33810
+Phase 7 Post Hold Fix | Checksum: 262bc1e06
+
+Time (s): cpu = 00:00:08 ; elapsed = 00:00:06 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20525 ; free virtual = 33810
+
+Phase 8 Route finalize
+
+Router Utilization Summary
+  Global Vertical Routing Utilization    = 0.690186 %
+  Global Horizontal Routing Utilization  = 0.75898 %
+  Routable Net Status*
+  *Does not include unroutable nets such as driverless and loadless.
+  Run report_route_status for detailed report.
+  Number of Failed Nets               = 0
+    (Failed Nets is the sum of unrouted and partially routed nets)
+  Number of Unrouted Nets             = 0
+  Number of Partially Routed Nets     = 0
+  Number of Node Overlaps             = 0
+
+Phase 8 Route finalize | Checksum: 262bc1e06
+
+Time (s): cpu = 00:00:08 ; elapsed = 00:00:06 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20525 ; free virtual = 33810
+
+Phase 9 Verifying routed nets
+
+ Verification completed successfully
+Phase 9 Verifying routed nets | Checksum: 262bc1e06
+
+Time (s): cpu = 00:00:08 ; elapsed = 00:00:06 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20525 ; free virtual = 33810
+
+Phase 10 Depositing Routes
+Phase 10 Depositing Routes | Checksum: 2392627d3
+
+Time (s): cpu = 00:00:08 ; elapsed = 00:00:07 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20525 ; free virtual = 33810
+
+Phase 11 Post Process Routing
+Phase 11 Post Process Routing | Checksum: 2392627d3
+
+Time (s): cpu = 00:00:08 ; elapsed = 00:00:07 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20525 ; free virtual = 33810
+
+Phase 12 Post Router Timing
+INFO: [Route 35-20] Post Routing Timing Summary | WNS=0.538  | TNS=0.000  | WHS=0.045  | THS=0.000  |
+
+Phase 12 Post Router Timing | Checksum: 1f44bd3e9
+
+Time (s): cpu = 00:00:08 ; elapsed = 00:00:07 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20525 ; free virtual = 33810
+INFO: [Route 35-61] The design met the timing requirement.
+Total Elapsed time in route_design: 6.69 secs
+
+Phase 13 Post-Route Event Processing
+Phase 13 Post-Route Event Processing | Checksum: af6079c9
+
+Time (s): cpu = 00:00:08 ; elapsed = 00:00:07 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20525 ; free virtual = 33810
+INFO: [Route 35-16] Router Completed Successfully
+Ending Routing Task | Checksum: af6079c9
+
+Time (s): cpu = 00:00:08 ; elapsed = 00:00:07 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20525 ; free virtual = 33810
+
+Routing Is Done.
+INFO: [Common 17-83] Releasing license: Implementation
+14 Infos, 0 Warnings, 0 Critical Warnings and 0 Errors encountered.
+route_design completed successfully
+route_design: Time (s): cpu = 00:00:09 ; elapsed = 00:00:07 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20525 ; free virtual = 33810
+# write_checkpoint -force $outputDir/post_route.dcp
+INFO: [Timing 38-480] Writing timing data to binary archive.
+Write ShapeDB Complete: Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20525 ; free virtual = 33810
+Wrote PlaceDB: Time (s): cpu = 00:00:00.15 ; elapsed = 00:00:00.04 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20520 ; free virtual = 33807
+Wrote PulsedLatchDB: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20520 ; free virtual = 33807
+Writing XDEF routing.
+Writing XDEF routing logical nets.
+Writing XDEF routing special nets.
+Wrote RouteStorage: Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20520 ; free virtual = 33807
+Wrote Netlist Cache: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20520 ; free virtual = 33807
+Wrote Device Cache: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20520 ; free virtual = 33808
+Write Physdb Complete: Time (s): cpu = 00:00:00.18 ; elapsed = 00:00:00.06 . Memory (MB): peak = 2795.887 ; gain = 0.000 ; free physical = 20520 ; free virtual = 33808
+INFO: [Common 17-1381] The checkpoint '/home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/obj/post_route.dcp' has been generated.
+# report_route_status -file $outputDir/post_route_status.rpt
+# report_timing_summary -file $outputDir/post_route_timing_summary.rpt
+# report_timing -file $outputDir/post_route_timing.rpt
+INFO: [Timing 38-78] ReportTimingParams: -max_paths 1 -nworst 1 -delay_type max -sort_by slack.
+# report_power -file $outputDir/post_route_power.rpt
+Command: report_power -file obj/post_route_power.rpt
+Running Vector-less Activity Propagation...
+
+Finished Running Vector-less Activity Propagation
+0 Infos, 0 Warnings, 0 Critical Warnings and 0 Errors encountered.
+report_power completed successfully
+# report_drc -file $outputDir/post_imp_drc.rpt
+Command: report_drc -file obj/post_imp_drc.rpt
+INFO: [IP_Flow 19-1839] IP Catalog is up to date.
+INFO: [DRC 23-27] Running DRC with 2 threads
+INFO: [Vivado_Tcl 2-168] The results of DRC are in file /home/fpga/worker_place/temp/a1373af1cfa54e41b586cf79abd7be7e/obj/post_imp_drc.rpt.
+report_drc completed successfully
+# write_bitstream -force $outputDir/final.bit
+Command: write_bitstream -force obj/final.bit
+Attempting to get a license for feature 'Implementation' and/or device 'xc7s50'
+INFO: [Common 17-349] Got license for feature 'Implementation' and/or device 'xc7s50'
+Running DRC as a precondition to command write_bitstream
+INFO: [IP_Flow 19-1839] IP Catalog is up to date.
+INFO: [DRC 23-27] Running DRC with 2 threads
+INFO: [Vivado 12-3199] DRC finished with 0 Errors
+INFO: [Vivado 12-3200] Please refer to the DRC report (report_drc) for more information.
+INFO: [Designutils 20-2272] Running write_bitstream with 2 threads.
+Loading data files...
+Loading site data...
+Loading route data...
+Processing options...
+Creating bitmap...
+Creating bitstream...
+Bitstream compression saved 10808160 bits.
+Writing bitstream obj/final.bit...
+INFO: [Vivado 12-1842] Bitgen Completed Successfully.
+INFO: [Project 1-1876] WebTalk data collection is mandatory when using a ULT device. To see the specific WebTalk data collected for your design, open the usage_statistics_webtalk.html or usage_statistics_webtalk.xml file in the implementation directory.
+INFO: [Common 17-83] Releasing license: Implementation
+9 Infos, 0 Warnings, 0 Critical Warnings and 0 Errors encountered.
+write_bitstream completed successfully
+write_bitstream: Time (s): cpu = 00:00:06 ; elapsed = 00:00:15 . Memory (MB): peak = 2839.566 ; gain = 43.680 ; free physical = 20418 ; free virtual = 33704
+INFO: [Common 17-206] Exiting Vivado at Sun Dec  8 16:41:12 2024...
