@@ -1,0 +1,6 @@
+<testsuites name="results">
+  <testsuite name="all" package="all">
+    <property name="random_seed" value="1733690003" />
+    <testcase name="test_addr_counter" classname="test_addr_counter" file="/Users/remi/Desktop/fpga-depth-mapping/peripheral_fpga/sim/test_addr_counter.py" lineno="14" time="0.015479087829589844" sim_time_ns="3030.001" ratio_time="195748.0333051568" />
+  </testsuite>
+</testsuites>
