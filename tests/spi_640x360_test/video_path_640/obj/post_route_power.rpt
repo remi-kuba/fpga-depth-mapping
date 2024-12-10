@@ -1,8 +1,8 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2024.1 (lin64) Build 5076996 Wed May 22 18:36:09 MDT 2024
-| Date             : Mon Dec  9 21:07:11 2024
-| Host             : eecs-digital-07 running 64-bit Ubuntu 24.04.1 LTS
+| Date             : Tue Dec 10 15:05:06 2024
+| Host             : eecs-digital-34 running 64-bit Ubuntu 24.04.1 LTS
 | Command          : report_power -file obj/post_route_power.rpt
 | Design           : top_level
 | Device           : xc7s50csga324-1
@@ -53,15 +53,15 @@ Table of Contents
 | On-Chip                  | Power (W) | Used     | Available | Utilization (%) |
 +--------------------------+-----------+----------+-----------+-----------------+
 | Clocks                   |     0.028 |       29 |       --- |             --- |
-| Slice Logic              |     0.010 |    12236 |       --- |             --- |
-|   LUT as Logic           |     0.009 |     4990 |     32600 |           15.31 |
-|   Register               |    <0.001 |     4643 |     65200 |            7.12 |
+| Slice Logic              |     0.010 |    12289 |       --- |             --- |
+|   LUT as Logic           |     0.009 |     5012 |     32600 |           15.37 |
+|   Register               |    <0.001 |     4670 |     65200 |            7.16 |
 |   LUT as Distributed RAM |    <0.001 |      444 |      9600 |            4.63 |
-|   CARRY4                 |    <0.001 |      139 |      8150 |            1.71 |
+|   CARRY4                 |    <0.001 |      142 |      8150 |            1.74 |
 |   F7/F8 Muxes            |    <0.001 |       16 |     32600 |            0.05 |
 |   LUT as Shift Register  |    <0.001 |       17 |      9600 |            0.18 |
-|   Others                 |     0.000 |      234 |       --- |             --- |
-| Signals                  |     0.012 |     9797 |       --- |             --- |
+|   Others                 |     0.000 |      233 |       --- |             --- |
+| Signals                  |     0.012 |     9826 |       --- |             --- |
 | Block RAM                |     0.002 |        4 |        75 |            5.33 |
 | MMCM                     |     0.192 |        2 |         5 |           40.00 |
 | PLL                      |     0.216 |        2 |         5 |           40.00 |

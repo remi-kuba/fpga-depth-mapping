@@ -111,43 +111,6 @@ module top_level
 
   // ** Handling input from the camera **
 
-  // synchronizers to prevent metastability
-  logic [7:0]    camera_d_buf [1:0];
-  logic          cam_hsync_buf [1:0];
-  logic          cam_vsync_buf [1:0];
-  logic          cam_pclk_buf [1:0];
-
-  always_ff @(posedge clk_camera) begin
-    camera_d_buf[1] <= {<<{camera_d}};
-    camera_d_buf[0] <= camera_d_buf[1];
-    cam_pclk_buf[1] <= cam_pclk;
-    cam_pclk_buf[0] <= cam_pclk_buf[1];
-    cam_hsync_buf[1] <= cam_hsync;
-    cam_hsync_buf[0] <= cam_hsync_buf[1];
-    cam_vsync_buf[1] <= cam_vsync;
-    cam_vsync_buf[0] <= cam_vsync_buf[1];
-  end
-
-  logic [9:0] camera_hcount;
-  logic [8:0]  camera_vcount;
-  logic [7:0] camera_pixel;
-  logic        camera_valid;
-  luminance_reconstruct #(
-    .HCOUNT_WIDTH(10),
-    .VCOUNT_WIDTH(9)
-  ) lr (
-    .clk_in(clk_camera),
-    .rst_in(sys_rst_camera),
-    .camera_pclk_in(cam_pclk_buf[0]),
-    .camera_hs_in(cam_hsync_buf[0]),
-    .camera_vs_in(cam_vsync_buf[0]),
-    .camera_data_in(camera_d_buf[0]),
-    .pixel_valid_out(camera_valid),
-    .pixel_hcount_out(camera_hcount),
-    .pixel_vcount_out(camera_vcount),
-    .pixel_data_out(camera_pixel)
-  );
-
 
   /*
     SPI synchronizers

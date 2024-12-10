@@ -343,8 +343,7 @@ module top_level
   ) bc (
     .clk_in(clk_100_passthrough),
     .rst_in(sys_rst_camera),
-    // .hit_max_out(trigger),
-    .read_request_out(read_request)
+    .hit_max_out(read_request)
   );
   evt_counter #(
     .MAX_COUNT(640)
@@ -373,18 +372,12 @@ module top_level
   spi_send_con_2 #(
     .DATA_WIDTH(8),
     .LINES(4),
-    // .DATA_CLK_PERIOD(14) // 200 MHz / 12 = 16.6 MHz SPI clock
     .DATA_CLK_PERIOD(6)
   ) spi_send (
-    // .clk_in(clk_camera),
     .clk_in(clk_100_passthrough),
     .rst_in(sys_rst_camera),
-    // .data_in(camera_pixel),
     .data_in(frame_buff_tdata),
     .trigger_in(frame_buff_tready),
-    // .trigger_in(good_addrb[2]),
-    // .hcount_in(camera_hcount),
-    // .vcount_in(camera_vcount),
     .hcount_in(hcount_spi),
     .vcount_in(vcount_spi),
     .turn_off_cipo_in(sw[15]), // DEBUGGING

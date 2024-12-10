@@ -111,7 +111,7 @@ module traffic_generator
   logic [26:0] read_request_address;
   logic [26:0] read_response_address;
   // NUM_ADDRESSES = HEIGHT * WIDTH * BITS_PER_PIXEL / 128
-  localparam NUM_ADDRESSES = 3_600;
+  localparam NUM_ADDRESSES = 14_400;
 
 
   evt_counter#(

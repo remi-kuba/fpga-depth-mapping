@@ -1,8 +1,8 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2024.1 (lin64) Build 5076996 Wed May 22 18:36:09 MDT 2024
-| Date         : Mon Dec  9 21:06:29 2024
-| Host         : eecs-digital-07 running 64-bit Ubuntu 24.04.1 LTS
+| Date         : Tue Dec 10 15:04:24 2024
+| Host         : eecs-digital-34 running 64-bit Ubuntu 24.04.1 LTS
 | Command      : report_timing -file obj/post_synth_timing.rpt
 | Design       : top_level
 | Device       : 7s50-csga324
@@ -53,7 +53,7 @@ Slack (VIOLATED) :        -2.577ns  (required time - arrival time)
                                                      -1.695    46.242 r  ddr3_mig_inst/u_ddr3_mig_mig/u_ddr3_infrastructure/gen_mmcm.mmcm_i/CLKFBOUT
                          net (fo=1, unplaced)         0.800    47.042    ddr3_mig_inst/u_ddr3_mig_mig/u_ddr3_infrastructure/clk_pll_i
                          BUFG (Prop_bufg_I_O)         0.096    47.138 r  ddr3_mig_inst/u_ddr3_mig_mig/u_ddr3_infrastructure/u_bufg_clkdiv0/O
-                         net (fo=5183, unplaced)      0.800    47.938    camera_data_fifo/xpm_fifo_axis_inst/xpm_fifo_base_inst/xpm_fifo_rst_inst/rd_clk
+                         net (fo=5189, unplaced)      0.800    47.938    camera_data_fifo/xpm_fifo_axis_inst/xpm_fifo_base_inst/xpm_fifo_rst_inst/rd_clk
                          FDRE                                         r  camera_data_fifo/xpm_fifo_axis_inst/xpm_fifo_base_inst/xpm_fifo_rst_inst/gen_rst_ic.fifo_rd_rst_ic_reg/C
   -------------------------------------------------------------------    -------------------
                          FDRE (Prop_fdre_C_Q)         0.456    48.394 r  camera_data_fifo/xpm_fifo_axis_inst/xpm_fifo_base_inst/xpm_fifo_rst_inst/gen_rst_ic.fifo_rd_rst_ic_reg/Q

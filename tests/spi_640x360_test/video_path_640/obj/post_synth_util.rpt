@@ -1,8 +1,8 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2024.1 (lin64) Build 5076996 Wed May 22 18:36:09 MDT 2024
-| Date         : Mon Dec  9 21:06:29 2024
-| Host         : eecs-digital-07 running 64-bit Ubuntu 24.04.1 LTS
+| Date         : Tue Dec 10 15:04:24 2024
+| Host         : eecs-digital-34 running 64-bit Ubuntu 24.04.1 LTS
 | Command      : report_utilization -file obj/post_synth_util.rpt -hierarchical -hierarchical_depth 4
 | Design       : top_level
 | Device       : xc7s50csga324-1
@@ -22,11 +22,11 @@ Table of Contents
 +--------------------------------------------+------------------------------------------+------------+------------+---------+------+------+--------+--------+------------+
 |                  Instance                  |                  Module                  | Total LUTs | Logic LUTs | LUTRAMs | SRLs |  FFs | RAMB36 | RAMB18 | DSP Blocks |
 +--------------------------------------------+------------------------------------------+------------+------------+---------+------+------+--------+--------+------------+
-| top_level                                  |                                    (top) |       6140 |       5679 |     444 |   17 | 5069 |      4 |      0 |          0 |
+| top_level                                  |                                    (top) |       6144 |       5683 |     444 |   17 | 5075 |      4 |      0 |          0 |
 |   (top_level)                              |                                    (top) |          0 |          0 |       0 |    0 |   16 |      0 |      0 |          0 |
 |   blue_ser                                 |                          tmds_serializer |          0 |          0 |       0 |    0 |    0 |      0 |      0 |          0 |
-|   camera_data_fifo                         |                            ddr_fifo_wrap |        147 |        147 |       0 |    0 |  234 |      2 |      0 |          0 |
-|     (camera_data_fifo)                     |                            ddr_fifo_wrap |          3 |          3 |       0 |    0 |    0 |      0 |      0 |          0 |
+|   camera_data_fifo                         |                            ddr_fifo_wrap |        146 |        146 |       0 |    0 |  234 |      2 |      0 |          0 |
+|     (camera_data_fifo)                     |                            ddr_fifo_wrap |          2 |          2 |       0 |    0 |    0 |      0 |      0 |          0 |
 |     xpm_fifo_axis_inst                     |                         xpm_fifo_axis__1 |        144 |        144 |       0 |    0 |  234 |      2 |      0 |          0 |
 |       (xpm_fifo_axis_inst)                 |                         xpm_fifo_axis__1 |          2 |          2 |       0 |    0 |    0 |      0 |      0 |          0 |
 |       gaxis_rst_sync.xpm_cdc_sync_rst_inst |                      xpm_cdc_sync_rst__1 |          0 |          0 |       0 |    0 |    3 |      0 |      0 |          0 |
@@ -84,11 +84,11 @@ Table of Contents
 |         wrpp1_inst                         |       xpm_counter_updn__parameterized1_9 |         13 |         13 |       0 |    0 |    7 |      0 |      0 |          0 |
 |         wrpp2_inst                         |         xpm_counter_updn__parameterized2 |          6 |          6 |       0 |    0 |    7 |      0 |      0 |          0 |
 |         xpm_fifo_rst_inst                  |                             xpm_fifo_rst |         18 |         18 |       0 |    0 |   19 |      0 |      0 |          0 |
-|   readwrite_looper                         |                        traffic_generator |        110 |        110 |       0 |    0 |   40 |      0 |      0 |          0 |
+|   readwrite_looper                         |                        traffic_generator |        115 |        115 |       0 |    0 |   46 |      0 |      0 |          0 |
 |     (readwrite_looper)                     |                        traffic_generator |         67 |         67 |       0 |    0 |    4 |      0 |      0 |          0 |
-|     read_req_addr                          |                              evt_counter |         34 |         34 |       0 |    0 |   12 |      0 |      0 |          0 |
-|     read_resp_addr                         |                            evt_counter_5 |          6 |          6 |       0 |    0 |   12 |      0 |      0 |          0 |
-|     write_addr                             |                            evt_counter_6 |          3 |          3 |       0 |    0 |   12 |      0 |      0 |          0 |
+|     read_req_addr                          |                              evt_counter |         25 |         25 |       0 |    0 |   14 |      0 |      0 |          0 |
+|     read_resp_addr                         |                            evt_counter_5 |          4 |          4 |       0 |    0 |   14 |      0 |      0 |          0 |
+|     write_addr                             |                            evt_counter_6 |         19 |         19 |       0 |    0 |   14 |      0 |      0 |          0 |
 |   red_ser                                  |                        tmds_serializer_2 |          1 |          1 |       0 |    0 |    1 |      0 |      0 |          0 |
 |   spi_receive                              |                        spi_receive_con_2 |          8 |          8 |       0 |    0 |   13 |      0 |      0 |          0 |
 |   stacker_inst                             |                                  stacker |          8 |          8 |       0 |    0 |  269 |      0 |      0 |          0 |
